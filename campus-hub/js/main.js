@@ -1,6 +1,80 @@
-// Campus Hub - Main JavaScript File
+// Campus Hub - Main JavaScript File (Enhanced with Backend)
 // Author: Campus Hub Development Team
-// Description: Interactive functionality for the Campus Hub portal
+// Description: Interactive functionality for the Campus Hub portal with dynamic data
+
+// API Configuration
+const API_BASE = 'php/api/';
+
+// API Helper Functions
+async function apiCall(endpoint, options = {}) {
+    try {
+        const response = await fetch(`${API_BASE}${endpoint}`, {
+            ...options,
+            headers: {
+                'Content-Type': 'application/json',
+                ...options.headers
+            }
+        });
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('API call failed:', error);
+        // Return fallback data for offline functionality
+        return { success: false, error: error.message };
+    }
+}
+
+// Enhanced News Functions
+async function loadDynamicNews() {
+    try {
+        const data = await apiCall('news.php?action=recent&limit=3');
+        if (data.success && data.data) {
+            updateNewsDisplay(data.data);
+        } else {
+            // Fallback to static content
+            console.log('Using static news content');
+        }
+    } catch (error) {
+        console.error('Failed to load dynamic news:', error);
+    }
+}
+
+function updateNewsDisplay(newsItems) {
+    const newsContainer = document.querySelector('.news-list');
+    if (!newsContainer || !newsItems.length) return;
+    
+    const newsHTML = newsItems.map(item => `
+        <article class="news-item">
+            <div class="news-meta">
+                <span class="news-category">${item.category}</span>
+                <span class="news-date">${item.time_ago}</span>
+            </div>
+            <h4>${item.title}</h4>
+            <p>${item.excerpt}</p>
+        </article>
+    `).join('');
+    
+    newsContainer.innerHTML = newsHTML;
+}
+
+// Enhanced Events Functions
+async function loadDynamicEvents() {
+    try {
+        const data = await apiCall('events.php?action=upcoming&limit=5');
+        if (data.success && data.data) {
+            updateEventsDisplay(data.data);
+        } else {
+            console.log('Using static events content');
+        }
+    } catch (error) {
+        console.error('Failed to load dynamic events:', error);
+    }
+}
+
+function updateEventsDisplay(events) {
+    // This will be used in the calendar modal
+    window.dynamicEvents = events;
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     // Initialize the app
@@ -14,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Update dynamic content
     updateDynamicContent();
+    
+    // Load dynamic data
+    loadDynamicNews();
+    loadDynamicEvents();
 });
 
 // Initialize application
@@ -987,8 +1065,31 @@ function showAllServices() {
     `);
 }
 
-function showAllNews() {
-    createModal('Campus News & Announcements', `
+async function showAllNews() {
+    let newsContent = '';
+    
+    try {
+        // Try to load dynamic news
+        const data = await apiCall('news.php?action=list&limit=10');
+        if (data.success && data.data && data.data.news) {
+            newsContent = generateDynamicNewsContent(data.data.news);
+        } else {
+            // Fallback to static content
+            newsContent = getStaticNewsContent();
+        }
+    } catch (error) {
+        console.error('Failed to load dynamic news:', error);
+        newsContent = getStaticNewsContent();
+    }
+    
+    createModal('Campus News & Announcements', newsContent);
+}
+
+function generateDynamicNewsContent(newsItems) {
+    const featuredNews = newsItems.find(item => item.featured);
+    const regularNews = newsItems.filter(item => !item.featured);
+    
+    return `
         <div class="news-hub">
             <div class="news-header">
                 <h3>Campus News & Announcements</h3>
@@ -1007,6 +1108,197 @@ function showAllNews() {
                         <button class="filter-btn" onclick="filterNews('campus')">Campus Life</button>
                         <button class="filter-btn" onclick="filterNews('urgent')">Urgent</button>
                     </div>
+                </div>
+            </div>
+            
+            ${featuredNews ? `
+            <div class="featured-news">
+                <div class="featured-article">
+                    <div class="featured-image">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="featured-content">
+                        <div class="article-meta">
+                            <span class="category featured">Featured</span>
+                            <span class="date">${featuredNews.publish_date_formatted}</span>
+                            <span class="author">By: ${featuredNews.author_name}</span>
+                        </div>
+                        <h4>${featuredNews.title}</h4>
+                        <p>${featuredNews.excerpt}</p>
+                        <div class="article-actions">
+                            <button class="btn-primary" onclick="readFullArticle(${featuredNews.id})">
+                                <i class="fas fa-book-open"></i> Read Full Article
+                            </button>
+                            <button class="btn-secondary" onclick="shareArticle(${featuredNews.id})">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            ` : ''}
+            
+            <div class="news-grid">
+                ${regularNews.map(item => `
+                    <article class="news-article-full" data-category="${item.category}">
+                        <div class="article-image">
+                            <i class="fas fa-${getCategoryIcon(item.category)}"></i>
+                        </div>
+                        <div class="article-content">
+                            <div class="article-meta">
+                                <span class="category ${item.category}">${item.category}</span>
+                                <span class="date">${item.publish_date_formatted}</span>
+                                <span class="read-time"><i class="fas fa-clock"></i> 3 min read</span>
+                            </div>
+                            <h5>${item.title}</h5>
+                            <p>${item.excerpt}</p>
+                            <div class="article-actions">
+                                <button class="btn-primary" onclick="readArticle(${item.id})">
+                                    <i class="fas fa-eye"></i> Read More
+                                </button>
+                                <button class="btn-secondary" onclick="shareArticle(${item.id})">
+                                    <i class="fas fa-share"></i> Share
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+                `).join('')}
+            </div>
+        </div>
+    `;
+}
+
+function getCategoryIcon(category) {
+    const icons = {
+        'academic': 'graduation-cap',
+        'events': 'calendar-alt',
+        'campus': 'university',
+        'urgent': 'exclamation-triangle'
+    };
+    return icons[category] || 'newspaper';
+}
+
+function getStaticNewsContent() {
+    return `
+        <div class="news-hub">
+            <div class="news-header">
+                <h3>Campus News & Announcements</h3>
+                <p>Stay updated with the latest campus news, events, and important announcements</p>
+                <div class="news-controls">
+                    <div class="news-search">
+                        <input type="text" id="news-search" placeholder="Search news..." class="search-input">
+                        <button class="btn-primary" onclick="searchNews()">
+                            <i class="fas fa-search"></i> Search
+                        </button>
+                    </div>
+                    <div class="news-filters">
+                        <button class="filter-btn active" onclick="filterNews('all')">All</button>
+                        <button class="filter-btn" onclick="filterNews('academic')">Academic</button>
+                        <button class="filter-btn" onclick="filterNews('events')">Events</button>
+                        <button class="filter-btn" onclick="filterNews('campus')">Campus Life</button>
+                        <button class="filter-btn" onclick="filterNews('urgent')">Urgent</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="featured-news">
+                <div class="featured-article">
+                    <div class="featured-image">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <div class="featured-content">
+                        <div class="article-meta">
+                            <span class="category featured">Featured</span>
+                            <span class="date">September 12, 2025</span>
+                            <span class="author">By: Administration</span>
+                        </div>
+                        <h4>Kolej Excellence Awards 2025 - Students Recognition Ceremony</h4>
+                        <p>Join us for the annual Excellence Awards ceremony recognizing outstanding academic achievements, leadership excellence, and community service contributions by our students across all diploma programs...</p>
+                        <div class="article-actions">
+                            <button class="btn-primary" onclick="readFullArticle('excellence-awards-2025')">
+                                <i class="fas fa-book-open"></i> Read Full Article
+                            </button>
+                            <button class="btn-secondary" onclick="shareArticle('excellence-awards-2025')">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="news-grid">
+                <article class="news-article-full" data-category="academic">
+                    <div class="article-image">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="category academic">Academic</span>
+                            <span class="date">September 10, 2025</span>
+                            <span class="read-time"><i class="fas fa-clock"></i> 3 min read</span>
+                        </div>
+                        <h5>New Semester Registration Opens - Important Deadlines</h5>
+                        <p>Important updates regarding the registration process for the upcoming semester. All students must complete course selection and payment by September 20th...</p>
+                        <div class="article-actions">
+                            <button class="btn-primary" onclick="readArticle('registration-deadline')">
+                                <i class="fas fa-eye"></i> Read More
+                            </button>
+                            <button class="btn-secondary" onclick="addToReminders('registration-deadline')">
+                                <i class="fas fa-bell"></i> Set Reminder
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-article-full" data-category="events">
+                    <div class="article-image">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="category events">Events</span>
+                            <span class="date">September 8, 2025</span>
+                            <span class="read-time"><i class="fas fa-clock"></i> 5 min read</span>
+                        </div>
+                        <h5>Industry Partnership Career Fair 2025</h5>
+                        <p>Join us for the biggest career fair of the year featuring 50+ companies from hospitality, technology, manufacturing, and business sectors...</p>
+                        <div class="article-actions">
+                            <button class="btn-primary" onclick="readArticle('career-fair-2025')">
+                                <i class="fas fa-eye"></i> Read More
+                            </button>
+                            <button class="btn-secondary" onclick="registerEvent('career-fair-2025')">
+                                <i class="fas fa-user-plus"></i> Register Now
+                            </button>
+                        </div>
+                    </div>
+                </article>
+                
+                <article class="news-article-full" data-category="campus">
+                    <div class="article-image">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div class="article-content">
+                        <div class="article-meta">
+                            <span class="category campus">Campus Life</span>
+                            <span class="date">September 7, 2025</span>
+                            <span class="read-time"><i class="fas fa-clock"></i> 2 min read</span>
+                        </div>
+                        <h5>New Workshop Equipment Installation Complete</h5>
+                        <p>Exciting updates! Our technical workshops have been upgraded with state-of-the-art equipment for Electrical Wiring and Computer Systems programs...</p>
+                        <div class="article-actions">
+                            <button class="btn-primary" onclick="readArticle('workshop-upgrade')">
+                                <i class="fas fa-eye"></i> Read More
+                            </button>
+                            <button class="btn-secondary" onclick="tourFacilities('technical-labs')">
+                                <i class="fas fa-map-marked"></i> Schedule Tour
+                            </button>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    `;
+}
                 </div>
             </div>
             

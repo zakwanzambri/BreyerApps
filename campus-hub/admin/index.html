@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Hub - Admin Panel</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Admin Panel Specific Styles */
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            min-height: 100vh;
+            background: var(--gray-50);
+        }
+        
+        .admin-sidebar {
+            background: var(--white);
+            border-right: 1px solid var(--gray-200);
+            padding: var(--spacing-6);
+            overflow-y: auto;
+        }
+        
+        .admin-content {
+            padding: var(--spacing-6);
+            overflow-y: auto;
+        }
+        
+        .admin-header {
+            background: var(--white);
+            padding: var(--spacing-4) var(--spacing-6);
+            border-bottom: 1px solid var(--gray-200);
+            margin: calc(-1 * var(--spacing-6));
+            margin-bottom: var(--spacing-6);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .admin-nav {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .admin-nav li {
+            margin-bottom: var(--spacing-2);
+        }
+        
+        .admin-nav a {
+            display: flex;
+            align-items: center;
+            gap: var(--spacing-3);
+            padding: var(--spacing-3) var(--spacing-4);
+            color: var(--gray-600);
+            text-decoration: none;
+            border-radius: var(--border-radius);
+            transition: all 0.3s ease;
+        }
+        
+        .admin-nav a:hover,
+        .admin-nav a.active {
+            background: var(--primary-light);
+            color: var(--primary-color);
+        }
+        
+        .admin-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: var(--spacing-6);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: var(--spacing-4);
+            margin-bottom: var(--spacing-6);
+        }
+        
+        .stat-card {
+            background: var(--white);
+            padding: var(--spacing-6);
+            border-radius: 12px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: var(--white);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto var(--spacing-3);
+            font-size: 1.5em;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: var(--gray-900);
+            margin-bottom: var(--spacing-1);
+        }
+        
+        .stat-label {
+            color: var(--gray-600);
+            font-weight: 500;
+        }
+        
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: var(--spacing-4);
+        }
+        
+        .data-table th,
+        .data-table td {
+            padding: var(--spacing-3);
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+        
+        .data-table th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .data-table tr:hover {
+            background: var(--gray-50);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: var(--spacing-2);
+        }
+        
+        .btn-small {
+            padding: var(--spacing-2) var(--spacing-3);
+            font-size: var(--font-size-sm);
+            border-radius: var(--border-radius);
+            border: 1px solid transparent;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-edit {
+            background: var(--info-color);
+            color: var(--white);
+        }
+        
+        .btn-delete {
+            background: var(--warning-color);
+            color: var(--white);
+        }
+        
+        .form-group {
+            margin-bottom: var(--spacing-4);
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: var(--spacing-2);
+            font-weight: 600;
+            color: var(--gray-700);
+        }
+        
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            padding: var(--spacing-3);
+            border: 1px solid var(--gray-300);
+            border-radius: var(--border-radius);
+            font-size: var(--font-size-sm);
+        }
+        
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .hidden {
+            display: none !important;
+        }
+        
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+        
+        @media (max-width: 768px) {
+            .admin-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-sidebar {
+                display: none;
+            }
+            
+            .admin-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar -->
+        <div class="admin-sidebar">
+            <div class="logo" style="margin-bottom: 2rem;">
+                <h2 style="color: var(--primary-color);">
+                    <i class="fas fa-graduation-cap"></i> Campus Hub
+                </h2>
+                <p style="color: var(--gray-600); font-size: 0.9em;">Admin Panel</p>
+            </div>
+            
+            <nav>
+                <ul class="admin-nav">
+                    <li><a href="#dashboard" class="nav-link active" data-section="dashboard">
+                        <i class="fas fa-chart-pie"></i> Dashboard
+                    </a></li>
+                    <li><a href="#news" class="nav-link" data-section="news">
+                        <i class="fas fa-newspaper"></i> News & Announcements
+                    </a></li>
+                    <li><a href="#events" class="nav-link" data-section="events">
+                        <i class="fas fa-calendar-alt"></i> Events & Calendar
+                    </a></li>
+                    <li><a href="#services" class="nav-link" data-section="services">
+                        <i class="fas fa-concierge-bell"></i> Campus Services
+                    </a></li>
+                    <li><a href="#users" class="nav-link" data-section="users">
+                        <i class="fas fa-users"></i> User Management
+                    </a></li>
+                    <li><a href="#programs" class="nav-link" data-section="programs">
+                        <i class="fas fa-graduation-cap"></i> Programs
+                    </a></li>
+                    <li><a href="#settings" class="nav-link" data-section="settings">
+                        <i class="fas fa-cog"></i> Settings
+                    </a></li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="admin-content">
+            <div class="admin-header">
+                <h1 id="page-title">Dashboard</h1>
+                <div class="header-actions">
+                    <span id="current-user">Welcome, Admin</span>
+                    <button class="btn-secondary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Dashboard Section -->
+            <div id="dashboard-section" class="content-section">
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="stat-value" id="news-count">0</div>
+                        <div class="stat-label">News Articles</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar"></i>
+                        </div>
+                        <div class="stat-value" id="events-count">0</div>
+                        <div class="stat-label">Upcoming Events</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-value" id="users-count">0</div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <div class="stat-value" id="services-count">0</div>
+                        <div class="stat-label">Active Services</div>
+                    </div>
+                </div>
+                
+                <div class="admin-card">
+                    <h3>Recent Activity</h3>
+                    <div id="recent-activity">
+                        <p>Loading recent activity...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- News Section -->
+            <div id="news-section" class="content-section hidden">
+                <div class="admin-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>News & Announcements</h3>
+                        <button class="btn-primary" onclick="showNewsForm()">
+                            <i class="fas fa-plus"></i> Add News
+                        </button>
+                    </div>
+                    
+                    <div id="news-form" class="hidden" style="margin-bottom: 2rem; padding: 1.5rem; background: var(--gray-50); border-radius: 8px;">
+                        <h4 id="news-form-title">Add New Article</h4>
+                        <form id="news-form-element">
+                            <input type="hidden" id="news-id">
+                            <div class="form-group">
+                                <label class="form-label">Title</label>
+                                <input type="text" id="news-title" class="form-input" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Category</label>
+                                <select id="news-category" class="form-select" required>
+                                    <option value="">Select Category</option>
+                                    <option value="academic">Academic</option>
+                                    <option value="events">Events</option>
+                                    <option value="campus">Campus Life</option>
+                                    <option value="urgent">Urgent</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Content</label>
+                                <textarea id="news-content" class="form-textarea" rows="6" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Excerpt (Optional)</label>
+                                <textarea id="news-excerpt" class="form-textarea" rows="2"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <input type="checkbox" id="news-featured"> Featured Article
+                                </label>
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="submit" class="btn-primary">Save Article</button>
+                                <button type="button" class="btn-secondary" onclick="hideNewsForm()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="news-list">
+                        <p>Loading news articles...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Events Section -->
+            <div id="events-section" class="content-section hidden">
+                <div class="admin-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Events & Calendar</h3>
+                        <button class="btn-primary" onclick="showEventForm()">
+                            <i class="fas fa-plus"></i> Add Event
+                        </button>
+                    </div>
+                    
+                    <div id="event-form" class="hidden" style="margin-bottom: 2rem; padding: 1.5rem; background: var(--gray-50); border-radius: 8px;">
+                        <h4 id="event-form-title">Add New Event</h4>
+                        <form id="event-form-element">
+                            <input type="hidden" id="event-id">
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Event Title</label>
+                                    <input type="text" id="event-title" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Event Type</label>
+                                    <select id="event-type" class="form-select" required>
+                                        <option value="">Select Type</option>
+                                        <option value="academic">Academic</option>
+                                        <option value="social">Social</option>
+                                        <option value="administrative">Administrative</option>
+                                        <option value="holiday">Holiday</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Description</label>
+                                <textarea id="event-description" class="form-textarea" rows="3"></textarea>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Start Date</label>
+                                    <input type="date" id="event-start-date" class="form-input" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">End Date (Optional)</label>
+                                    <input type="date" id="event-end-date" class="form-input">
+                                </div>
+                            </div>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                                <div class="form-group">
+                                    <label class="form-label">Start Time (Optional)</label>
+                                    <input type="time" id="event-start-time" class="form-input">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">End Time (Optional)</label>
+                                    <input type="time" id="event-end-time" class="form-input">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Location</label>
+                                <input type="text" id="event-location" class="form-input">
+                            </div>
+                            <div style="display: flex; gap: 1rem;">
+                                <button type="submit" class="btn-primary">Save Event</button>
+                                <button type="button" class="btn-secondary" onclick="hideEventForm()">Cancel</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <div id="events-list">
+                        <p>Loading events...</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Other sections will be implemented similarly -->
+            <div id="services-section" class="content-section hidden">
+                <div class="admin-card">
+                    <h3>Campus Services Management</h3>
+                    <p>Services management coming soon...</p>
+                </div>
+            </div>
+            
+            <div id="users-section" class="content-section hidden">
+                <div class="admin-card">
+                    <h3>User Management</h3>
+                    <p>User management coming soon...</p>
+                </div>
+            </div>
+            
+            <div id="programs-section" class="content-section hidden">
+                <div class="admin-card">
+                    <h3>Program Management</h3>
+                    <p>Program management coming soon...</p>
+                </div>
+            </div>
+            
+            <div id="settings-section" class="content-section hidden">
+                <div class="admin-card">
+                    <h3>System Settings</h3>
+                    <p>Settings management coming soon...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>
