@@ -182,6 +182,8 @@
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 
+                console.log('Attempting login with:', username, password ? '[PASSWORD SET]' : '[NO PASSWORD]');
+                
                 if (!username || !password) {
                     this.showError('Please enter both username and password');
                     return;
@@ -191,6 +193,7 @@
                 this.hideError();
                 
                 try {
+                    console.log('Sending request to auth API...');
                     const response = await fetch('../php/api/auth.php?action=login', {
                         method: 'POST',
                         headers: {
@@ -199,21 +202,42 @@
                         body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
                     });
                     
-                    const data = await response.json();
+                    console.log('Response status:', response.status);
+                    console.log('Response ok:', response.ok);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const responseText = await response.text();
+                    console.log('Raw response:', responseText);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        throw new Error('Invalid server response (not JSON): ' + responseText.substring(0, 100));
+                    }
+                    
+                    console.log('Parsed data:', data);
                     
                     if (data.success) {
+                        console.log('Login successful, saving to localStorage');
                         // Login successful
                         localStorage.setItem('admin_logged_in', 'true');
                         localStorage.setItem('admin_user', JSON.stringify(data.data));
                         
                         // Redirect to admin dashboard
+                        console.log('Redirecting to admin dashboard...');
                         window.location.href = 'index.html';
                     } else {
+                        console.error('Login failed:', data.message);
                         this.showError(data.message || 'Login failed');
                     }
                 } catch (error) {
                     console.error('Login error:', error);
-                    this.showError('Connection error. Please check if XAMPP is running.');
+                    this.showError(`Connection error: ${error.message}. Please check if XAMPP Apache is running.`);
                 }
                 
                 this.setLoading(false);

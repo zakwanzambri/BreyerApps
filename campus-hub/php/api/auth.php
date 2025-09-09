@@ -4,7 +4,15 @@
  * Campus Hub Portal - Enhanced Version
  */
 
-require_once '../config.php';
+// Flexible path handling for config.php
+$config_path = '../config.php';
+if (!file_exists($config_path)) {
+    $config_path = dirname(__DIR__) . '/config.php';
+}
+if (!file_exists($config_path)) {
+    $config_path = __DIR__ . '/../config.php';
+}
+require_once $config_path;
 
 class AuthAPI {
     private $db;
@@ -54,6 +62,7 @@ class AuthAPI {
                 $this->getCurrentUser();
                 break;
             case 'check':
+            case 'check_session':
                 $this->checkAuth();
                 break;
             default:
@@ -72,7 +81,13 @@ class AuthAPI {
     }
     
     private function login() {
-        $input = json_decode(file_get_contents('php://input'), true);
+        // Handle both JSON and form data
+        $input = [];
+        if ($_SERVER['CONTENT_TYPE'] && strpos($_SERVER['CONTENT_TYPE'], 'application/json') !== false) {
+            $input = json_decode(file_get_contents('php://input'), true) ?: [];
+        } else {
+            $input = $_POST;
+        }
         
         $username = Validator::sanitize($input['username'] ?? '');
         $password = $input['password'] ?? '';
