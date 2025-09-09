@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Hub - Your College Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM5N0FGQiIvPgo8cGF0aCBkPSJNMTYgOEw5IDE0VjI0SDE0VjE5SDE4VjI0SDIzVjE0TDE2IDhaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span class="logo-text">Campus Hub</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="#dashboard" class="nav-link active">Dashboard</a></li>
+                    <li><a href="#academics" class="nav-link">Academics</a></li>
+                    <li><a href="#services" class="nav-link">Services</a></li>
+                    <li><a href="#news" class="nav-link">News</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search..." class="search-input" id="globalSearch">
+                </div>
+                <button class="notifications-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="profile-menu">
+                    <img src="https://via.placeholder.com/40x40/397AFB/FFFFFF?text=JS" alt="Profile" class="profile-img">
+                    <span class="profile-name">John Smith</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Welcome Section -->
+        <section class="welcome-section">
+            <div class="welcome-card">
+                <div class="welcome-text">
+                    <h1>Welcome back, John! 👋</h1>
+                    <p>Here's what's happening at your campus today</p>
+                </div>
+                <div class="quick-stats">
+                    <div class="stat">
+                        <span class="stat-number">4</span>
+                        <span class="stat-label">Assignments Due</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">2</span>
+                        <span class="stat-label">Exams This Week</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-number">15</span>
+                        <span class="stat-label">Credits This Semester</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Grid -->
+        <section class="dashboard-grid">
+            <!-- Academic Calendar -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-calendar-alt"></i> Academic Calendar</h3>
+                    <button class="card-action">View All</button>
+                </div>
+                <div class="card-content">
+                    <div class="calendar-events">
+                        <div class="event">
+                            <div class="event-date">
+                                <span class="day">15</span>
+                                <span class="month">Sep</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>Math Quiz</h4>
+                                <p>Algebra II - Room 205</p>
+                                <span class="event-time">10:00 AM</span>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="event-date">
+                                <span class="day">18</span>
+                                <span class="month">Sep</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>History Essay Due</h4>
+                                <p>World History - Online</p>
+                                <span class="event-time">11:59 PM</span>
+                            </div>
+                        </div>
+                        <div class="event">
+                            <div class="event-date">
+                                <span class="day">22</span>
+                                <span class="month">Sep</span>
+                            </div>
+                            <div class="event-details">
+                                <h4>Chemistry Lab</h4>
+                                <p>Organic Chemistry - Lab B</p>
+                                <span class="event-time">2:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Course Materials -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-book"></i> Course Materials</h3>
+                    <button class="card-action">Browse All</button>
+                </div>
+                <div class="card-content">
+                    <div class="course-list">
+                        <div class="course-item">
+                            <div class="course-icon">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                            <div class="course-info">
+                                <h4>Calculus III</h4>
+                                <p>Prof. Johnson</p>
+                                <div class="course-actions">
+                                    <a href="#" class="action-link">Syllabus</a>
+                                    <a href="#" class="action-link">Assignments</a>
+                                    <a href="#" class="action-link">Grades</a>
+                                </div>
+                            </div>
+                            <div class="course-progress">
+                                <span class="progress-text">85%</span>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-icon">
+                                <i class="fas fa-flask"></i>
+                            </div>
+                            <div class="course-info">
+                                <h4>Organic Chemistry</h4>
+                                <p>Dr. Williams</p>
+                                <div class="course-actions">
+                                    <a href="#" class="action-link">Syllabus</a>
+                                    <a href="#" class="action-link">Assignments</a>
+                                    <a href="#" class="action-link">Grades</a>
+                                </div>
+                            </div>
+                            <div class="course-progress">
+                                <span class="progress-text">92%</span>
+                            </div>
+                        </div>
+                        <div class="course-item">
+                            <div class="course-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="course-info">
+                                <h4>World History</h4>
+                                <p>Prof. Davis</p>
+                                <div class="course-actions">
+                                    <a href="#" class="action-link">Syllabus</a>
+                                    <a href="#" class="action-link">Assignments</a>
+                                    <a href="#" class="action-link">Grades</a>
+                                </div>
+                            </div>
+                            <div class="course-progress">
+                                <span class="progress-text">78%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campus Services -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-concierge-bell"></i> Campus Services</h3>
+                    <button class="card-action">View More</button>
+                </div>
+                <div class="card-content">
+                    <div class="services-grid">
+                        <div class="service-item">
+                            <i class="fas fa-utensils"></i>
+                            <h4>Dining</h4>
+                            <p>Open until 9 PM</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-books"></i>
+                            <h4>Library</h4>
+                            <p>24/7 Study Hall</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-heartbeat"></i>
+                            <h4>Health Center</h4>
+                            <p>8 AM - 6 PM</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-bus"></i>
+                            <h4>Shuttle</h4>
+                            <p>Every 15 min</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-dumbbell"></i>
+                            <h4>Gym</h4>
+                            <p>5 AM - 11 PM</p>
+                        </div>
+                        <div class="service-item">
+                            <i class="fas fa-parking"></i>
+                            <h4>Parking</h4>
+                            <p>Permits Available</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- News & Announcements -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-bullhorn"></i> News & Announcements</h3>
+                    <button class="card-action">Read More</button>
+                </div>
+                <div class="card-content">
+                    <div class="news-list">
+                        <article class="news-item">
+                            <div class="news-meta">
+                                <span class="news-category">Academic</span>
+                                <span class="news-date">2 hours ago</span>
+                            </div>
+                            <h4>Fall Registration Opens Next Week</h4>
+                            <p>Registration for Fall 2024 semester begins Monday, September 16th at 8:00 AM.</p>
+                        </article>
+                        <article class="news-item">
+                            <div class="news-meta">
+                                <span class="news-category">Events</span>
+                                <span class="news-date">1 day ago</span>
+                            </div>
+                            <h4>Career Fair This Friday</h4>
+                            <p>Don't miss the annual career fair in the Student Center from 10 AM to 4 PM.</p>
+                        </article>
+                        <article class="news-item">
+                            <div class="news-meta">
+                                <span class="news-category">Campus</span>
+                                <span class="news-date">3 days ago</span>
+                            </div>
+                            <h4>New Study Spaces Available</h4>
+                            <p>The renovated library's third floor is now open with 50 new study spaces.</p>
+                        </article>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-external-link-alt"></i> Quick Links</h3>
+                </div>
+                <div class="card-content">
+                    <div class="quick-links-grid">
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-graduation-cap"></i>
+                            <span>Student Portal</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-envelope"></i>
+                            <span>Campus Email</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-chalkboard-teacher"></i>
+                            <span>LMS</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Financial Aid</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-id-card"></i>
+                            <span>Student ID</span>
+                        </a>
+                        <a href="#" class="quick-link">
+                            <i class="fas fa-calendar-check"></i>
+                            <span>Schedule</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Weather & Campus Info -->
+            <div class="dashboard-card">
+                <div class="card-header">
+                    <h3><i class="fas fa-cloud-sun"></i> Campus Weather</h3>
+                </div>
+                <div class="card-content">
+                    <div class="weather-info">
+                        <div class="weather-current">
+                            <div class="weather-icon">
+                                <i class="fas fa-sun"></i>
+                            </div>
+                            <div class="weather-temp">
+                                <span class="temp">72°F</span>
+                                <span class="condition">Sunny</span>
+                            </div>
+                        </div>
+                        <div class="weather-details">
+                            <div class="weather-detail">
+                                <span class="label">Humidity</span>
+                                <span class="value">45%</span>
+                            </div>
+                            <div class="weather-detail">
+                                <span class="label">Wind</span>
+                                <span class="value">8 mph</span>
+                            </div>
+                        </div>
+                        <div class="campus-status">
+                            <div class="status-item">
+                                <i class="fas fa-check-circle text-success"></i>
+                                <span>All systems operational</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Campus Hub</h4>
+                <p>Your centralized portal for campus life</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Academic Calendar</a></li>
+                    <li><a href="#">Course Catalog</a></li>
+                    <li><a href="#">Campus Map</a></li>
+                    <li><a href="#">Directory</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Desk</a></li>
+                    <li><a href="#">Technical Support</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Connect</h4>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Campus Hub. All rights reserved. | <a href="#">Privacy Policy</a> | <a href="#">Terms of Service</a></p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
