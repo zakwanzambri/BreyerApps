@@ -85,7 +85,17 @@ class AuthAPI {
         $sql = "SELECT * FROM users WHERE (username = ? OR email = ?) AND status = 'active'";
         $user = $this->db->fetch($sql, [$username, $username]);
         
-        if (!$user || !Utils::verifyPassword($password, $user['password_hash'])) {
+        // Check password - try both password and password_hash columns for compatibility
+        $password_valid = false;
+        if ($user) {
+            if (!empty($user['password'])) {
+                $password_valid = Utils::verifyPassword($password, $user['password']);
+            } elseif (!empty($user['password_hash'])) {
+                $password_valid = Utils::verifyPassword($password, $user['password_hash']);
+            }
+        }
+        
+        if (!$user || !$password_valid) {
             ResponseHelper::error('Invalid credentials', 401);
         }
         

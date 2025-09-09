@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - Campus Hub Portal</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        .login-header {
+            margin-bottom: 30px;
+        }
+        
+        .login-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(45, 85, 150, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: #364a7b;
+        }
+        
+        .login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 10px;
+            color: #666;
+        }
+        
+        .campus-logo {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="campus-logo">CH</div>
+            
+            <div class="login-header">
+                <h1>Admin Login</h1>
+                <p>Campus Hub Portal Administration</p>
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                
+                <button type="submit" id="login-btn" class="login-btn">Login</button>
+                
+                <div id="loading" class="loading">
+                    🔄 Logging in...
+                </div>
+            </form>
+            
+            <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee; color: #666; font-size: 14px;">
+                <p><strong>Demo Credentials:</strong></p>
+                <p>Username: <code>admin</code></p>
+                <p>Password: <code>admin123</code></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class AdminLogin {
+            constructor() {
+                this.form = document.getElementById('login-form');
+                this.errorDiv = document.getElementById('error-message');
+                this.loadingDiv = document.getElementById('loading');
+                this.loginBtn = document.getElementById('login-btn');
+                
+                this.init();
+            }
+            
+            init() {
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+                
+                // Auto-fill demo credentials for testing
+                document.getElementById('username').value = 'admin';
+                document.getElementById('password').value = 'admin123';
+            }
+            
+            async handleLogin() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                if (!username || !password) {
+                    this.showError('Please enter both username and password');
+                    return;
+                }
+                
+                this.setLoading(true);
+                this.hideError();
+                
+                try {
+                    const response = await fetch('../php/api/auth.php?action=login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        // Login successful
+                        localStorage.setItem('admin_logged_in', 'true');
+                        localStorage.setItem('admin_user', JSON.stringify(data.data));
+                        
+                        // Redirect to admin dashboard
+                        window.location.href = 'index.html';
+                    } else {
+                        this.showError(data.message || 'Login failed');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    this.showError('Connection error. Please check if XAMPP is running.');
+                }
+                
+                this.setLoading(false);
+            }
+            
+            setLoading(loading) {
+                this.loginBtn.disabled = loading;
+                this.loadingDiv.style.display = loading ? 'block' : 'none';
+                this.loginBtn.textContent = loading ? 'Logging in...' : 'Login';
+            }
+            
+            showError(message) {
+                this.errorDiv.textContent = message;
+                this.errorDiv.style.display = 'block';
+            }
+            
+            hideError() {
+                this.errorDiv.style.display = 'none';
+            }
+        }
+        
+        // Initialize login page
+        document.addEventListener('DOMContentLoaded', () => {
+            new AdminLogin();
+        });
+    </script>
+</body>
+</html>
