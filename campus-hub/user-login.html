@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student & Staff Login - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            padding: 20px;
+        }
+        
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+        }
+        
+        .login-header {
+            margin-bottom: 30px;
+        }
+        
+        .campus-logo {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 20px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        
+        .login-header h1 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .login-header p {
+            color: #666;
+            margin: 0;
+        }
+        
+        .user-type-tabs {
+            display: flex;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
+        
+        .user-type-tab {
+            flex: 1;
+            padding: 12px;
+            background: #f8f9fa;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .user-type-tab.active {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(45, 85, 150, 0.1);
+        }
+        
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .login-btn:hover {
+            background: #364a7b;
+        }
+        
+        .login-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #dc3545;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            color: #155724;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+            border-left: 4px solid #28a745;
+        }
+        
+        .loading {
+            display: none;
+            margin-top: 10px;
+            color: #666;
+        }
+        
+        .sample-credentials {
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #17a2b8;
+        }
+        
+        .sample-credentials h4 {
+            color: #17a2b8;
+            margin-bottom: 15px;
+        }
+        
+        .cred-group {
+            margin-bottom: 10px;
+            font-size: 14px;
+        }
+        
+        .quick-login {
+            display: inline-block;
+            background: #17a2b8;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 12px;
+            margin-left: 10px;
+            cursor: pointer;
+        }
+        
+        .admin-link {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .admin-link a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="campus-logo">CH</div>
+            
+            <div class="login-header">
+                <h1>Campus Hub Login</h1>
+                <p>Student & Staff Portal Access</p>
+            </div>
+            
+            <div class="user-type-tabs">
+                <button class="user-type-tab active" data-type="student">👨‍🎓 Student</button>
+                <button class="user-type-tab" data-type="staff">👨‍🏫 Staff</button>
+            </div>
+            
+            <div id="error-message" class="error-message"></div>
+            <div id="success-message" class="success-message"></div>
+            
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required autocomplete="username">
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required autocomplete="current-password">
+                </div>
+                
+                <button type="submit" id="login-btn" class="login-btn">Login</button>
+                
+                <div id="loading" class="loading">
+                    🔄 Logging in...
+                </div>
+            </form>
+            
+            <div class="sample-credentials">
+                <h4>📋 Demo Credentials</h4>
+                
+                <div id="student-creds" class="cred-section">
+                    <div class="cred-group">
+                        <strong>Student Accounts:</strong>
+                        <span class="quick-login" onclick="quickLogin('student1', 'student123')">student1/student123</span>
+                        <span class="quick-login" onclick="quickLogin('student2', 'student123')">student2/student123</span>
+                    </div>
+                </div>
+                
+                <div id="staff-creds" class="cred-section" style="display: none;">
+                    <div class="cred-group">
+                        <strong>Staff Accounts:</strong>
+                        <span class="quick-login" onclick="quickLogin('lecturer1', 'staff123')">lecturer1/staff123</span>
+                        <span class="quick-login" onclick="quickLogin('lecturer2', 'staff123')">lecturer2/staff123</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-link">
+                <a href="admin/login.html">🔐 Admin Login</a> | 
+                <a href="index.html">🏠 Back to Portal</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class UserLogin {
+            constructor() {
+                this.form = document.getElementById('login-form');
+                this.errorDiv = document.getElementById('error-message');
+                this.successDiv = document.getElementById('success-message');
+                this.loadingDiv = document.getElementById('loading');
+                this.loginBtn = document.getElementById('login-btn');
+                this.currentUserType = 'student';
+                
+                this.init();
+            }
+            
+            init() {
+                // Form submission
+                this.form.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    this.handleLogin();
+                });
+                
+                // User type tabs
+                document.querySelectorAll('.user-type-tab').forEach(tab => {
+                    tab.addEventListener('click', (e) => {
+                        this.switchUserType(e.target.dataset.type);
+                    });
+                });
+                
+                // Auto-fill first student credentials
+                document.getElementById('username').value = 'student1';
+                document.getElementById('password').value = 'student123';
+            }
+            
+            switchUserType(type) {
+                this.currentUserType = type;
+                
+                // Update tab appearance
+                document.querySelectorAll('.user-type-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`[data-type="${type}"]`).classList.add('active');
+                
+                // Show/hide credentials
+                if (type === 'student') {
+                    document.getElementById('student-creds').style.display = 'block';
+                    document.getElementById('staff-creds').style.display = 'none';
+                    document.getElementById('username').value = 'student1';
+                    document.getElementById('password').value = 'student123';
+                } else {
+                    document.getElementById('student-creds').style.display = 'none';
+                    document.getElementById('staff-creds').style.display = 'block';
+                    document.getElementById('username').value = 'lecturer1';
+                    document.getElementById('password').value = 'staff123';
+                }
+            }
+            
+            async handleLogin() {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                console.log('Attempting login:', username, this.currentUserType);
+                
+                if (!username || !password) {
+                    this.showError('Please enter both username and password');
+                    return;
+                }
+                
+                this.setLoading(true);
+                this.hideMessages();
+                
+                try {
+                    const response = await fetch('php/api/auth.php?action=login', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`
+                    });
+                    
+                    console.log('Response status:', response.status);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                    }
+                    
+                    const responseText = await response.text();
+                    console.log('Raw response:', responseText);
+                    
+                    let data;
+                    try {
+                        data = JSON.parse(responseText);
+                    } catch (e) {
+                        console.error('JSON parse error:', e);
+                        throw new Error('Invalid server response');
+                    }
+                    
+                    console.log('Parsed data:', data);
+                    
+                    if (data.success) {
+                        const user = data.data.user;
+                        console.log('Login successful for user:', user);
+                        
+                        // Validate user type
+                        if (user.role !== this.currentUserType && user.role !== 'admin') {
+                            this.showError(`This account is for ${user.role}s. Please select the correct user type.`);
+                            return;
+                        }
+                        
+                        // Save user session
+                        localStorage.setItem('user_logged_in', 'true');
+                        localStorage.setItem('user_data', JSON.stringify(user));
+                        localStorage.setItem('user_token', data.data.token);
+                        
+                        this.showSuccess(`Welcome ${user.full_name}! Redirecting to dashboard...`);
+                        
+                        // Redirect based on role
+                        setTimeout(() => {
+                            if (user.role === 'student') {
+                                window.location.href = 'student-dashboard.html';
+                            } else if (user.role === 'staff') {
+                                window.location.href = 'staff-dashboard.html';
+                            } else if (user.role === 'admin') {
+                                window.location.href = 'admin/index.html';
+                            }
+                        }, 2000);
+                        
+                    } else {
+                        console.error('Login failed:', data.message);
+                        this.showError(data.message || 'Login failed');
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    this.showError(`Login error: ${error.message}`);
+                }
+                
+                this.setLoading(false);
+            }
+            
+            setLoading(loading) {
+                this.loginBtn.disabled = loading;
+                this.loadingDiv.style.display = loading ? 'block' : 'none';
+                this.loginBtn.textContent = loading ? 'Logging in...' : 'Login';
+            }
+            
+            showError(message) {
+                this.errorDiv.textContent = message;
+                this.errorDiv.style.display = 'block';
+                this.successDiv.style.display = 'none';
+            }
+            
+            showSuccess(message) {
+                this.successDiv.textContent = message;
+                this.successDiv.style.display = 'block';
+                this.errorDiv.style.display = 'none';
+            }
+            
+            hideMessages() {
+                this.errorDiv.style.display = 'none';
+                this.successDiv.style.display = 'none';
+            }
+        }
+        
+        // Quick login function
+        function quickLogin(username, password) {
+            document.getElementById('username').value = username;
+            document.getElementById('password').value = password;
+        }
+        
+        // Initialize login page
+        document.addEventListener('DOMContentLoaded', () => {
+            new UserLogin();
+        });
+    </script>
+</body>
+</html>
