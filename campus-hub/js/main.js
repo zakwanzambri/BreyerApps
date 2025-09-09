@@ -176,18 +176,24 @@ function performSearch(query) {
 
 // Show search suggestions
 function showSearchSuggestions(query) {
-    // Sample suggestions based on query
+    // Sample suggestions based on query - updated for college programs
     const suggestions = [
         'Academic Calendar',
         'Course Materials',
         'Campus Services',
         'Library Hours',
-        'Dining Menu',
+        'Cafeteria Menu',
         'Shuttle Schedule',
         'Grade Portal',
         'Financial Aid',
         'Student Email',
-        'Campus Map'
+        'Campus Map',
+        'Culinary Arts Program',
+        'Computer System Lab',
+        'Electrical Workshop',
+        'Administrative Office',
+        'F&B Management',
+        'Practical Exam Schedule'
     ].filter(item => item.toLowerCase().includes(query));
     
     // Create suggestions dropdown (simplified)

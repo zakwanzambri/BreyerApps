@@ -1,31 +1,38 @@
-/* Campus Hub - Modern Styling */
+/* Campus Hub - Modern Styling with College Colors */
 /* Author: Campus Hub Development Team */
 /* Description: Beautiful, responsive styling for the Campus Hub portal */
+/* College Colors: Blue (#1E40AF), Red (#DC2626), White (#FFFFFF) */
 
-/* CSS Variables for consistent theming */
+/* CSS Variables for consistent theming - College Colors: Blue, Red, White */
 :root {
-    /* Colors */
-    --primary-color: #397AFB;
-    --primary-hover: #2968E3;
-    --primary-light: #E3F2FD;
-    --secondary-color: #6C757D;
-    --success-color: #28A745;
-    --warning-color: #FFC107;
-    --danger-color: #DC3545;
-    --info-color: #17A2B8;
+    /* Primary Colors - College Blue and Red */
+    --primary-color: #1E40AF;        /* College Blue */
+    --primary-hover: #1D4ED8;        /* Darker Blue on hover */
+    --primary-light: #DBEAFE;        /* Light Blue background */
+    --secondary-color: #DC2626;       /* College Red */
+    --secondary-hover: #B91C1C;      /* Darker Red on hover */
+    --secondary-light: #FEE2E2;      /* Light Red background */
     
-    /* Neutrals */
-    --white: #FFFFFF;
-    --gray-50: #F8F9FA;
-    --gray-100: #F1F3F4;
-    --gray-200: #E9ECEF;
-    --gray-300: #DEE2E6;
-    --gray-400: #CED4DA;
-    --gray-500: #ADB5BD;
-    --gray-600: #6C757D;
-    --gray-700: #495057;
-    --gray-800: #343A40;
-    --gray-900: #212529;
+    /* Accent Colors */
+    --accent-blue: #3B82F6;          /* Bright Blue accent */
+    --accent-red: #EF4444;           /* Bright Red accent */
+    --success-color: #16A34A;        /* Green for success states */
+    --warning-color: #D97706;        /* Orange for warnings */
+    --danger-color: #DC2626;         /* College Red for errors */
+    --info-color: #0EA5E9;           /* Blue for info */
+    
+    /* Neutrals - White base with subtle grays */
+    --white: #FFFFFF;                /* Pure White */
+    --gray-50: #F8FAFC;             /* Very light gray */
+    --gray-100: #F1F5F9;            /* Light gray */
+    --gray-200: #E2E8F0;            /* Border gray */
+    --gray-300: #CBD5E1;            /* Subtle gray */
+    --gray-400: #94A3B8;            /* Medium gray */
+    --gray-500: #64748B;            /* Text gray */
+    --gray-600: #475569;            /* Dark text */
+    --gray-700: #334155;            /* Darker text */
+    --gray-800: #1E293B;            /* Very dark text */
+    --gray-900: #0F172A;            /* Darkest text */
     
     /* Typography */
     --font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -140,7 +147,7 @@ a:hover {
 /* Header */
 .header {
     background: var(--white);
-    border-bottom: 1px solid var(--gray-200);
+    border-bottom: 3px solid var(--primary-color);
     box-shadow: var(--shadow-sm);
     position: sticky;
     top: 0;
@@ -173,7 +180,7 @@ a:hover {
 }
 
 .logo-text {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -363,7 +370,7 @@ a:hover {
 }
 
 .welcome-card {
-    background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white);
     padding: var(--spacing-8);
     border-radius: var(--border-radius-xl);
@@ -444,6 +451,36 @@ a:hover {
 .dashboard-card:hover {
     transform: translateY(-2px);
     box-shadow: var(--shadow-lg);
+    border-color: var(--primary-color);
+}
+
+.dashboard-card:nth-child(even):hover {
+    border-color: var(--secondary-color);
+}
+
+/* Add college color accents to specific cards */
+.dashboard-card:nth-child(1) .card-header {
+    border-left: 4px solid var(--primary-color);
+}
+
+.dashboard-card:nth-child(2) .card-header {
+    border-left: 4px solid var(--secondary-color);
+}
+
+.dashboard-card:nth-child(3) .card-header {
+    border-left: 4px solid var(--primary-color);
+}
+
+.dashboard-card:nth-child(4) .card-header {
+    border-left: 4px solid var(--secondary-color);
+}
+
+.dashboard-card:nth-child(5) .card-header {
+    border-left: 4px solid var(--primary-color);
+}
+
+.dashboard-card:nth-child(6) .card-header {
+    border-left: 4px solid var(--secondary-color);
 }
 
 .card-header {
@@ -518,7 +555,7 @@ a:hover {
     justify-content: center;
     min-width: 60px;
     padding: var(--spacing-2);
-    background: var(--primary-color);
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
     color: var(--white);
     border-radius: var(--border-radius);
     text-align: center;
@@ -558,11 +595,35 @@ a:hover {
     font-weight: 500;
 }
 
-/* Course list */
-.course-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-4);
+/* Course icon variations with college colors */
+.course-item:nth-child(odd) .course-icon {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
+.course-item:nth-child(even) .course-icon {
+    background: var(--secondary-light);
+    color: var(--secondary-color);
+}
+
+/* Service item hover effects with college colors */
+.service-item:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary-color);
+    background: var(--primary-light);
+}
+
+.service-item:nth-child(even):hover {
+    border-color: var(--secondary-color);
+    background: var(--secondary-light);
+}
+
+.service-item:nth-child(odd) i {
+    color: var(--primary-color);
+}
+
+.service-item:nth-child(even) i {
+    color: var(--secondary-color);
 }
 
 .course-item {
@@ -712,6 +773,17 @@ a:hover {
     text-transform: uppercase;
 }
 
+/* Different categories get different colors */
+.news-item:nth-child(2) .news-category {
+    background: var(--secondary-light);
+    color: var(--secondary-color);
+}
+
+.news-item:nth-child(3) .news-category {
+    background: var(--primary-light);
+    color: var(--primary-color);
+}
+
 .news-date {
     color: var(--gray-500);
     font-size: var(--font-size-sm);
@@ -753,6 +825,20 @@ a:hover {
     border-color: var(--primary-color);
     background: var(--primary-light);
     color: var(--primary-color);
+}
+
+.quick-link:nth-child(even):hover {
+    border-color: var(--secondary-color);
+    background: var(--secondary-light);
+    color: var(--secondary-color);
+}
+
+.quick-link:nth-child(odd) i {
+    color: var(--primary-color);
+}
+
+.quick-link:nth-child(even) i {
+    color: var(--secondary-color);
 }
 
 .quick-link i {
@@ -1020,9 +1106,10 @@ a:hover {
 
 /* Footer */
 .footer {
-    background: var(--gray-800);
+    background: linear-gradient(135deg, var(--gray-800), var(--gray-900));
     color: var(--white);
     margin-top: var(--spacing-12);
+    border-top: 4px solid var(--primary-color);
 }
 
 .footer-content {
@@ -1080,6 +1167,11 @@ a:hover {
 
 .social-links a:hover {
     background: var(--primary-color);
+    color: var(--white);
+}
+
+.social-links a:nth-child(even):hover {
+    background: var(--secondary-color);
     color: var(--white);
 }
 
