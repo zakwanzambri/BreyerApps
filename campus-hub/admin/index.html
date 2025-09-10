@@ -3,21 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Hub - Admin Panel</title>
-    <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>Campus Hub Admin Dashboard</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <!-- DataTables CSS -->
+    <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+    
+    <!-- Custom Admin Styles -->
     <style>
-        /* Admin Panel Specific Styles */
-        .admin-layout {
-            display: grid;
-            grid-template-columns: 280px 1fr;
+        :root {
+            --admin-primary: #0066cc;
+            --admin-secondary: #6c757d;
+            --admin-success: #28a745;
+            --admin-danger: #dc3545;
+            --admin-warning: #ffc107;
+            --admin-info: #17a2b8;
+            --admin-dark: #343a40;
+            --admin-light: #f8f9fa;
+            --sidebar-width: 280px;
+        }
+        
+        body {
+            background-color: var(--admin-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .admin-wrapper {
+            display: flex;
             min-height: 100vh;
-            background: var(--gray-50);
         }
         
         .admin-sidebar {
-            background: var(--white);
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, var(--admin-primary) 0%, #004499 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
             border-right: 1px solid var(--gray-200);
             padding: var(--spacing-6);
             overflow-y: auto;
