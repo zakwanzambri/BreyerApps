@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Campus Hub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Campus Hub</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="academics.html" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Academics</span>
+                </a>
+                <a href="services.html" class="nav-link">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="news.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>News</span>
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                    <button class="search-clear" id="searchClear">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="profile-menu">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <span class="user-name">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Settings</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-cog"></i> Settings</h1>
+                <p>Manage your account preferences and system settings</p>
+            </div>
+
+            <div class="settings-container">
+                <!-- Settings Sidebar -->
+                <div class="settings-sidebar">
+                    <div class="settings-nav">
+                        <a href="#profile" class="settings-nav-item active" data-section="profile">
+                            <i class="fas fa-user"></i>
+                            <span>Profile</span>
+                        </a>
+                        <a href="#account" class="settings-nav-item" data-section="account">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Account & Security</span>
+                        </a>
+                        <a href="#notifications" class="settings-nav-item" data-section="notifications">
+                            <i class="fas fa-bell"></i>
+                            <span>Notifications</span>
+                        </a>
+                        <a href="#preferences" class="settings-nav-item" data-section="preferences">
+                            <i class="fas fa-palette"></i>
+                            <span>Preferences</span>
+                        </a>
+                        <a href="#privacy" class="settings-nav-item" data-section="privacy">
+                            <i class="fas fa-lock"></i>
+                            <span>Privacy</span>
+                        </a>
+                        <a href="#integrations" class="settings-nav-item" data-section="integrations">
+                            <i class="fas fa-plug"></i>
+                            <span>Integrations</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Settings Content -->
+                <div class="settings-content">
+                    <!-- Profile Section -->
+                    <div class="settings-section active" id="profile">
+                        <div class="section-header">
+                            <h2>Profile Information</h2>
+                            <p>Update your personal information and profile details</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <div class="profile-photo-section">
+                                <div class="current-photo">
+                                    <img src="https://via.placeholder.com/100" alt="Profile Photo">
+                                </div>
+                                <div class="photo-actions">
+                                    <h3>Profile Photo</h3>
+                                    <p>Choose a photo that represents you well</p>
+                                    <button class="btn btn-outline">Change Photo</button>
+                                    <button class="btn btn-text">Remove</button>
+                                </div>
+                            </div>
+                            
+                            <form class="settings-form">
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="firstName">First Name</label>
+                                        <input type="text" id="firstName" value="John" required>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" value="Doe" required>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="email">Email Address</label>
+                                    <input type="email" id="email" value="john.doe@student.edu" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone" value="+1 (555) 123-4567">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="studentId">Student ID</label>
+                                    <input type="text" id="studentId" value="ST2024001" readonly>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label for="program">Program</label>
+                                        <select id="program">
+                                            <option>Diploma in Computer System</option>
+                                            <option>Diploma in Culinary Arts</option>
+                                            <option>Diploma in Administrative Management</option>
+                                            <option>Diploma in F&B Management</option>
+                                            <option>Diploma in Electrical Wiring</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="semester">Current Semester</label>
+                                        <select id="semester">
+                                            <option>Semester 1</option>
+                                            <option>Semester 2</option>
+                                            <option>Semester 3</option>
+                                            <option>Semester 4</option>
+                                            <option>Semester 5</option>
+                                            <option>Semester 6</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                    <button type="button" class="btn btn-outline">Cancel</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <!-- Account & Security Section -->
+                    <div class="settings-section" id="account">
+                        <div class="section-header">
+                            <h2>Account & Security</h2>
+                            <p>Manage your account security and authentication settings</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Password</h3>
+                            <p>Change your password to keep your account secure</p>
+                            
+                            <form class="password-form">
+                                <div class="form-group">
+                                    <label for="currentPassword">Current Password</label>
+                                    <input type="password" id="currentPassword" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="newPassword">New Password</label>
+                                    <input type="password" id="newPassword" required>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm New Password</label>
+                                    <input type="password" id="confirmPassword" required>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Update Password</button>
+                            </form>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Two-Factor Authentication</h3>
+                            <p>Add an extra layer of security to your account</p>
+                            
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <i class="fas fa-mobile-alt"></i>
+                                    <div>
+                                        <h4>SMS Authentication</h4>
+                                        <p>Receive verification codes via SMS</p>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="security-option">
+                                <div class="option-info">
+                                    <i class="fas fa-qrcode"></i>
+                                    <div>
+                                        <h4>Authenticator App</h4>
+                                        <p>Use Google Authenticator or similar apps</p>
+                                    </div>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox">
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Active Sessions</h3>
+                            <p>Manage devices that are currently signed in to your account</p>
+                            
+                            <div class="session-list">
+                                <div class="session-item">
+                                    <div class="session-info">
+                                        <i class="fas fa-laptop"></i>
+                                        <div>
+                                            <h4>Windows PC - Chrome</h4>
+                                            <p>Current session • Last active now</p>
+                                            <p class="session-location">Kuala Lumpur, Malaysia</p>
+                                        </div>
+                                    </div>
+                                    <span class="session-current">Current</span>
+                                </div>
+                                
+                                <div class="session-item">
+                                    <div class="session-info">
+                                        <i class="fas fa-mobile"></i>
+                                        <div>
+                                            <h4>iPhone - Safari</h4>
+                                            <p>Last active 2 hours ago</p>
+                                            <p class="session-location">Kuala Lumpur, Malaysia</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-text btn-danger">Revoke</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notifications Section -->
+                    <div class="settings-section" id="notifications">
+                        <div class="section-header">
+                            <h2>Notification Preferences</h2>
+                            <p>Choose what notifications you want to receive and how</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Email Notifications</h3>
+                            
+                            <div class="notification-group">
+                                <h4>Academic Updates</h4>
+                                <div class="notification-option">
+                                    <div class="option-info">
+                                        <h5>Grade Updates</h5>
+                                        <p>When new grades are posted</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="option-info">
+                                        <h5>Assignment Reminders</h5>
+                                        <p>Upcoming assignment due dates</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="option-info">
+                                        <h5>Schedule Changes</h5>
+                                        <p>Class schedule modifications</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="notification-group">
+                                <h4>Campus Updates</h4>
+                                <div class="notification-option">
+                                    <div class="option-info">
+                                        <h5>News & Announcements</h5>
+                                        <p>Campus news and important announcements</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox">
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                
+                                <div class="notification-option">
+                                    <div class="option-info">
+                                        <h5>Event Invitations</h5>
+                                        <p>Campus events and activities</p>
+                                    </div>
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Push Notifications</h3>
+                            <p>Receive instant notifications on your devices</p>
+                            
+                            <div class="notification-option">
+                                <div class="option-info">
+                                    <h5>Browser Notifications</h5>
+                                    <p>Show notifications in your browser</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Preferences Section -->
+                    <div class="settings-section" id="preferences">
+                        <div class="section-header">
+                            <h2>Display Preferences</h2>
+                            <p>Customize how Campus Hub looks and feels</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Theme</h3>
+                            <p>Choose your preferred color scheme</p>
+                            
+                            <div class="theme-options">
+                                <div class="theme-option active">
+                                    <div class="theme-preview light"></div>
+                                    <span>Light</span>
+                                </div>
+                                <div class="theme-option">
+                                    <div class="theme-preview dark"></div>
+                                    <span>Dark</span>
+                                </div>
+                                <div class="theme-option">
+                                    <div class="theme-preview auto"></div>
+                                    <span>Auto</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Language & Region</h3>
+                            
+                            <div class="form-group">
+                                <label for="language">Language</label>
+                                <select id="language">
+                                    <option>English</option>
+                                    <option>Bahasa Malaysia</option>
+                                    <option>中文 (Chinese)</option>
+                                    <option>Tamil</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="timezone">Timezone</label>
+                                <select id="timezone">
+                                    <option>Malaysia Time (GMT+8)</option>
+                                    <option>Singapore Time (GMT+8)</option>
+                                    <option>Thailand Time (GMT+7)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="dateFormat">Date Format</label>
+                                <select id="dateFormat">
+                                    <option>DD/MM/YYYY</option>
+                                    <option>MM/DD/YYYY</option>
+                                    <option>YYYY-MM-DD</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Section -->
+                    <div class="settings-section" id="privacy">
+                        <div class="section-header">
+                            <h2>Privacy Settings</h2>
+                            <p>Control your data and privacy preferences</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Profile Visibility</h3>
+                            <p>Choose who can see your profile information</p>
+                            
+                            <div class="privacy-option">
+                                <div class="option-info">
+                                    <h5>Profile Photo</h5>
+                                    <p>Who can see your profile photo</p>
+                                </div>
+                                <select class="privacy-select">
+                                    <option>Everyone</option>
+                                    <option>Campus Community</option>
+                                    <option>My Program Only</option>
+                                    <option>No One</option>
+                                </select>
+                            </div>
+                            
+                            <div class="privacy-option">
+                                <div class="option-info">
+                                    <h5>Contact Information</h5>
+                                    <p>Who can see your email and phone</p>
+                                </div>
+                                <select class="privacy-select">
+                                    <option>Campus Community</option>
+                                    <option>My Program Only</option>
+                                    <option>Instructors Only</option>
+                                    <option>No One</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Data & Analytics</h3>
+                            
+                            <div class="privacy-option">
+                                <div class="option-info">
+                                    <h5>Usage Analytics</h5>
+                                    <p>Help improve Campus Hub by sharing usage data</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                            
+                            <div class="privacy-option">
+                                <div class="option-info">
+                                    <h5>Personalized Recommendations</h5>
+                                    <p>Receive content recommendations based on your activity</p>
+                                </div>
+                                <label class="toggle-switch">
+                                    <input type="checkbox" checked>
+                                    <span class="slider"></span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card danger-zone">
+                            <h3>Data Management</h3>
+                            <p>Manage your data and account</p>
+                            
+                            <div class="danger-actions">
+                                <button class="btn btn-outline">Export My Data</button>
+                                <button class="btn btn-outline btn-danger">Delete Account</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Integrations Section -->
+                    <div class="settings-section" id="integrations">
+                        <div class="section-header">
+                            <h2>Integrations</h2>
+                            <p>Connect Campus Hub with other services and apps</p>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Calendar Integration</h3>
+                            <p>Sync your class schedule with calendar apps</p>
+                            
+                            <div class="integration-list">
+                                <div class="integration-item">
+                                    <div class="integration-info">
+                                        <i class="fab fa-google"></i>
+                                        <div>
+                                            <h4>Google Calendar</h4>
+                                            <p>Sync schedule with Google Calendar</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline">Connect</button>
+                                </div>
+                                
+                                <div class="integration-item">
+                                    <div class="integration-info">
+                                        <i class="fab fa-microsoft"></i>
+                                        <div>
+                                            <h4>Outlook Calendar</h4>
+                                            <p>Sync schedule with Outlook</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline">Connect</button>
+                                </div>
+                                
+                                <div class="integration-item connected">
+                                    <div class="integration-info">
+                                        <i class="fab fa-apple"></i>
+                                        <div>
+                                            <h4>Apple Calendar</h4>
+                                            <p>Connected • Syncing schedule</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-text btn-danger">Disconnect</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="settings-card">
+                            <h3>Learning Management</h3>
+                            <p>Connect with learning platforms</p>
+                            
+                            <div class="integration-list">
+                                <div class="integration-item">
+                                    <div class="integration-info">
+                                        <i class="fas fa-chalkboard-teacher"></i>
+                                        <div>
+                                            <h4>Moodle</h4>
+                                            <p>Learning management system integration</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline">Connect</button>
+                                </div>
+                                
+                                <div class="integration-item">
+                                    <div class="integration-info">
+                                        <i class="fas fa-video"></i>
+                                        <div>
+                                            <h4>Zoom</h4>
+                                            <p>Video conferencing integration</p>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-outline">Connect</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Campus Hub</span>
+                    </div>
+                    <p>Your gateway to academic success and campus life.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Settings Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            const navItems = document.querySelectorAll('.settings-nav-item');
+            const sections = document.querySelectorAll('.settings-section');
+            
+            navItems.forEach(item => {
+                item.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav items and sections
+                    navItems.forEach(nav => nav.classList.remove('active'));
+                    sections.forEach(section => section.classList.remove('active'));
+                    
+                    // Add active class to clicked nav item
+                    this.classList.add('active');
+                    
+                    // Show corresponding section
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+            
+            // Theme selection
+            const themeOptions = document.querySelectorAll('.theme-option');
+            themeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    themeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>

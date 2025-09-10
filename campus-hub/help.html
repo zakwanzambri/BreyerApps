@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help & Support - Campus Hub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Campus Hub</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="academics.html" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Academics</span>
+                </a>
+                <a href="services.html" class="nav-link">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="news.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>News</span>
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                    <button class="search-clear" id="searchClear" style="display: none;">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div class="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="profile-menu">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <span class="user-name">John Doe</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>Help & Support</span>
+            </div>
+
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1><i class="fas fa-question-circle"></i> Help & Support</h1>
+                <p>Find answers to common questions and get the help you need</p>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions-grid">
+                <div class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Search FAQ</h3>
+                    <p>Find quick answers</p>
+                    <button class="btn btn-outline">Search</button>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3>Contact Support</h3>
+                    <p>Get personalized help</p>
+                    <button class="btn btn-outline">Contact</button>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-book"></i>
+                    </div>
+                    <h3>User Guide</h3>
+                    <p>Learn how to use features</p>
+                    <button class="btn btn-outline">View Guide</button>
+                </div>
+                
+                <div class="quick-action-card">
+                    <div class="action-icon">
+                        <i class="fas fa-video"></i>
+                    </div>
+                    <h3>Video Tutorials</h3>
+                    <p>Watch step-by-step guides</p>
+                    <button class="btn btn-outline">Watch</button>
+                </div>
+            </div>
+
+            <div class="help-content">
+                <!-- FAQ Section -->
+                <div class="help-section">
+                    <h2><i class="fas fa-question-circle"></i> Frequently Asked Questions</h2>
+                    
+                    <div class="faq-categories">
+                        <div class="faq-category">
+                            <h3>Account & Profile</h3>
+                            <div class="faq-items">
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I update my profile information?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Go to Profile Settings from the profile menu in the header. You can update your personal information, contact details, and profile picture.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I change my password?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Navigate to Settings > Security > Change Password. Enter your current password and new password to update it.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        I forgot my password. What should I do?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Click on "Forgot Password" on the login page. Enter your email address and follow the instructions sent to your email.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-category">
+                            <h3>Academic Features</h3>
+                            <div class="faq-items">
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I view my grades and transcripts?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Go to Dashboard > Academic Records. You can view current grades, semester transcripts, and overall GPA.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I register for courses?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Visit Academics > Course Registration during registration periods. Select your desired courses and submit your registration.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        Where can I find my class schedule?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Your class schedule is available in Dashboard > Schedule. You can also export it to your calendar app.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-category">
+                            <h3>Campus Services</h3>
+                            <div class="faq-items">
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I apply for accommodation?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Go to Services > Housing Application. Fill out the application form and submit required documents before the deadline.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        Where can I find information about campus facilities?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Visit Services page for comprehensive information about dining, library, health center, and other campus facilities.
+                                    </div>
+                                </div>
+                                
+                                <div class="faq-item">
+                                    <div class="faq-question">
+                                        <i class="fas fa-chevron-right"></i>
+                                        How do I report a technical issue?
+                                    </div>
+                                    <div class="faq-answer">
+                                        Use the Contact Support option or email support@campushub.edu with details about the issue you're experiencing.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="help-section">
+                    <h2><i class="fas fa-headset"></i> Contact Support</h2>
+                    
+                    <div class="contact-grid">
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3>Email Support</h3>
+                            <p>support@campushub.edu</p>
+                            <p class="contact-time">Response within 24 hours</p>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <h3>Phone Support</h3>
+                            <p>+1 (555) 123-4567</p>
+                            <p class="contact-time">Mon-Fri: 8AM-6PM</p>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-comments"></i>
+                            </div>
+                            <h3>Live Chat</h3>
+                            <p>Instant messaging support</p>
+                            <p class="contact-time">Mon-Fri: 9AM-5PM</p>
+                        </div>
+                        
+                        <div class="contact-card">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <h3>Campus Visit</h3>
+                            <p>Student Services Center</p>
+                            <p class="contact-time">Mon-Fri: 8AM-5PM</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Status -->
+                <div class="help-section">
+                    <h2><i class="fas fa-server"></i> System Status</h2>
+                    
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-indicator operational"></div>
+                            <div class="status-info">
+                                <h3>Campus Hub Portal</h3>
+                                <p>All systems operational</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-indicator operational"></div>
+                            <div class="status-info">
+                                <h3>Student Information System</h3>
+                                <p>All systems operational</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-indicator operational"></div>
+                            <div class="status-info">
+                                <h3>Learning Management System</h3>
+                                <p>All systems operational</p>
+                            </div>
+                        </div>
+                        
+                        <div class="status-item">
+                            <div class="status-indicator maintenance"></div>
+                            <div class="status-info">
+                                <h3>Payment Gateway</h3>
+                                <p>Scheduled maintenance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Campus Hub</span>
+                    </div>
+                    <p>Your gateway to academic success and campus life.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // FAQ Toggle Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqQuestions = document.querySelectorAll('.faq-question');
+            
+            faqQuestions.forEach(question => {
+                question.addEventListener('click', function() {
+                    const faqItem = this.parentElement;
+                    const answer = faqItem.querySelector('.faq-answer');
+                    const icon = this.querySelector('i');
+                    
+                    // Toggle active class
+                    faqItem.classList.toggle('active');
+                    
+                    // Toggle icon rotation
+                    if (faqItem.classList.contains('active')) {
+                        icon.style.transform = 'rotate(90deg)';
+                        answer.style.maxHeight = answer.scrollHeight + 'px';
+                    } else {
+                        icon.style.transform = 'rotate(0deg)';
+                        answer.style.maxHeight = '0px';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

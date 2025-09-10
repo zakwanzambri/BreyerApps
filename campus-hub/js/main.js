@@ -270,6 +270,252 @@ function scrollToSection(sectionName) {
     // Example: showSection(sectionName);
 }
 
+// Toggle profile dropdown menu
+function toggleProfileMenu() {
+    // Create profile dropdown if it doesn't exist
+    let dropdown = document.querySelector('.profile-dropdown');
+    
+    if (!dropdown) {
+        dropdown = document.createElement('div');
+        dropdown.className = 'profile-dropdown';
+        dropdown.innerHTML = `
+            <div class="dropdown-menu">
+                <a href="#" class="dropdown-item" data-action="profile">
+                    <i class="fas fa-user"></i> View Profile
+                </a>
+                <a href="#" class="dropdown-item" data-action="settings">
+                    <i class="fas fa-cog"></i> Settings
+                </a>
+                <a href="#" class="dropdown-item" data-action="help">
+                    <i class="fas fa-question-circle"></i> Help & Support
+                </a>
+                <div class="dropdown-divider"></div>
+                <a href="#" class="dropdown-item" data-action="logout">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </div>
+        `;
+        
+        // Add to profile menu
+        const profileMenu = document.querySelector('.profile-menu');
+        profileMenu.appendChild(dropdown);
+        
+        // Add event listeners to dropdown items
+        dropdown.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', handleProfileAction);
+        });
+    }
+    
+    // Toggle dropdown visibility
+    dropdown.classList.toggle('show');
+    
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function closeDropdown(e) {
+        if (!e.target.closest('.profile-menu')) {
+            dropdown.classList.remove('show');
+            document.removeEventListener('click', closeDropdown);
+        }
+    });
+}
+
+// Handle profile menu actions
+function handleProfileAction(e) {
+    e.preventDefault();
+    const action = this.dataset.action;
+    
+    switch (action) {
+        case 'profile':
+            showToast('Opening user profile...', 'info');
+            // Navigate to profile page
+            setTimeout(() => {
+                window.location.href = 'user-profile.html';
+            }, 1000);
+            break;
+        case 'settings':
+            showToast('Opening settings...', 'info');
+            // Navigate to settings page
+            setTimeout(() => {
+                window.location.href = 'user-settings.html';
+            }, 1000);
+            break;
+        case 'help':
+            showToast('Opening help center...', 'info');
+            // Navigate to help page
+            setTimeout(() => {
+                window.location.href = 'help.html';
+            }, 1000);
+            break;
+        case 'logout':
+            showToast('Logging out...', 'warning');
+            // Handle logout
+            setTimeout(() => {
+                handleLogout();
+            }, 1000);
+            break;
+    }
+    
+    // Close dropdown
+    document.querySelector('.profile-dropdown').classList.remove('show');
+}
+
+// Toggle notifications panel
+function toggleNotifications() {
+    // Create notifications panel if it doesn't exist
+    let notificationPanel = document.querySelector('.notification-panel');
+    
+    if (!notificationPanel) {
+        notificationPanel = document.createElement('div');
+        notificationPanel.className = 'notification-panel';
+        notificationPanel.innerHTML = `
+            <div class="notification-header">
+                <h4><i class="fas fa-bell"></i> Notifications</h4>
+                <button class="mark-all-read" onclick="markAllNotificationsRead()">
+                    <i class="fas fa-check-double"></i> Mark all read
+                </button>
+            </div>
+            <div class="notification-list">
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h5>Assignment Due Tomorrow</h5>
+                        <p>Database Management project is due tomorrow at 11:59 PM</p>
+                        <span class="notification-time">2 hours ago</span>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-utensils"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h5>Practical Exam Reminder</h5>
+                        <p>Culinary Arts practical exam scheduled for September 15th</p>
+                        <span class="notification-time">1 day ago</span>
+                    </div>
+                </div>
+                <div class="notification-item unread">
+                    <div class="notification-icon">
+                        <i class="fas fa-bullhorn"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h5>Career Fair This Friday</h5>
+                        <p>Industry employers will be at Main Hall from 10 AM to 4 PM</p>
+                        <span class="notification-time">3 days ago</span>
+                    </div>
+                </div>
+                <div class="notification-item">
+                    <div class="notification-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="notification-content">
+                        <h5>System Maintenance Complete</h5>
+                        <p>WiFi network upgrade has been completed successfully</p>
+                        <span class="notification-time">1 week ago</span>
+                    </div>
+                </div>
+            </div>
+            <div class="notification-footer">
+                <a href="notifications.html" class="view-all-notifications">
+                    View All Notifications
+                </a>
+            </div>
+        `;
+        
+        // Add to header actions
+        const headerActions = document.querySelector('.header-actions');
+        headerActions.appendChild(notificationPanel);
+    }
+    
+    // Toggle panel visibility
+    notificationPanel.classList.toggle('show');
+    
+    // Close panel when clicking outside
+    document.addEventListener('click', function closePanel(e) {
+        if (!e.target.closest('.notifications-btn') && !e.target.closest('.notification-panel')) {
+            notificationPanel.classList.remove('show');
+            document.removeEventListener('click', closePanel);
+        }
+    });
+}
+
+// Mark all notifications as read
+function markAllNotificationsRead() {
+    const unreadNotifications = document.querySelectorAll('.notification-item.unread');
+    unreadNotifications.forEach(notification => {
+        notification.classList.remove('unread');
+    });
+    
+    // Update notification badge
+    const badge = document.querySelector('.notification-badge');
+    if (badge) {
+        badge.textContent = '0';
+        badge.style.display = 'none';
+    }
+    
+    showToast('All notifications marked as read', 'success');
+}
+
+// Handle logout functionality
+function handleLogout() {
+    // Clear any stored user data
+    localStorage.removeItem('userData');
+    localStorage.removeItem('authToken');
+    sessionStorage.clear();
+    
+    // Show logout confirmation
+    if (confirm('Are you sure you want to logout?')) {
+        showToast('Logging out...', 'info');
+        
+        // Redirect to login page after delay
+        setTimeout(() => {
+            window.location.href = 'user-login.html';
+        }, 1500);
+    }
+}
+
+// Enhanced search functionality with suggestions
+function enhanceSearchInput() {
+    const searchInput = document.getElementById('globalSearch');
+    if (!searchInput) return;
+    
+    // Add search icon click functionality
+    const searchIcon = document.querySelector('.search-icon');
+    if (searchIcon) {
+        searchIcon.addEventListener('click', () => {
+            const query = searchInput.value.trim();
+            if (query) {
+                performSearch(query);
+            } else {
+                searchInput.focus();
+            }
+        });
+    }
+    
+    // Add clear button when typing
+    searchInput.addEventListener('input', function() {
+        const query = this.value;
+        
+        if (query.length > 0) {
+            if (!document.querySelector('.search-clear')) {
+                const clearBtn = document.createElement('button');
+                clearBtn.className = 'search-clear';
+                clearBtn.innerHTML = '<i class="fas fa-times"></i>';
+                clearBtn.onclick = () => {
+                    searchInput.value = '';
+                    hideSearchSuggestions();
+                    clearBtn.remove();
+                    searchInput.focus();
+                };
+                searchInput.parentNode.appendChild(clearBtn);
+            }
+        } else {
+            const clearBtn = document.querySelector('.search-clear');
+            if (clearBtn) clearBtn.remove();
+        }
+    });
+}
+
 // Handle global search
 function handleGlobalSearch(e) {
     const query = e.target.value.toLowerCase().trim();
