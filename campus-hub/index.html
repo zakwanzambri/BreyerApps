@@ -306,6 +306,10 @@
                 </div>
                 <div class="card-content">
                     <div class="quick-links-grid">
+                        <a href="student-dashboard.html" class="quick-link" id="dashboard-link">
+                            <i class="fas fa-tachometer-alt"></i>
+                            <span>Student Dashboard</span>
+                        </a>
                         <a href="#" class="quick-link">
                             <i class="fas fa-graduation-cap"></i>
                             <span>Student Portal</span>
@@ -414,5 +418,28 @@
 
     <script src="js/main.js"></script>
     <script src="js/header-functions.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        // Handle dashboard link with authentication check
+        document.addEventListener('DOMContentLoaded', function() {
+            const dashboardLink = document.getElementById('dashboard-link');
+            if (dashboardLink) {
+                dashboardLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Check if user is logged in
+                    if (AuthManager.isLoggedIn()) {
+                        // User is logged in, redirect to dashboard
+                        window.location.href = 'student-dashboard.html';
+                    } else {
+                        // User not logged in, redirect to login page
+                        alert('Please log in to access your dashboard');
+                        window.location.href = 'user-login.html';
+                    }
+                });
+            }
+        });
+    </script>
+    <script src="js/auth-manager.js"></script>
 </body>
 </html>

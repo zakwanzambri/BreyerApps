@@ -5,9 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Student Dashboard - Campus Hub Portal</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/full-integration.css">
     <style>
         .dashboard-container {
-            max-width: 1200px;
+            max-width:             <div class="stat-card">
+                <div class="stat-number">12</div>
+                <div class="stat-label">Days to Finals</div>
+            </div>
+        </div>
+        
+        <!-- Quick Access to Campus Hub Features -->
+        <div class="section-card">
+            <div class="section-header">
+                <h3><i class="fas fa-rocket"></i> Quick Access - Campus Hub</h3>
+            </div>
+            <div class="section-content">
+                <div class="quick-access-grid">
+                    <a href="academics.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>Academic Programs</h4>
+                        <p>Browse courses and programs</p>
+                    </a>
+                    
+                    <a href="services.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4>Campus Services</h4>
+                        <p>Dining, library, health center</p>
+                    </a>
+                    
+                    <a href="news.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h4>Campus News</h4>
+                        <p>Latest announcements & events</p>
+                    </a>
+                    
+                    <a href="index.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h4>Campus Hub Home</h4>
+                        <p>Return to main portal</p>
+                    </a>
+                </div>
+            </div>
+        </div>x;
             margin: 0 auto;
             padding: 20px;
         }
@@ -19,6 +66,39 @@
             border-radius: 15px;
             margin-bottom: 30px;
             text-align: center;
+        }
+        
+        .dashboard-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+        
+        .dashboard-actions .btn {
+            padding: 12px 24px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+            font-size: 14px;
+        }
+        
+        .dashboard-actions .btn-outline {
+            background: transparent;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        
+        .dashboard-actions .btn-outline:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: white;
+            transform: translateY(-2px);
         }
         
         .user-info {
@@ -189,9 +269,132 @@
                 flex-direction: column;
             }
         }
+        
+        /* Quick Access Grid Styles */
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px 0;
+        }
+        
+        .quick-access-item {
+            background: var(--gray-50);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 24px;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            display: block;
+        }
+        
+        .quick-access-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            border-color: var(--primary-color);
+        }
+        
+        .quick-access-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+            color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .quick-access-item:hover .quick-access-icon {
+            background: var(--primary-color);
+            color: white;
+        }
+        
+        .quick-access-item h4 {
+            margin: 0 0 8px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+        }
+        
+        .quick-access-item p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.4;
+        }
     </style>
 </head>
 <body>
+    <!-- Header Navigation (Same as Campus Hub) -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Campus Hub</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-link active">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="academics.html" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Academics</span>
+                </a>
+                <a href="services.html" class="nav-link">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="news.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>News</span>
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="profile-menu">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <span class="user-name">Ahmad Syafiq</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Breadcrumb Navigation -->
+        <div class="container">
+            <div class="breadcrumb">
+                <a href="index.html">Campus Hub</a>
+                <span>/</span>
+                <span>Student Dashboard</span>
+            </div>
+        </div>
+        
     <div class="dashboard-container">
         <div class="dashboard-header">
             <div class="user-info">
@@ -202,27 +405,32 @@
                     <p><span id="student-id"></span> | <span id="program-name"></span></p>
                 </div>
             </div>
-            <div style="margin-top: 20px;">
-                <button class="logout-btn" onclick="logout()">🔓 Logout</button>
+            <div class="dashboard-actions">
+                <a href="index.html" class="btn btn-outline">
+                    <i class="fas fa-home"></i> Back to Campus Hub
+                </a>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
             </div>
         </div>
         
         <div class="quick-stats">
             <div class="stat-card">
-                <div class="stat-number">4.2</div>
+                <div class="stat-number" id="current-gpa">3.75</div>
                 <div class="stat-label">Current GPA</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">18</div>
-                <div class="stat-label">Credit Hours</div>
+                <div class="stat-number" id="total-courses">5</div>
+                <div class="stat-label">Enrolled Courses</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">85%</div>
-                <div class="stat-label">Attendance</div>
+                <div class="stat-number" id="pending-assignments">8</div>
+                <div class="stat-label">Pending Assignments</div>
             </div>
             <div class="stat-card">
-                <div class="stat-number">2</div>
-                <div class="stat-label">Semester</div>
+                <div class="stat-number" id="unread-notifications">4</div>
+                <div class="stat-label">New Notifications</div>
             </div>
         </div>
         
@@ -230,24 +438,33 @@
             <div class="main-content">
                 <div class="section-card">
                     <div class="section-header">
-                        📰 Latest Campus News
+                        📰 Personalized Campus News
                     </div>
-                    <div class="section-content" id="news-content">
-                        <div class="news-item">
-                            <div class="news-title">Welcome to New Academic Year 2025</div>
-                            <div class="news-date">September 8, 2025</div>
-                            <div class="news-excerpt">We are excited to welcome all students back for the new academic year. New facilities and programs await!</div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-title">Campus Facilities Upgrade Complete</div>
-                            <div class="news-date">September 5, 2025</div>
-                            <div class="news-excerpt">Our campus library and computer labs have been fully upgraded with the latest technology and equipment.</div>
-                        </div>
-                        <div class="news-item">
-                            <div class="news-title">Student Achievement Awards</div>
-                            <div class="news-date">September 1, 2025</div>
-                            <div class="news-excerpt">Congratulations to all students who received academic excellence awards for the previous semester.</div>
-                        </div>
+                    <div class="section-content" id="personalized-news-container">
+                        <!-- Personalized news will be loaded dynamically -->
+                        <div class="loading-placeholder">Loading personalized news...</div>
+                    </div>
+                </div>
+                
+                <!-- My Courses Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        📚 My Courses
+                    </div>
+                    <div class="section-content" id="courses-container">
+                        <!-- User courses will be loaded dynamically -->
+                        <div class="loading-placeholder">Loading your courses...</div>
+                    </div>
+                </div>
+                
+                <!-- Upcoming Deadlines Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        ⏰ Upcoming Deadlines
+                    </div>
+                    <div class="section-content" id="deadlines-container">
+                        <!-- Deadlines will be loaded dynamically -->
+                        <div class="loading-placeholder">Loading upcoming deadlines...</div>
                     </div>
                 </div>
                 
@@ -287,21 +504,28 @@
             </div>
             
             <div class="sidebar">
+                <!-- Notifications Section -->
                 <div class="section-card">
                     <div class="section-header">
-                        📅 Upcoming Events
+                        � Notifications
+                        <span class="notification-badge" id="notification-badge" style="display: none;"></span>
                     </div>
-                    <div class="section-content" id="events-content">
-                        <div class="event-item">
-                            <div class="event-title">Orientation Week</div>
-                            <div class="event-date">Sept 15-20, 2025</div>
-                            <div class="event-location">Main Hall</div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-title">Career Fair</div>
-                            <div class="event-date">October 5, 2025</div>
-                            <div class="event-location">Gymnasium</div>
-                        </div>
+                    <div class="section-content" id="notifications-container">
+                        <!-- Notifications will be loaded dynamically -->
+                        <div class="loading-placeholder">Loading notifications...</div>
+                    </div>
+                </div>
+                
+                <!-- Academic Calendar Section -->
+                <div class="section-card">
+                    <div class="section-header">
+                        📅 Academic Calendar
+                    </div>
+                    <div class="section-content" id="academic-events-container">
+                        <!-- Academic events will be loaded dynamically -->
+                        <div class="loading-placeholder">Loading calendar events...</div>
+                    </div>
+                </div>
                         <div class="event-item">
                             <div class="event-title">Sports Day</div>
                             <div class="event-date">October 12, 2025</div>
@@ -350,28 +574,55 @@
             }
             
             checkAuthentication() {
-                const isLoggedIn = localStorage.getItem('user_logged_in');
-                const userData = localStorage.getItem('user_data');
-                
-                if (!isLoggedIn || !userData) {
-                    alert('Please log in to access the student dashboard.');
-                    window.location.href = 'user-login.html';
-                    return;
-                }
-                
-                const user = JSON.parse(userData);
-                if (user.role !== 'student') {
-                    alert('Access denied. This dashboard is for students only.');
-                    window.location.href = 'user-login.html';
-                    return;
+                // Use auth manager if available
+                if (window.authManager) {
+                    if (!window.authManager.isLoggedIn()) {
+                        alert('Please log in to access the student dashboard.');
+                        window.authManager.redirectToLogin();
+                        return;
+                    }
+                    
+                    const user = window.authManager.getCurrentUser();
+                    if (user && user.role !== 'student' && user.role !== 'admin') {
+                        alert('Access denied. This dashboard is for students only.');
+                        window.authManager.redirectToLogin();
+                        return;
+                    }
+                } else {
+                    // Fallback authentication check
+                    const isLoggedIn = localStorage.getItem('user_logged_in');
+                    const userData = localStorage.getItem('user_data');
+                    
+                    if (!isLoggedIn || !userData) {
+                        alert('Please log in to access the student dashboard.');
+                        window.location.href = 'user-login.html';
+                        return;
+                    }
+                    
+                    const user = JSON.parse(userData);
+                    if (user.role !== 'student' && user.role !== 'admin') {
+                        alert('Access denied. This dashboard is for students only.');
+                        window.location.href = 'user-login.html';
+                        return;
+                    }
                 }
             }
             
             loadUserData() {
-                const userData = localStorage.getItem('user_data');
-                if (userData) {
-                    const user = JSON.parse(userData);
-                    
+                let user;
+                
+                // Use auth manager if available
+                if (window.authManager) {
+                    user = window.authManager.getCurrentUser();
+                } else {
+                    // Fallback to localStorage
+                    const userData = localStorage.getItem('user_data');
+                    if (userData) {
+                        user = JSON.parse(userData);
+                    }
+                }
+                
+                if (user) {
                     document.getElementById('welcome-message').textContent = `Welcome, ${user.full_name}!`;
                     document.getElementById('user-details').textContent = user.email;
                     document.getElementById('student-id').textContent = user.student_id || 'Student ID: N/A';
@@ -441,11 +692,19 @@
         }
         
         function logout() {
-            localStorage.removeItem('user_logged_in');
-            localStorage.removeItem('user_data');
-            localStorage.removeItem('user_token');
-            alert('You have been logged out successfully.');
-            window.location.href = 'user-login.html';
+            if (confirm('Are you sure you want to logout?')) {
+                // Use auth manager if available
+                if (window.authManager) {
+                    window.authManager.logout();
+                } else {
+                    // Fallback logout
+                    localStorage.removeItem('user_logged_in');
+                    localStorage.removeItem('user_data');
+                    localStorage.removeItem('user_token');
+                    alert('You have been logged out successfully.');
+                    window.location.href = 'user-login.html';
+                }
+            }
         }
         
         // Initialize dashboard
@@ -453,5 +712,99 @@
             new StudentDashboard();
         });
     </script>
+    <script src="js/auth-manager.js"></script>
+    <script src="js/full-integration.js"></script>
+    <script>
+        // Enhanced Student Dashboard with Full Integration
+        document.addEventListener('DOMContentLoaded', () => {
+            window.studentDashboard = new StudentDashboard();
+        });
+        
+        class StudentDashboard {
+            constructor() {
+                this.init();
+            }
+            
+            init() {
+                this.checkAuthentication();
+                this.loadUserData();
+                this.setupEventListeners();
+            }
+            
+            checkAuthentication() {
+                // Use auth manager if available
+                if (window.AuthManager) {
+                    if (!AuthManager.isLoggedIn()) {
+                        alert('Please log in to access the student dashboard.');
+                        AuthManager.redirectToLogin();
+                        return;
+                    }
+                    
+                    const user = AuthManager.getCurrentUser();
+                    if (user && user.role !== 'student' && user.role !== 'admin') {
+                        alert('Access denied. This dashboard is for students only.');
+                        AuthManager.redirectToLogin();
+                        return;
+                    }
+                }
+            }
+            
+            loadUserData() {
+                let user;
+                
+                // Use auth manager if available
+                if (window.AuthManager) {
+                    user = AuthManager.getCurrentUser();
+                } else {
+                    // Fallback to localStorage
+                    const userData = localStorage.getItem('user_data');
+                    if (userData) {
+                        user = JSON.parse(userData);
+                    }
+                }
+                
+                if (user) {
+                    const welcomeEl = document.getElementById('welcome-message');
+                    const detailsEl = document.getElementById('user-details');
+                    const studentIdEl = document.getElementById('student-id');
+                    const programEl = document.getElementById('program-name');
+                    
+                    if (welcomeEl) welcomeEl.textContent = `Welcome, ${user.full_name}!`;
+                    if (detailsEl) detailsEl.textContent = user.email;
+                    if (studentIdEl) studentIdEl.textContent = user.student_id || 'Student ID: N/A';
+                    
+                    // Program mapping
+                    const programs = {
+                        1: 'Diploma in Information Technology',
+                        2: 'Diploma in Business Administration', 
+                        3: 'Diploma in Engineering',
+                        4: 'Diploma in Hospitality Management',
+                        5: 'Diploma in Graphic Design'
+                    };
+                    
+                    if (programEl) {
+                        programEl.textContent = programs[user.program_id] || 'Program: Not Assigned';
+                    }
+                }
+            }
+            
+            setupEventListeners() {
+                // Event listeners for dashboard interactions
+                console.log('Dashboard event listeners setup complete');
+            }
+        }
+        
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                if (window.AuthManager) {
+                    AuthManager.logout();
+                } else {
+                    localStorage.clear();
+                    window.location.href = 'user-login.html';
+                }
+            }
+        }
+    </script>
+    </main>
 </body>
 </html>

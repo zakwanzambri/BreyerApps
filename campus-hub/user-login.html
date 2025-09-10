@@ -363,21 +363,31 @@
                             return;
                         }
                         
-                        // Save user session
-                        localStorage.setItem('user_logged_in', 'true');
-                        localStorage.setItem('user_data', JSON.stringify(user));
-                        localStorage.setItem('user_token', data.data.token);
+                        // Save user session using auth manager
+                        if (window.authManager) {
+                            window.authManager.login(user, data.data.token);
+                        } else {
+                            // Fallback session save
+                            localStorage.setItem('user_logged_in', 'true');
+                            localStorage.setItem('user_data', JSON.stringify(user));
+                            localStorage.setItem('user_token', data.data.token);
+                        }
                         
                         this.showSuccess(`Welcome ${user.full_name}! Redirecting to dashboard...`);
                         
                         // Redirect based on role
                         setTimeout(() => {
-                            if (user.role === 'student') {
-                                window.location.href = 'student-dashboard.html';
-                            } else if (user.role === 'staff') {
-                                window.location.href = 'staff-dashboard.html';
-                            } else if (user.role === 'admin') {
-                                window.location.href = 'admin/index.html';
+                            if (window.authManager) {
+                                window.authManager.redirectToDashboard();
+                            } else {
+                                // Fallback redirect
+                                if (user.role === 'student') {
+                                    window.location.href = 'student-dashboard.html';
+                                } else if (user.role === 'staff') {
+                                    window.location.href = 'staff-dashboard.html';
+                                } else if (user.role === 'admin') {
+                                    window.location.href = 'admin/index.html';
+                                }
                             }
                         }, 2000);
                         
@@ -428,5 +438,6 @@
             new UserLogin();
         });
     </script>
+    <script src="js/auth-manager.js"></script>
 </body>
 </html>

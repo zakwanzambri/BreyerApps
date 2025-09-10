@@ -219,14 +219,21 @@ function handleLogout() {
     if (confirm('Are you sure you want to logout?')) {
         showToast('Logging out...', 'info');
         
-        // Clear any stored data
-        localStorage.removeItem('user_data');
-        sessionStorage.clear();
-        
-        // Redirect to login page after delay
-        setTimeout(() => {
-            window.location.href = 'login.html';
-        }, 1500);
+        // Use auth manager for logout if available
+        if (window.authManager) {
+            window.authManager.logout();
+        } else {
+            // Fallback logout
+            localStorage.removeItem('user_logged_in');
+            localStorage.removeItem('user_data');
+            localStorage.removeItem('user_token');
+            sessionStorage.clear();
+            
+            // Redirect to login page after delay
+            setTimeout(() => {
+                window.location.href = 'user-login.html';
+            }, 1500);
+        }
     }
 }
 
