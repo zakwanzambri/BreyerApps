@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - Campus Hub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Campus Hub</span>
+            </div>
+            
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <i class="fas fa-home"></i>
+                    <span>Home</span>
+                </a>
+                <a href="student-dashboard.html" class="nav-link">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="academics.html" class="nav-link">
+                    <i class="fas fa-book"></i>
+                    <span>Academics</span>
+                </a>
+                <a href="services.html" class="nav-link">
+                    <i class="fas fa-cogs"></i>
+                    <span>Services</span>
+                </a>
+                <a href="news.html" class="nav-link">
+                    <i class="fas fa-newspaper"></i>
+                    <span>News</span>
+                </a>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search..." class="search-input">
+                    <i class="fas fa-search search-icon"></i>
+                </div>
+                
+                <div class="notifications-btn">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </div>
+                
+                <div class="profile-menu">
+                    <div class="user-avatar">
+                        <img src="https://via.placeholder.com/40" alt="User Avatar">
+                    </div>
+                    <span class="user-name">Ahmad Syafiq</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Breadcrumb -->
+            <div class="breadcrumb">
+                <a href="index.html">Home</a>
+                <span>/</span>
+                <span>My Profile</span>
+            </div>
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-cover">
+                    <div class="profile-info">
+                        <div class="profile-avatar">
+                            <img src="https://via.placeholder.com/120" alt="Ahmad Syafiq">
+                            <button class="avatar-edit">
+                                <i class="fas fa-camera"></i>
+                            </button>
+                        </div>
+                        <div class="profile-details">
+                            <h1>Ahmad Syafiq</h1>
+                            <p class="profile-title">Computer Science Student</p>
+                            <p class="profile-id">Student ID: ST2024001</p>
+                            <div class="profile-stats">
+                                <div class="stat">
+                                    <span class="stat-value">3.8</span>
+                                    <span class="stat-label">GPA</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">5</span>
+                                    <span class="stat-label">Semester</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="stat-value">2022</span>
+                                    <span class="stat-label">Year Started</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="profile-actions">
+                            <button class="btn btn-primary">
+                                <i class="fas fa-edit"></i> Edit Profile
+                            </button>
+                            <button class="btn btn-outline">
+                                <i class="fas fa-share"></i> Share
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="profile-content">
+                <!-- Personal Information -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-user"></i> Personal Information</h2>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <label>Full Name</label>
+                            <span>Ahmad Syafiq bin Abdullah</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Email</label>
+                            <span>ahmad.syafiq@student.edu</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Phone</label>
+                            <span>+60 12-345-6789</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Date of Birth</label>
+                            <span>January 15, 2000</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Gender</label>
+                            <span>Male</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Nationality</label>
+                            <span>Malaysian</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Address</label>
+                            <span>123 Jalan University, Kuala Lumpur, Malaysia</span>
+                        </div>
+                        <div class="info-item">
+                            <label>Emergency Contact</label>
+                            <span>Abdullah bin Ahmad (+60 19-876-5432)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Academic Information -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-graduation-cap"></i> Academic Information</h2>
+                    <div class="academic-info">
+                        <div class="academic-card">
+                            <h3>Current Program</h3>
+                            <div class="program-details">
+                                <h4>Diploma in Computer System</h4>
+                                <p>Faculty of Information Technology</p>
+                                <div class="program-progress">
+                                    <div class="progress-bar">
+                                        <div class="progress-fill" style="width: 83%"></div>
+                                    </div>
+                                    <span>83% Complete</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="academic-stats">
+                            <div class="stat-card">
+                                <i class="fas fa-trophy text-warning"></i>
+                                <div>
+                                    <h4>3.8</h4>
+                                    <p>Current GPA</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-book text-primary"></i>
+                                <div>
+                                    <h4>24</h4>
+                                    <p>Credits Earned</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-calendar text-success"></i>
+                                <div>
+                                    <h4>5</h4>
+                                    <p>Current Semester</p>
+                                </div>
+                            </div>
+                            <div class="stat-card">
+                                <i class="fas fa-clock text-info"></i>
+                                <div>
+                                    <h4>2026</h4>
+                                    <p>Expected Graduation</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Current Courses -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-book-open"></i> Current Courses</h2>
+                    <div class="courses-grid">
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h3>Database Management</h3>
+                                <span class="course-code">CS301</span>
+                            </div>
+                            <div class="course-info">
+                                <p>Credits: 3</p>
+                                <p>Instructor: Dr. Ahmad Rahman</p>
+                                <div class="course-grade">
+                                    <span class="grade">A-</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h3>Web Development</h3>
+                                <span class="course-code">CS302</span>
+                            </div>
+                            <div class="course-info">
+                                <p>Credits: 4</p>
+                                <p>Instructor: Ms. Sarah Lee</p>
+                                <div class="course-grade">
+                                    <span class="grade">A</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h3>System Analysis</h3>
+                                <span class="course-code">CS303</span>
+                            </div>
+                            <div class="course-info">
+                                <p>Credits: 3</p>
+                                <p>Instructor: Prof. Michael Tan</p>
+                                <div class="course-grade">
+                                    <span class="grade">B+</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h3>Network Security</h3>
+                                <span class="course-code">CS304</span>
+                            </div>
+                            <div class="course-info">
+                                <p>Credits: 3</p>
+                                <p>Instructor: Dr. Lisa Wong</p>
+                                <div class="course-grade">
+                                    <span class="grade">A</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-medal"></i> Achievements & Awards</h2>
+                    <div class="achievements-list">
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-trophy text-warning"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h3>Dean's List</h3>
+                                <p>Semester 4, 2024 - Academic Excellence</p>
+                                <span class="achievement-date">May 2024</span>
+                            </div>
+                        </div>
+                        
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-code text-primary"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h3>Best Programming Project</h3>
+                                <p>Database Management System Project</p>
+                                <span class="achievement-date">April 2024</span>
+                            </div>
+                        </div>
+                        
+                        <div class="achievement-item">
+                            <div class="achievement-icon">
+                                <i class="fas fa-users text-success"></i>
+                            </div>
+                            <div class="achievement-info">
+                                <h3>Student Leadership Award</h3>
+                                <p>Computer Science Society President</p>
+                                <span class="achievement-date">March 2024</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Activities & Involvement -->
+                <div class="profile-section">
+                    <h2><i class="fas fa-calendar-check"></i> Activities & Involvement</h2>
+                    <div class="activities-grid">
+                        <div class="activity-card">
+                            <h3>Computer Science Society</h3>
+                            <p class="activity-role">President</p>
+                            <p class="activity-period">2023 - Present</p>
+                            <p class="activity-description">Leading student activities and organizing tech events</p>
+                        </div>
+                        
+                        <div class="activity-card">
+                            <h3>Programming Club</h3>
+                            <p class="activity-role">Member</p>
+                            <p class="activity-period">2022 - Present</p>
+                            <p class="activity-description">Participating in coding competitions and workshops</p>
+                        </div>
+                        
+                        <div class="activity-card">
+                            <h3>Volunteer Service</h3>
+                            <p class="activity-role">Volunteer</p>
+                            <p class="activity-period">2022 - Present</p>
+                            <p class="activity-description">Community outreach and tech literacy programs</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <div class="logo">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>Campus Hub</span>
+                    </div>
+                    <p>Your gateway to academic success and campus life.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="academics.html">Academics</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="news.html">News</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="help.html">Help Center</a></li>
+                        <li><a href="#contact">Contact Us</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Connect</h3>
+                    <div class="social-links">
+                        <a href="#facebook" title="Facebook"><i class="fab fa-facebook"></i></a>
+                        <a href="#twitter" title="Twitter"><i class="fab fa-twitter"></i></a>
+                        <a href="#instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#linkedin" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script src="js/header-functions.js"></script>
+</body>
+</html>
