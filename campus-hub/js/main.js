@@ -243,6 +243,33 @@ function handleNavigation(e) {
     }
 }
 
+// Scroll to section or show content based on navigation
+function scrollToSection(sectionName) {
+    // For now, show alert with section info since sections don't exist yet
+    // In production, this would scroll to actual sections or load content
+    
+    const sectionTitles = {
+        'dashboard': 'Dashboard',
+        'academics': 'Academics',
+        'services': 'Campus Services', 
+        'news': 'News & Announcements'
+    };
+    
+    const title = sectionTitles[sectionName] || sectionName;
+    
+    // For demonstration, scroll to top and show alert
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
+    
+    // Show notification that section was selected
+    console.log(`Navigating to: ${title}`);
+    
+    // You could replace this with actual section loading/showing logic
+    // Example: showSection(sectionName);
+}
+
 // Handle global search
 function handleGlobalSearch(e) {
     const query = e.target.value.toLowerCase().trim();

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Announcements - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span class="logo-text">Campus Hub</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="student-dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="academics.html" class="nav-link">Academics</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="news.html" class="nav-link active">News</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search news..." class="search-input" id="globalSearch">
+                </div>
+                <button class="notifications-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="profile-menu">
+                    <img src="https://via.placeholder.com/40x40/397AFB/FFFFFF?text=AS" alt="Profile" class="profile-img">
+                    <span class="profile-name">Ahmad Syafiq</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" title="Toggle Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="page-header">
+            <div class="page-title">
+                <h1><i class="fas fa-bullhorn"></i> News & Announcements</h1>
+                <p>Stay updated with the latest campus news and important announcements</p>
+            </div>
+        </section>
+
+        <!-- Featured News -->
+        <section class="featured-news">
+            <h2>Featured News</h2>
+            <div class="featured-article">
+                <div class="featured-image">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="featured-content">
+                    <div class="news-category">Academic</div>
+                    <h3>Semester 2 Registration Now Open</h3>
+                    <p>Registration for Semester 2 begins Monday, September 16th at 8:00 AM. All diploma programs are included. Early registration is recommended to secure your preferred class schedule and course sections.</p>
+                    <div class="news-meta">
+                        <span class="news-date"><i class="fas fa-calendar"></i> September 10, 2024</span>
+                        <span class="news-author"><i class="fas fa-user"></i> Academic Office</span>
+                    </div>
+                    <a href="#" class="read-more-btn">Read Full Article</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Categories -->
+        <section class="news-categories">
+            <div class="category-filter">
+                <button class="filter-btn active" data-category="all">All News</button>
+                <button class="filter-btn" data-category="academic">Academic</button>
+                <button class="filter-btn" data-category="events">Events</button>
+                <button class="filter-btn" data-category="campus">Campus</button>
+                <button class="filter-btn" data-category="student">Student Life</button>
+            </div>
+        </section>
+
+        <!-- News Articles Grid -->
+        <section class="news-grid">
+            <article class="news-article" data-category="events">
+                <div class="article-header">
+                    <div class="article-category events">Events</div>
+                    <div class="article-date">September 9, 2024</div>
+                </div>
+                <h3>Industry Career Fair This Friday</h3>
+                <p>Meet employers from hospitality, IT, and electrical industries in the Main Hall from 10 AM to 4 PM. Bring your resume and dress professionally for this networking opportunity.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> Main Hall</span>
+                    <span><i class="fas fa-clock"></i> 10:00 AM - 4:00 PM</span>
+                </div>
+                <a href="#" class="article-link">Learn More</a>
+            </article>
+
+            <article class="news-article" data-category="campus">
+                <div class="article-header">
+                    <div class="article-category campus">Campus</div>
+                    <div class="article-date">September 7, 2024</div>
+                </div>
+                <h3>New Culinary Kitchen Equipment Installed</h3>
+                <p>State-of-the-art cooking equipment has been installed in Kitchen Laboratory A and B, featuring professional-grade ovens, refrigeration units, and specialized culinary tools.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-tools"></i> Kitchen Lab A & B</span>
+                    <span><i class="fas fa-utensils"></i> Culinary Arts</span>
+                </div>
+                <a href="#" class="article-link">View Details</a>
+            </article>
+
+            <article class="news-article" data-category="academic">
+                <div class="article-header">
+                    <div class="article-category academic">Academic</div>
+                    <div class="article-date">September 5, 2024</div>
+                </div>
+                <h3>Mid-Semester Exam Schedule Released</h3>
+                <p>The mid-semester examination timetable for all diploma programs has been published. Students can view their exam dates and locations through the student portal.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-calendar-check"></i> October 14-25, 2024</span>
+                    <span><i class="fas fa-file-alt"></i> All Programs</span>
+                </div>
+                <a href="#" class="article-link">View Schedule</a>
+            </article>
+
+            <article class="news-article" data-category="student">
+                <div class="article-header">
+                    <div class="article-category student">Student Life</div>
+                    <div class="article-date">September 3, 2024</div>
+                </div>
+                <h3>Student Council Elections 2024</h3>
+                <p>Nominations are now open for Student Council positions. Apply by September 20th to represent your fellow students and contribute to campus improvements.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-vote-yea"></i> Nominations Open</span>
+                    <span><i class="fas fa-users"></i> All Students</span>
+                </div>
+                <a href="#" class="article-link">Apply Now</a>
+            </article>
+
+            <article class="news-article" data-category="campus">
+                <div class="article-header">
+                    <div class="article-category campus">Campus</div>
+                    <div class="article-date">September 1, 2024</div>
+                </div>
+                <h3>Library Extended Hours for Exam Period</h3>
+                <p>The campus library will extend operating hours during the upcoming examination period. 24/7 study areas will be available with enhanced security and support services.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-clock"></i> 24/7 Access</span>
+                    <span><i class="fas fa-book"></i> Study Areas</span>
+                </div>
+                <a href="#" class="article-link">More Info</a>
+            </article>
+
+            <article class="news-article" data-category="events">
+                <div class="article-header">
+                    <div class="article-category events">Events</div>
+                    <div class="article-date">August 30, 2024</div>
+                </div>
+                <h3>Technical Skills Workshop Series</h3>
+                <p>Join our monthly technical workshops covering programming, electrical systems, and culinary techniques. Open to all students with hands-on learning experiences.</p>
+                <div class="article-meta">
+                    <span><i class="fas fa-wrench"></i> Technical Labs</span>
+                    <span><i class="fas fa-users"></i> All Students</span>
+                </div>
+                <a href="#" class="article-link">Register</a>
+            </article>
+        </section>
+
+        <!-- Important Announcements -->
+        <section class="announcements">
+            <h2>Important Announcements</h2>
+            <div class="announcement-list">
+                <div class="announcement-item urgent">
+                    <div class="announcement-icon">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="announcement-content">
+                        <h4>Campus Safety Protocol Update</h4>
+                        <p>New safety protocols effective immediately. All students and staff must follow updated guidelines.</p>
+                        <span class="announcement-date">September 8, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="announcement-item info">
+                    <div class="announcement-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="announcement-content">
+                        <h4>System Maintenance Scheduled</h4>
+                        <p>Student portal will be offline for maintenance on September 15th from 2:00 AM to 6:00 AM.</p>
+                        <span class="announcement-date">September 6, 2024</span>
+                    </div>
+                </div>
+                
+                <div class="announcement-item success">
+                    <div class="announcement-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="announcement-content">
+                        <h4>WiFi Network Upgrade Complete</h4>
+                        <p>Campus-wide WiFi network has been upgraded for faster and more reliable connectivity.</p>
+                        <span class="announcement-date">September 4, 2024</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Campus Hub</h4>
+                <p>Your centralized portal for campus life</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Academic Calendar</a></li>
+                    <li><a href="#">Course Catalog</a></li>
+                    <li><a href="#">Campus Map</a></li>
+                    <li><a href="#">Directory</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Desk</a></li>
+                    <li><a href="#">Technical Support</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

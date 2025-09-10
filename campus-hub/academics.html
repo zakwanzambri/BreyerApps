@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academics - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span class="logo-text">Campus Hub</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li><a href="student-dashboard.html" class="nav-link">Dashboard</a></li>
+                    <li><a href="academics.html" class="nav-link active">Academics</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="news.html" class="nav-link">News</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search academics..." class="search-input" id="globalSearch">
+                </div>
+                <button class="notifications-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="profile-menu">
+                    <img src="https://via.placeholder.com/40x40/397AFB/FFFFFF?text=AS" alt="Profile" class="profile-img">
+                    <span class="profile-name">Ahmad Syafiq</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="page-header">
+            <div class="page-title">
+                <h1><i class="fas fa-graduation-cap"></i> Academic Programs</h1>
+                <p>Explore our comprehensive diploma programs and course materials</p>
+            </div>
+        </section>
+
+        <!-- Programs Grid -->
+        <section class="programs-grid">
+            <div class="program-card">
+                <div class="program-icon">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <div class="program-info">
+                    <h3>Diploma in Culinary Arts</h3>
+                    <p>Professional culinary training with hands-on experience</p>
+                    <div class="program-details">
+                        <span class="duration"><i class="fas fa-clock"></i> 2 Years</span>
+                        <span class="level"><i class="fas fa-layer-group"></i> Diploma</span>
+                    </div>
+                    <div class="program-actions">
+                        <a href="#" class="btn btn-primary">View Syllabus</a>
+                        <a href="#" class="btn btn-outline">Course Materials</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="program-info">
+                    <h3>Diploma in Administrative Management</h3>
+                    <p>Business administration and office management skills</p>
+                    <div class="program-details">
+                        <span class="duration"><i class="fas fa-clock"></i> 2 Years</span>
+                        <span class="level"><i class="fas fa-layer-group"></i> Diploma</span>
+                    </div>
+                    <div class="program-actions">
+                        <a href="#" class="btn btn-primary">View Syllabus</a>
+                        <a href="#" class="btn btn-outline">Course Materials</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <div class="program-info">
+                    <h3>Diploma in Computer System</h3>
+                    <p>Programming, database management, and system analysis</p>
+                    <div class="program-details">
+                        <span class="duration"><i class="fas fa-clock"></i> 2 Years</span>
+                        <span class="level"><i class="fas fa-layer-group"></i> Diploma</span>
+                    </div>
+                    <div class="program-actions">
+                        <a href="#" class="btn btn-primary">View Syllabus</a>
+                        <a href="#" class="btn btn-outline">Course Materials</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">
+                    <i class="fas fa-wine-glass-alt"></i>
+                </div>
+                <div class="program-info">
+                    <h3>Diploma in Food & Beverage Management</h3>
+                    <p>Restaurant management and hospitality operations</p>
+                    <div class="program-details">
+                        <span class="duration"><i class="fas fa-clock"></i> 2 Years</span>
+                        <span class="level"><i class="fas fa-layer-group"></i> Diploma</span>
+                    </div>
+                    <div class="program-actions">
+                        <a href="#" class="btn btn-primary">View Syllabus</a>
+                        <a href="#" class="btn btn-outline">Course Materials</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="program-card">
+                <div class="program-icon">
+                    <i class="fas fa-bolt"></i>
+                </div>
+                <div class="program-info">
+                    <h3>Diploma in Electrical Wiring & Maintenance</h3>
+                    <p>Electrical installation and industrial maintenance</p>
+                    <div class="program-details">
+                        <span class="duration"><i class="fas fa-clock"></i> 2 Years</span>
+                        <span class="level"><i class="fas fa-layer-group"></i> Diploma</span>
+                    </div>
+                    <div class="program-actions">
+                        <a href="#" class="btn btn-primary">View Syllabus</a>
+                        <a href="#" class="btn btn-outline">Course Materials</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Academic Resources -->
+        <section class="academic-resources">
+            <h2><i class="fas fa-book"></i> Academic Resources</h2>
+            <div class="resources-grid">
+                <div class="resource-card">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h4>Academic Calendar</h4>
+                    <p>Important dates and semester schedule</p>
+                    <a href="#" class="resource-link">View Calendar</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h4>Course Registration</h4>
+                    <p>Register for upcoming semester courses</p>
+                    <a href="#" class="resource-link">Register Now</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h4>Grade Portal</h4>
+                    <p>Check your academic progress and grades</p>
+                    <a href="#" class="resource-link">View Grades</a>
+                </div>
+                <div class="resource-card">
+                    <i class="fas fa-file-download"></i>
+                    <h4>Course Materials</h4>
+                    <p>Download syllabus and study materials</p>
+                    <a href="#" class="resource-link">Download</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Campus Hub</h4>
+                <p>Your centralized portal for campus life</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="#">Academic Calendar</a></li>
+                    <li><a href="#">Course Catalog</a></li>
+                    <li><a href="#">Campus Map</a></li>
+                    <li><a href="#">Directory</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Help Desk</a></li>
+                    <li><a href="#">Technical Support</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Feedback</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
