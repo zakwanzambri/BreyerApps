@@ -244,13 +244,13 @@
                 this.suites.push(suite);
                 this.currentSuite = suite;
                 
-                // Create suite UI
-                this.createSuiteUI(suite);
-                
-                // Run suite
+                // Run suite callback to add tests
                 if (callback) {
                     callback(this);
                 }
+                
+                // Create suite UI after tests are added
+                this.createSuiteUI(suite);
             }
             
             test(description, callback) {
@@ -466,44 +466,44 @@
         
         // UI Component Tests
         function setupUITests() {
-            testFramework.suite('UI Component Tests', function(test) {
+            testFramework.suite('UI Component Tests', function(framework) {
                 
-                test.test('Navigation menu should be present and functional', function(test) {
-                    test.assertElementExists('.navbar, .nav-menu, .main-nav', 'Navigation menu not found');
+                framework.test('Navigation menu should be present and functional', function(framework) {
+                    framework.assertElementExists('.navbar, .nav-menu, .main-nav', 'Navigation menu not found');
                     
                     const navLinks = document.querySelectorAll('.navbar a, .nav-menu a, .main-nav a');
-                    test.assertTrue(navLinks.length > 0, 'No navigation links found');
+                    framework.assertTrue(navLinks.length > 0, 'No navigation links found');
                     
                     // Test first nav link
                     if (navLinks.length > 0) {
                         const firstLink = navLinks[0];
-                        test.assertTrue(firstLink.href.length > 0, 'Navigation link missing href');
+                        framework.assertTrue(firstLink.href.length > 0, 'Navigation link missing href');
                     }
                 });
                 
-                test.test('Search functionality should be accessible', function(test) {
+                framework.test('Search functionality should be accessible', function(framework) {
                     const searchInputs = document.querySelectorAll('input[type="search"], input[name*="search"], #searchQuery');
-                    test.assertTrue(searchInputs.length > 0, 'No search input found');
+                    framework.assertTrue(searchInputs.length > 0, 'No search input found');
                     
                     if (searchInputs.length > 0) {
                         const searchInput = searchInputs[0];
-                        test.assertNotNull(searchInput.placeholder, 'Search input should have placeholder');
+                        framework.assertNotNull(searchInput.placeholder, 'Search input should have placeholder');
                     }
                 });
                 
-                test.test('Footer should contain required information', function(test) {
+                framework.test('Footer should contain required information', function(framework) {
                     const footer = document.querySelector('footer, .footer');
                     if (footer) {
-                        test.assertTrue(footer.textContent.length > 0, 'Footer should have content');
+                        framework.assertTrue(footer.textContent.length > 0, 'Footer should have content');
                     }
                 });
                 
-                test.test('Responsive design classes should be present', function(test) {
+                framework.test('Responsive design classes should be present', function(framework) {
                     const responsiveElements = document.querySelectorAll('[class*="col-"], [class*="row"], .container, .container-fluid');
-                    test.assertTrue(responsiveElements.length > 0, 'No responsive design classes found');
+                    framework.assertTrue(responsiveElements.length > 0, 'No responsive design classes found');
                 });
                 
-                test.test('Form validation should work', async function(test) {
+                framework.test('Form validation should work', async function(framework) {
                     const forms = document.querySelectorAll('form');
                     if (forms.length > 0) {
                         const form = forms[0];
@@ -522,45 +522,45 @@
         
         // API Integration Tests
         function setupApiTests() {
-            testFramework.suite('API Integration Tests', function(test) {
+            testFramework.suite('API Integration Tests', function(framework) {
                 
-                test.test('News API should be accessible', async function(test) {
+                framework.test('News API should be accessible', async function(framework) {
                     try {
                         const response = await fetch('php/api/news.php');
-                        test.assertTrue(response.ok, 'News API not accessible');
+                        framework.assertTrue(response.ok, 'News API not accessible');
                         
                         const data = await response.json();
-                        test.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
+                        framework.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
                     } catch (error) {
                         throw new Error('News API request failed: ' + error.message);
                     }
                 });
                 
-                test.test('Events API should be accessible', async function(test) {
+                framework.test('Events API should be accessible', async function(framework) {
                     try {
                         const response = await fetch('php/api/events.php');
-                        test.assertTrue(response.ok, 'Events API not accessible');
+                        framework.assertTrue(response.ok, 'Events API not accessible');
                         
                         const data = await response.json();
-                        test.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
+                        framework.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
                     } catch (error) {
                         throw new Error('Events API request failed: ' + error.message);
                     }
                 });
                 
-                test.test('Search API should handle queries', async function(test) {
+                framework.test('Search API should handle queries', async function(framework) {
                     try {
                         const response = await fetch('php/api/search.php?q=test');
-                        test.assertTrue(response.ok, 'Search API not accessible');
+                        framework.assertTrue(response.ok, 'Search API not accessible');
                         
                         const data = await response.json();
-                        test.assertNotNull(data, 'Search API returned null');
+                        framework.assertNotNull(data, 'Search API returned null');
                     } catch (error) {
                         throw new Error('Search API request failed: ' + error.message);
                     }
                 });
                 
-                test.test('Analytics tracking should work', async function(test) {
+                framework.test('Analytics tracking should work', async function(framework) {
                     try {
                         const trackingData = {
                             action_type: 'test_action',
@@ -579,7 +579,7 @@
                         });
                         
                         // Accept both success and auth required responses
-                        test.assertTrue(response.status < 500, 'Analytics API server error');
+                        framework.assertTrue(response.status < 500, 'Analytics API server error');
                     } catch (error) {
                         throw new Error('Analytics API request failed: ' + error.message);
                     }
@@ -589,19 +589,19 @@
         
         // Performance Tests
         function setupPerformanceTests() {
-            testFramework.suite('Performance Tests', function(test) {
+            testFramework.suite('Performance Tests', function(framework) {
                 
-                test.test('Page load time should be acceptable', function(test) {
+                framework.test('Page load time should be acceptable', function(framework) {
                     const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
-                    test.assertTrue(loadTime < 5000, `Page load time too slow: ${loadTime}ms`);
+                    framework.assertTrue(loadTime < 5000, `Page load time too slow: ${loadTime}ms`);
                 });
                 
-                test.test('DOM elements count should be reasonable', function(test) {
+                framework.test('DOM elements count should be reasonable', function(framework) {
                     const elementCount = document.querySelectorAll('*').length;
-                    test.assertTrue(elementCount < 2000, `Too many DOM elements: ${elementCount}`);
+                    framework.assertTrue(elementCount < 2000, `Too many DOM elements: ${elementCount}`);
                 });
                 
-                test.test('Images should be optimized', function(test) {
+                framework.test('Images should be optimized', function(framework) {
                     const images = document.querySelectorAll('img');
                     let oversizedImages = 0;
                     
@@ -611,25 +611,25 @@
                         }
                     });
                     
-                    test.assertTrue(oversizedImages === 0, `Found ${oversizedImages} potentially oversized images`);
+                    framework.assertTrue(oversizedImages === 0, `Found ${oversizedImages} potentially oversized images`);
                 });
                 
-                test.test('CSS and JS resources should load quickly', async function(test) {
+                framework.test('CSS and JS resources should load quickly', async function(framework) {
                     const resources = performance.getEntriesByType('resource');
                     const slowResources = resources.filter(resource => 
                         (resource.name.includes('.css') || resource.name.includes('.js')) && 
                         resource.duration > 1000
                     );
                     
-                    test.assertTrue(slowResources.length === 0, 
+                    framework.assertTrue(slowResources.length === 0, 
                         `Found ${slowResources.length} slow-loading resources`);
                 });
                 
-                test.test('Local storage should work', function(test) {
+                framework.test('Local storage should work', function(framework) {
                     try {
                         localStorage.setItem('test_key', 'test_value');
                         const value = localStorage.getItem('test_key');
-                        test.assertEquals('test_value', value, 'Local storage not working');
+                        framework.assertEquals('test_value', value, 'Local storage not working');
                         localStorage.removeItem('test_key');
                     } catch (error) {
                         throw new Error('Local storage not available: ' + error.message);
@@ -640,17 +640,17 @@
         
         // Accessibility Tests
         function setupAccessibilityTests() {
-            testFramework.suite('Accessibility Tests', function(test) {
+            testFramework.suite('Accessibility Tests', function(framework) {
                 
-                test.test('Images should have alt attributes', function(test) {
+                framework.test('Images should have alt attributes', function(framework) {
                     const images = document.querySelectorAll('img');
                     const imagesWithoutAlt = Array.from(images).filter(img => !img.alt);
                     
-                    test.assertEquals(0, imagesWithoutAlt.length, 
+                    framework.assertEquals(0, imagesWithoutAlt.length, 
                         `Found ${imagesWithoutAlt.length} images without alt attributes`);
                 });
                 
-                test.test('Form inputs should have labels', function(test) {
+                framework.test('Form inputs should have labels', function(framework) {
                     const inputs = document.querySelectorAll('input, select, textarea');
                     let inputsWithoutLabels = 0;
                     
@@ -664,39 +664,39 @@
                         }
                     });
                     
-                    test.assertEquals(0, inputsWithoutLabels, 
+                    framework.assertEquals(0, inputsWithoutLabels, 
                         `Found ${inputsWithoutLabels} form inputs without labels`);
                 });
                 
-                test.test('Links should have meaningful text', function(test) {
+                framework.test('Links should have meaningful text', function(framework) {
                     const links = document.querySelectorAll('a[href]');
                     const badLinks = Array.from(links).filter(link => {
                         const text = link.textContent.trim().toLowerCase();
                         return text === 'click here' || text === 'read more' || text === 'link' || text === '';
                     });
                     
-                    test.assertTrue(badLinks.length < links.length * 0.1, 
+                    framework.assertTrue(badLinks.length < links.length * 0.1, 
                         'Too many links with non-descriptive text');
                 });
                 
-                test.test('Page should have proper heading structure', function(test) {
+                framework.test('Page should have proper heading structure', function(framework) {
                     const h1s = document.querySelectorAll('h1');
-                    test.assertTrue(h1s.length >= 1, 'Page should have at least one h1 element');
-                    test.assertTrue(h1s.length <= 1, 'Page should have only one h1 element');
+                    framework.assertTrue(h1s.length >= 1, 'Page should have at least one h1 element');
+                    framework.assertTrue(h1s.length <= 1, 'Page should have only one h1 element');
                 });
             });
         }
         
         // User Interaction Tests
         function setupInteractionTests() {
-            testFramework.suite('User Interaction Tests', function(test) {
+            testFramework.suite('User Interaction Tests', function(framework) {
                 
-                test.test('Click events should be properly attached', function(test) {
+                framework.test('Click events should be properly attached', function(framework) {
                     const clickableElements = document.querySelectorAll('button, .btn, [onclick], a[href]');
-                    test.assertTrue(clickableElements.length > 0, 'No clickable elements found');
+                    framework.assertTrue(clickableElements.length > 0, 'No clickable elements found');
                 });
                 
-                test.test('Form submission should be handled', function(test) {
+                framework.test('Form submission should be handled', function(framework) {
                     const forms = document.querySelectorAll('form');
                     if (forms.length > 0) {
                         // Check if forms have proper action or event handlers
@@ -706,122 +706,15 @@
                                 formsWithHandlers++;
                             }
                         });
-                        test.assertTrue(formsWithHandlers > 0, 'No form handlers found');
+                        framework.assertTrue(formsWithHandlers > 0, 'No form handlers found');
                     }
                 });
                 
-                test.test('Error handling should be in place', function(test) {
+                framework.test('Error handling should be in place', function(framework) {
                     // Check for error display elements
                     const errorElements = document.querySelectorAll('.error, .alert-danger, .text-danger, [class*="error"]');
                     // This test just checks if error display mechanisms exist
-                    test.assertTrue(true, 'Error handling check completed');
-                });
-            });
-        }
-        
-        // API Integration Tests
-        function setupApiTests() {
-            testFramework.suite('API Integration Tests', function(test) {
-                
-                test.test('API endpoints should be accessible', async function(test) {
-                    // Test if we can make a simple fetch request
-                    try {
-                        const response = await fetch('/api/test', { 
-                            method: 'GET',
-                            headers: { 'Content-Type': 'application/json' }
-                        });
-                        // Even if 404, at least fetch is working
-                        test.assertTrue(true, 'Fetch API is functional');
-                    } catch (error) {
-                        test.assertTrue(false, `Fetch API error: ${error.message}`);
-                    }
-                });
-                
-                test.test('JSON parsing should work', function(test) {
-                    try {
-                        const testData = { test: 'value', number: 123 };
-                        const jsonString = JSON.stringify(testData);
-                        const parsed = JSON.parse(jsonString);
-                        test.assertEquals(testData.test, parsed.test, 'JSON parsing failed');
-                    } catch (error) {
-                        test.assertTrue(false, `JSON parsing error: ${error.message}`);
-                    }
-                });
-                
-                test.test('Error handling for API calls', function(test) {
-                    // Test error handling mechanisms
-                    try {
-                        JSON.parse('{invalid json}');
-                        test.assertTrue(false, 'Should have thrown an error');
-                    } catch (error) {
-                        test.assertTrue(true, 'Error handling works correctly');
-                    }
-                });
-            });
-        }
-        
-        // User Interaction Tests
-        function setupInteractionTests() {
-            testFramework.suite('User Interaction Tests', function(test) {
-                
-                test.test('Click events should be supported', function(test) {
-                    const testButton = document.createElement('button');
-                    testButton.textContent = 'Test Button';
-                    let clicked = false;
-                    
-                    testButton.addEventListener('click', function() {
-                        clicked = true;
-                    });
-                    
-                    // Simulate click
-                    testButton.click();
-                    test.assertTrue(clicked, 'Click event not triggered');
-                });
-                
-                test.test('Form validation should work', function(test) {
-                    const testForm = document.createElement('form');
-                    const testInput = document.createElement('input');
-                    testInput.type = 'email';
-                    testInput.required = true;
-                    testForm.appendChild(testInput);
-                    
-                    // Test invalid email
-                    testInput.value = 'invalid-email';
-                    const isValid = testInput.checkValidity();
-                    test.assertTrue(!isValid, 'Email validation should fail for invalid email');
-                });
-                
-                test.test('Keyboard events should be supported', function(test) {
-                    const testInput = document.createElement('input');
-                    let keyPressed = false;
-                    
-                    testInput.addEventListener('keydown', function() {
-                        keyPressed = true;
-                    });
-                    
-                    // Simulate keyboard event
-                    const event = new KeyboardEvent('keydown', { key: 'Enter' });
-                    testInput.dispatchEvent(event);
-                    
-                    test.assertTrue(keyPressed, 'Keyboard event not triggered');
-                });
-                
-                test.test('Window resize should be detectable', function(test) {
-                    const originalWidth = window.innerWidth;
-                    let resizeDetected = false;
-                    
-                    const resizeHandler = function() {
-                        resizeDetected = true;
-                    };
-                    
-                    window.addEventListener('resize', resizeHandler);
-                    
-                    // Simulate resize event
-                    const resizeEvent = new Event('resize');
-                    window.dispatchEvent(resizeEvent);
-                    
-                    window.removeEventListener('resize', resizeHandler);
-                    test.assertTrue(resizeDetected, 'Window resize event not detected');
+                    framework.assertTrue(true, 'Error handling check completed');
                 });
             });
         }
