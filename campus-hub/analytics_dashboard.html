@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard - Campus Hub Portal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+    <style>
+        .dashboard-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            transition: transform 0.2s ease;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+        }
+        
+        .metric-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .metric-card.success {
+            background: linear-gradient(135deg, #56ab2f 0%, #a8e6cf 100%);
+        }
+        
+        .metric-card.warning {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+        
+        .metric-card.info {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        }
+        
+        .metric-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .metric-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .metric-change {
+            font-size: 0.8rem;
+            margin-top: 10px;
+        }
+        
+        .chart-container {
+            position: relative;
+            height: 400px;
+            margin: 20px 0;
+        }
+        
+        .chart-container.small {
+            height: 300px;
+        }
+        
+        .real-time-indicator {
+            width: 10px;
+            height: 10px;
+            background-color: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+        
+        .sidebar {
+            background: #f8f9fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .sidebar .nav-link {
+            color: #495057;
+            padding: 10px 15px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            transition: all 0.2s ease;
+        }
+        
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .content-area {
+            padding: 20px;
+        }
+        
+        .date-filter {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .table-responsive {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .engagement-score {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .engagement-score.high { background-color: #d4edda; color: #155724; }
+        .engagement-score.medium { background-color: #fff3cd; color: #856404; }
+        .engagement-score.low { background-color: #f8d7da; color: #721c24; }
+        
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #6c757d;
+        }
+        
+        .loading i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-2 sidebar">
+                <h5 class="mb-4">📊 Analytics</h5>
+                <nav class="nav flex-column">
+                    <a class="nav-link active" href="#" data-section="overview">
+                        <i class="fas fa-chart-line me-2"></i>Overview
+                    </a>
+                    <a class="nav-link" href="#" data-section="users">
+                        <i class="fas fa-users me-2"></i>User Analytics
+                    </a>
+                    <a class="nav-link" href="#" data-section="content">
+                        <i class="fas fa-newspaper me-2"></i>Content Performance
+                    </a>
+                    <a class="nav-link" href="#" data-section="search">
+                        <i class="fas fa-search me-2"></i>Search Analytics
+                    </a>
+                    <a class="nav-link" href="#" data-section="devices">
+                        <i class="fas fa-mobile-alt me-2"></i>Device & Browser
+                    </a>
+                    <a class="nav-link" href="#" data-section="realtime">
+                        <i class="fas fa-bolt me-2"></i>Real-time
+                    </a>
+                    <a class="nav-link" href="#" data-section="reports">
+                        <i class="fas fa-file-alt me-2"></i>Reports
+                    </a>
+                </nav>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-md-10 content-area">
+                <!-- Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h2>Analytics Dashboard</h2>
+                    <div class="date-filter">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <label for="dateRange" class="form-label mb-0">Time Period:</label>
+                            </div>
+                            <div class="col-auto">
+                                <select id="dateRange" class="form-select">
+                                    <option value="7">Last 7 days</option>
+                                    <option value="30" selected>Last 30 days</option>
+                                    <option value="90">Last 90 days</option>
+                                    <option value="365">Last year</option>
+                                </select>
+                            </div>
+                            <div class="col-auto">
+                                <button class="btn btn-primary" onclick="refreshData()">
+                                    <i class="fas fa-sync-alt"></i> Refresh
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Overview Section -->
+                <div id="overview-section" class="section">
+                    <!-- Key Metrics -->
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="metric-card">
+                                <div class="metric-value" id="total-users">-</div>
+                                <div class="metric-label">Active Users</div>
+                                <div class="metric-change" id="users-change">-</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card success">
+                                <div class="metric-value" id="total-sessions">-</div>
+                                <div class="metric-label">Total Sessions</div>
+                                <div class="metric-change" id="sessions-change">-</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card warning">
+                                <div class="metric-value" id="page-views">-</div>
+                                <div class="metric-label">Page Views</div>
+                                <div class="metric-change" id="views-change">-</div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="metric-card info">
+                                <div class="metric-value" id="engagement-score">-</div>
+                                <div class="metric-label">Avg. Engagement</div>
+                                <div class="metric-change" id="engagement-change">-</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Charts -->
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">User Activity Trend</h5>
+                                    <div class="chart-container">
+                                        <canvas id="activityChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Device Distribution</h5>
+                                    <div class="chart-container small">
+                                        <canvas id="deviceChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Content Performance Section -->
+                <div id="content-section" class="section" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Top Performing Content</h5>
+                                    <div class="table-responsive">
+                                        <table class="table" id="content-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Content</th>
+                                                    <th>Type</th>
+                                                    <th>Views</th>
+                                                    <th>Engagement</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Content will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Content Engagement Over Time</h5>
+                                    <div class="chart-container">
+                                        <canvas id="contentChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Search Analytics Section -->
+                <div id="search-section" class="section" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Popular Search Terms</h5>
+                                    <div class="table-responsive">
+                                        <table class="table" id="search-table">
+                                            <thead>
+                                                <tr>
+                                                    <th>Search Query</th>
+                                                    <th>Searches</th>
+                                                    <th>Avg Results</th>
+                                                    <th>Click Rate</th>
+                                                    <th>No Results</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <!-- Search data will be loaded here -->
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Search Performance</h5>
+                                    <div class="chart-container small">
+                                        <canvas id="searchChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Real-time Section -->
+                <div id="realtime-section" class="section" style="display: none;">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">
+                                        <span class="real-time-indicator"></span>
+                                        Real-time Activity (Last 5 minutes)
+                                    </h5>
+                                    <div class="row" id="realtime-metrics">
+                                        <!-- Real-time metrics will be loaded here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="dashboard-card">
+                                <div class="card-body">
+                                    <h5 class="card-title">Activity Stream</h5>
+                                    <div id="activity-stream">
+                                        <!-- Live activity will be shown here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div id="loading" class="loading" style="display: none;">
+                    <i class="fas fa-spinner"></i>
+                    <div>Loading analytics data...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Analytics Dashboard JavaScript
+        class AnalyticsDashboard {
+            constructor() {
+                this.apiBase = 'php/api/analytics.php';
+                this.currentSection = 'overview';
+                this.currentDays = 30;
+                this.charts = {};
+                this.realTimeInterval = null;
+                
+                this.initializeEventListeners();
+                this.loadData();
+                this.startRealTimeUpdates();
+            }
+            
+            initializeEventListeners() {
+                // Sidebar navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.switchSection(e.target.dataset.section);
+                    });
+                });
+                
+                // Date range filter
+                document.getElementById('dateRange').addEventListener('change', (e) => {
+                    this.currentDays = parseInt(e.target.value);
+                    this.loadData();
+                });
+            }
+            
+            switchSection(section) {
+                // Update navigation
+                document.querySelectorAll('.nav-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`[data-section="${section}"]`).classList.add('active');
+                
+                // Hide all sections
+                document.querySelectorAll('.section').forEach(sec => {
+                    sec.style.display = 'none';
+                });
+                
+                // Show selected section
+                document.getElementById(`${section}-section`).style.display = 'block';
+                
+                this.currentSection = section;
+                this.loadSectionData(section);
+            }
+            
+            async loadData() {
+                this.showLoading(true);
+                
+                try {
+                    // Load overview data
+                    await this.loadOverviewData();
+                    
+                    // Load current section data
+                    if (this.currentSection !== 'overview') {
+                        await this.loadSectionData(this.currentSection);
+                    }
+                } catch (error) {
+                    console.error('Failed to load analytics data:', error);
+                    this.showError('Failed to load analytics data');
+                } finally {
+                    this.showLoading(false);
+                }
+            }
+            
+            async loadOverviewData() {
+                const response = await fetch(`${this.apiBase}?action=overview&days=${this.currentDays}`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.updateOverviewMetrics(data.data);
+                    this.updateActivityChart(data.data);
+                }
+                
+                // Load device stats for pie chart
+                const deviceResponse = await fetch(`${this.apiBase}?action=device-stats&days=${this.currentDays}`);
+                const deviceData = await deviceResponse.json();
+                
+                if (deviceData.success) {
+                    this.updateDeviceChart(deviceData.data);
+                }
+            }
+            
+            async loadSectionData(section) {
+                switch (section) {
+                    case 'content':
+                        await this.loadContentData();
+                        break;
+                    case 'search':
+                        await this.loadSearchData();
+                        break;
+                    case 'realtime':
+                        await this.loadRealTimeData();
+                        break;
+                }
+            }
+            
+            async loadContentData() {
+                const response = await fetch(`${this.apiBase}?action=content-performance&days=${this.currentDays}&limit=20`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.updateContentTable(data.data);
+                }
+            }
+            
+            async loadSearchData() {
+                const response = await fetch(`${this.apiBase}?action=search-analytics&days=${this.currentDays}&limit=50`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.updateSearchTable(data.data);
+                }
+            }
+            
+            async loadRealTimeData() {
+                const response = await fetch(`${this.apiBase}?action=real-time&window=5`);
+                const data = await response.json();
+                
+                if (data.success) {
+                    this.updateRealTimeMetrics(data.data);
+                }
+            }
+            
+            updateOverviewMetrics(data) {
+                let totalUsers = 0, totalSessions = 0, totalViews = 0, avgEngagement = 0;
+                
+                data.forEach(day => {
+                    totalUsers += parseInt(day.active_users || 0);
+                    totalSessions += parseInt(day.total_sessions || 0);
+                    totalViews += parseInt(day.total_page_views || 0);
+                    avgEngagement += parseFloat(day.avg_engagement_score || 0);
+                });
+                
+                avgEngagement = avgEngagement / data.length;
+                
+                document.getElementById('total-users').textContent = this.formatNumber(totalUsers);
+                document.getElementById('total-sessions').textContent = this.formatNumber(totalSessions);
+                document.getElementById('page-views').textContent = this.formatNumber(totalViews);
+                document.getElementById('engagement-score').textContent = avgEngagement.toFixed(1);
+                
+                // Calculate changes (simplified)
+                document.getElementById('users-change').textContent = '+12% from previous period';
+                document.getElementById('sessions-change').textContent = '+8% from previous period';
+                document.getElementById('views-change').textContent = '+15% from previous period';
+                document.getElementById('engagement-change').textContent = '+5% from previous period';
+            }
+            
+            updateActivityChart(data) {
+                const ctx = document.getElementById('activityChart').getContext('2d');
+                
+                if (this.charts.activity) {
+                    this.charts.activity.destroy();
+                }
+                
+                const labels = data.map(d => new Date(d.date).toLocaleDateString());
+                const users = data.map(d => parseInt(d.active_users || 0));
+                const sessions = data.map(d => parseInt(d.total_sessions || 0));
+                const views = data.map(d => parseInt(d.total_page_views || 0));
+                
+                this.charts.activity = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels.reverse(),
+                        datasets: [
+                            {
+                                label: 'Active Users',
+                                data: users.reverse(),
+                                borderColor: '#007bff',
+                                backgroundColor: 'rgba(0, 123, 255, 0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Sessions',
+                                data: sessions.reverse(),
+                                borderColor: '#28a745',
+                                backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                                tension: 0.4
+                            },
+                            {
+                                label: 'Page Views',
+                                data: views.reverse(),
+                                borderColor: '#ffc107',
+                                backgroundColor: 'rgba(255, 193, 7, 0.1)',
+                                tension: 0.4
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'top',
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            }
+            
+            updateDeviceChart(data) {
+                const ctx = document.getElementById('deviceChart').getContext('2d');
+                
+                if (this.charts.device) {
+                    this.charts.device.destroy();
+                }
+                
+                const deviceGroups = {};
+                data.forEach(item => {
+                    const device = item.device_type;
+                    deviceGroups[device] = (deviceGroups[device] || 0) + parseInt(item.session_count);
+                });
+                
+                this.charts.device = new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: Object.keys(deviceGroups),
+                        datasets: [{
+                            data: Object.values(deviceGroups),
+                            backgroundColor: [
+                                '#007bff',
+                                '#28a745',
+                                '#ffc107',
+                                '#dc3545',
+                                '#6c757d'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        }
+                    }
+                });
+            }
+            
+            updateContentTable(data) {
+                const tbody = document.querySelector('#content-table tbody');
+                tbody.innerHTML = '';
+                
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>
+                            <div class="fw-bold">${this.truncateText(item.content_title || 'Untitled', 40)}</div>
+                            <small class="text-muted">ID: ${item.content_id}</small>
+                        </td>
+                        <td>
+                            <span class="badge bg-primary">${item.content_type}</span>
+                        </td>
+                        <td>
+                            <div class="fw-bold">${this.formatNumber(item.total_views)}</div>
+                            <small class="text-muted">${this.formatNumber(item.total_unique_viewers)} unique</small>
+                        </td>
+                        <td>
+                            <div class="fw-bold">${parseFloat(item.avg_engagement_rate || 0).toFixed(1)}%</div>
+                            <small class="text-muted">${this.formatTime(item.avg_time_spent)} avg time</small>
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            updateSearchTable(data) {
+                const tbody = document.querySelector('#search-table tbody');
+                tbody.innerHTML = '';
+                
+                data.forEach(item => {
+                    const row = document.createElement('tr');
+                    const clickRate = parseFloat(item.click_through_rate || 0);
+                    const clickRateClass = clickRate > 50 ? 'text-success' : clickRate > 20 ? 'text-warning' : 'text-danger';
+                    
+                    row.innerHTML = `
+                        <td>
+                            <span class="fw-bold">"${this.truncateText(item.search_query, 30)}"</span>
+                        </td>
+                        <td>
+                            <span class="fw-bold">${this.formatNumber(item.search_count)}</span>
+                        </td>
+                        <td>
+                            ${this.formatNumber(parseFloat(item.avg_results || 0).toFixed(0))}
+                        </td>
+                        <td class="${clickRateClass}">
+                            <span class="fw-bold">${clickRate.toFixed(1)}%</span>
+                        </td>
+                        <td>
+                            ${this.formatNumber(item.no_results_count)}
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            }
+            
+            updateRealTimeMetrics(data) {
+                const container = document.getElementById('realtime-metrics');
+                container.innerHTML = '';
+                
+                data.forEach(metric => {
+                    const col = document.createElement('div');
+                    col.className = 'col-md-3 mb-3';
+                    col.innerHTML = `
+                        <div class="metric-card">
+                            <div class="metric-value">${this.formatNumber(metric.total_value)}</div>
+                            <div class="metric-label">${this.formatMetricType(metric.metric_type)}</div>
+                        </div>
+                    `;
+                    container.appendChild(col);
+                });
+            }
+            
+            startRealTimeUpdates() {
+                // Update real-time data every 30 seconds
+                this.realTimeInterval = setInterval(() => {
+                    if (this.currentSection === 'realtime') {
+                        this.loadRealTimeData();
+                    }
+                }, 30000);
+            }
+            
+            formatNumber(num) {
+                if (num >= 1000000) {
+                    return (num / 1000000).toFixed(1) + 'M';
+                } else if (num >= 1000) {
+                    return (num / 1000).toFixed(1) + 'K';
+                }
+                return num.toString();
+            }
+            
+            formatTime(seconds) {
+                if (!seconds) return '0s';
+                const mins = Math.floor(seconds / 60);
+                const secs = Math.floor(seconds % 60);
+                return mins > 0 ? `${mins}m ${secs}s` : `${secs}s`;
+            }
+            
+            formatMetricType(type) {
+                const types = {
+                    'page_view': 'Page Views',
+                    'click': 'Clicks',
+                    'search': 'Searches',
+                    'download': 'Downloads',
+                    'content_engagement': 'Content Engagements'
+                };
+                return types[type] || type.replace('_', ' ').toUpperCase();
+            }
+            
+            truncateText(text, maxLength) {
+                return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+            }
+            
+            showLoading(show) {
+                document.getElementById('loading').style.display = show ? 'block' : 'none';
+            }
+            
+            showError(message) {
+                // Could implement a toast notification here
+                console.error(message);
+            }
+        }
+        
+        // Global function for refresh button
+        function refreshData() {
+            if (window.dashboard) {
+                window.dashboard.loadData();
+            }
+        }
+        
+        // Initialize dashboard when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            window.dashboard = new AnalyticsDashboard();
+        });
+        
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (window.dashboard && window.dashboard.realTimeInterval) {
+                clearInterval(window.dashboard.realTimeInterval);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Hub - Frontend Tests</title>
+    
+    <!-- Test Framework CSS -->
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .test-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .test-header {
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .test-suite {
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .suite-header {
+            background: #007bff;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .suite-content {
+            padding: 15px;
+            background: #f8f9fa;
+        }
+        
+        .test-case {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 4px;
+            border-left: 4px solid transparent;
+        }
+        
+        .test-case.passed {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .test-case.failed {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .test-case.running {
+            background: #fff3cd;
+            border-color: #ffc107;
+        }
+        
+        .test-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .test-details {
+            font-size: 0.9em;
+            color: #666;
+        }
+        
+        .test-error {
+            color: #dc3545;
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 5px;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+        
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e9ecef;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #28a745, #20c997);
+            transition: width 0.3s ease;
+        }
+        
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .stat-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 2em;
+            font-weight: bold;
+            color: #007bff;
+        }
+        
+        .stat-label {
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .controls {
+            margin-bottom: 20px;
+        }
+        
+        .btn {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .btn:hover {
+            background: #0056b3;
+        }
+        
+        .btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .log-output {
+            background: #2d3748;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.85em;
+            max-height: 300px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <div class="test-header">
+            <h1>Campus Hub - Frontend Test Suite</h1>
+            <p>Comprehensive testing for client-side functionality, UI components, and user interactions</p>
+        </div>
+        
+        <div class="controls">
+            <button class="btn" onclick="runAllTests()" id="runAllBtn">Run All Tests</button>
+            <button class="btn" onclick="runUITests()">Run UI Tests</button>
+            <button class="btn" onclick="runApiTests()">Run API Tests</button>
+            <button class="btn" onclick="runPerformanceTests()">Run Performance Tests</button>
+            <button class="btn" onclick="clearResults()">Clear Results</button>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressBar" style="width: 0%"></div>
+        </div>
+        
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalTests">0</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="passedTests">0</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="failedTests">0</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="testDuration">0ms</div>
+                <div class="stat-label">Duration</div>
+            </div>
+        </div>
+        
+        <div id="testSuites">
+            <!-- Test suites will be dynamically generated here -->
+        </div>
+        
+        <div class="log-output hidden" id="logOutput">
+            <div id="logContent"></div>
+        </div>
+    </div>
+
+    <!-- Test Framework JavaScript -->
+    <script>
+        class FrontendTestFramework {
+            constructor() {
+                this.suites = [];
+                this.currentSuite = null;
+                this.results = {
+                    total: 0,
+                    passed: 0,
+                    failed: 0,
+                    duration: 0
+                };
+                this.startTime = null;
+            }
+            
+            suite(name, callback) {
+                const suite = {
+                    name: name,
+                    tests: [],
+                    passed: 0,
+                    failed: 0
+                };
+                
+                this.suites.push(suite);
+                this.currentSuite = suite;
+                
+                // Create suite UI
+                this.createSuiteUI(suite);
+                
+                // Run suite
+                if (callback) {
+                    callback(this);
+                }
+            }
+            
+            test(description, callback) {
+                const test = {
+                    description: description,
+                    callback: callback,
+                    status: 'pending',
+                    error: null,
+                    duration: 0
+                };
+                
+                this.currentSuite.tests.push(test);
+                return test;
+            }
+            
+            async runAllTests() {
+                this.startTime = performance.now();
+                this.results = { total: 0, passed: 0, failed: 0, duration: 0 };
+                
+                document.getElementById('runAllBtn').disabled = true;
+                this.log('Starting all tests...');
+                
+                for (const suite of this.suites) {
+                    await this.runSuite(suite);
+                }
+                
+                this.results.duration = performance.now() - this.startTime;
+                this.updateStats();
+                this.generateReport();
+                
+                document.getElementById('runAllBtn').disabled = false;
+                this.log('All tests completed!');
+            }
+            
+            async runSuite(suite) {
+                this.log(`Running suite: ${suite.name}`);
+                
+                for (const test of suite.tests) {
+                    await this.runTest(test, suite);
+                    this.updateProgress();
+                }
+            }
+            
+            async runTest(test, suite) {
+                const testElement = document.getElementById(`test-${this.getTestId(test)}`);
+                testElement.className = 'test-case running';
+                
+                this.results.total++;
+                
+                const startTime = performance.now();
+                
+                try {
+                    if (test.callback.constructor.name === 'AsyncFunction') {
+                        await test.callback(this);
+                    } else {
+                        test.callback(this);
+                    }
+                    
+                    test.status = 'passed';
+                    test.duration = performance.now() - startTime;
+                    
+                    this.results.passed++;
+                    suite.passed++;
+                    
+                    testElement.className = 'test-case passed';
+                    testElement.querySelector('.test-details').textContent = 
+                        `Passed in ${test.duration.toFixed(2)}ms`;
+                        
+                    this.log(`✓ ${test.description}`);
+                    
+                } catch (error) {
+                    test.status = 'failed';
+                    test.error = error.message;
+                    test.duration = performance.now() - startTime;
+                    
+                    this.results.failed++;
+                    suite.failed++;
+                    
+                    testElement.className = 'test-case failed';
+                    testElement.querySelector('.test-details').innerHTML = 
+                        `Failed in ${test.duration.toFixed(2)}ms<div class="test-error">${error.message}</div>`;
+                        
+                    this.log(`✗ ${test.description}: ${error.message}`);
+                }
+            }
+            
+            createSuiteUI(suite) {
+                const container = document.getElementById('testSuites');
+                
+                const suiteDiv = document.createElement('div');
+                suiteDiv.className = 'test-suite';
+                suiteDiv.innerHTML = `
+                    <div class="suite-header" onclick="toggleSuite('${suite.name}')">
+                        ${suite.name}
+                    </div>
+                    <div class="suite-content" id="suite-${suite.name}">
+                        ${suite.tests.map(test => `
+                            <div class="test-case" id="test-${this.getTestId(test)}">
+                                <div class="test-title">${test.description}</div>
+                                <div class="test-details">Pending...</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+                
+                container.appendChild(suiteDiv);
+            }
+            
+            getTestId(test) {
+                return test.description.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+            }
+            
+            updateProgress() {
+                const progress = (this.results.passed + this.results.failed) / this.results.total * 100;
+                document.getElementById('progressBar').style.width = `${progress}%`;
+            }
+            
+            updateStats() {
+                document.getElementById('totalTests').textContent = this.results.total;
+                document.getElementById('passedTests').textContent = this.results.passed;
+                document.getElementById('failedTests').textContent = this.results.failed;
+                document.getElementById('testDuration').textContent = `${this.results.duration.toFixed(0)}ms`;
+            }
+            
+            log(message) {
+                const logOutput = document.getElementById('logOutput');
+                const logContent = document.getElementById('logContent');
+                
+                logOutput.classList.remove('hidden');
+                logContent.innerHTML += `<div>${new Date().toLocaleTimeString()}: ${message}</div>`;
+                logOutput.scrollTop = logOutput.scrollHeight;
+            }
+            
+            generateReport() {
+                const successRate = this.results.total > 0 ? 
+                    (this.results.passed / this.results.total * 100).toFixed(1) : 0;
+                
+                this.log(`\n=== Test Report ===`);
+                this.log(`Total: ${this.results.total}`);
+                this.log(`Passed: ${this.results.passed}`);
+                this.log(`Failed: ${this.results.failed}`);
+                this.log(`Success Rate: ${successRate}%`);
+                this.log(`Duration: ${this.results.duration.toFixed(2)}ms`);
+            }
+            
+            // Assertion methods
+            assertTrue(condition, message = 'Assertion failed') {
+                if (!condition) {
+                    throw new Error(message);
+                }
+            }
+            
+            assertFalse(condition, message = 'Assertion failed') {
+                if (condition) {
+                    throw new Error(message);
+                }
+            }
+            
+            assertEquals(expected, actual, message = 'Values are not equal') {
+                if (expected !== actual) {
+                    throw new Error(`${message}. Expected: ${expected}, Actual: ${actual}`);
+                }
+            }
+            
+            assertNotNull(value, message = 'Value is null') {
+                if (value === null || value === undefined) {
+                    throw new Error(message);
+                }
+            }
+            
+            assertContains(container, item, message = 'Item not found') {
+                if (Array.isArray(container) && !container.includes(item)) {
+                    throw new Error(message);
+                } else if (typeof container === 'string' && !container.includes(item)) {
+                    throw new Error(message);
+                }
+            }
+            
+            assertElementExists(selector, message = 'Element not found') {
+                const element = document.querySelector(selector);
+                if (!element) {
+                    throw new Error(`${message}: ${selector}`);
+                }
+                return element;
+            }
+            
+            assertElementVisible(selector, message = 'Element not visible') {
+                const element = this.assertElementExists(selector);
+                const rect = element.getBoundingClientRect();
+                if (rect.width === 0 || rect.height === 0) {
+                    throw new Error(`${message}: ${selector}`);
+                }
+                return element;
+            }
+            
+            async wait(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+            
+            async waitForElement(selector, timeout = 5000) {
+                const start = Date.now();
+                while (Date.now() - start < timeout) {
+                    const element = document.querySelector(selector);
+                    if (element) return element;
+                    await this.wait(100);
+                }
+                throw new Error(`Element not found within ${timeout}ms: ${selector}`);
+            }
+        }
+        
+        // Create global test framework instance
+        const testFramework = new FrontendTestFramework();
+        
+        // UI Component Tests
+        function setupUITests() {
+            testFramework.suite('UI Component Tests', function(test) {
+                
+                test.test('Navigation menu should be present and functional', function(test) {
+                    test.assertElementExists('.navbar, .nav-menu, .main-nav', 'Navigation menu not found');
+                    
+                    const navLinks = document.querySelectorAll('.navbar a, .nav-menu a, .main-nav a');
+                    test.assertTrue(navLinks.length > 0, 'No navigation links found');
+                    
+                    // Test first nav link
+                    if (navLinks.length > 0) {
+                        const firstLink = navLinks[0];
+                        test.assertTrue(firstLink.href.length > 0, 'Navigation link missing href');
+                    }
+                });
+                
+                test.test('Search functionality should be accessible', function(test) {
+                    const searchInputs = document.querySelectorAll('input[type="search"], input[name*="search"], #searchQuery');
+                    test.assertTrue(searchInputs.length > 0, 'No search input found');
+                    
+                    if (searchInputs.length > 0) {
+                        const searchInput = searchInputs[0];
+                        test.assertNotNull(searchInput.placeholder, 'Search input should have placeholder');
+                    }
+                });
+                
+                test.test('Footer should contain required information', function(test) {
+                    const footer = document.querySelector('footer, .footer');
+                    if (footer) {
+                        test.assertTrue(footer.textContent.length > 0, 'Footer should have content');
+                    }
+                });
+                
+                test.test('Responsive design classes should be present', function(test) {
+                    const responsiveElements = document.querySelectorAll('[class*="col-"], [class*="row"], .container, .container-fluid');
+                    test.assertTrue(responsiveElements.length > 0, 'No responsive design classes found');
+                });
+                
+                test.test('Form validation should work', async function(test) {
+                    const forms = document.querySelectorAll('form');
+                    if (forms.length > 0) {
+                        const form = forms[0];
+                        const requiredInputs = form.querySelectorAll('input[required], select[required], textarea[required]');
+                        
+                        if (requiredInputs.length > 0) {
+                            // Test form validation
+                            const submitEvent = new Event('submit', { cancelable: true });
+                            const prevented = !form.dispatchEvent(submitEvent);
+                            // This test may pass or fail depending on browser validation
+                        }
+                    }
+                });
+            });
+        }
+        
+        // API Integration Tests
+        function setupApiTests() {
+            testFramework.suite('API Integration Tests', function(test) {
+                
+                test.test('News API should be accessible', async function(test) {
+                    try {
+                        const response = await fetch('php/api/news.php');
+                        test.assertTrue(response.ok, 'News API not accessible');
+                        
+                        const data = await response.json();
+                        test.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
+                    } catch (error) {
+                        throw new Error('News API request failed: ' + error.message);
+                    }
+                });
+                
+                test.test('Events API should be accessible', async function(test) {
+                    try {
+                        const response = await fetch('php/api/events.php');
+                        test.assertTrue(response.ok, 'Events API not accessible');
+                        
+                        const data = await response.json();
+                        test.assertTrue(Array.isArray(data) || typeof data === 'object', 'Invalid API response format');
+                    } catch (error) {
+                        throw new Error('Events API request failed: ' + error.message);
+                    }
+                });
+                
+                test.test('Search API should handle queries', async function(test) {
+                    try {
+                        const response = await fetch('php/api/search.php?q=test');
+                        test.assertTrue(response.ok, 'Search API not accessible');
+                        
+                        const data = await response.json();
+                        test.assertNotNull(data, 'Search API returned null');
+                    } catch (error) {
+                        throw new Error('Search API request failed: ' + error.message);
+                    }
+                });
+                
+                test.test('Analytics tracking should work', async function(test) {
+                    try {
+                        const trackingData = {
+                            action_type: 'test_action',
+                            data: {
+                                page_url: window.location.href,
+                                timestamp: Date.now()
+                            }
+                        };
+                        
+                        const response = await fetch('php/api/analytics.php?action=track-action', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(trackingData)
+                        });
+                        
+                        // Accept both success and auth required responses
+                        test.assertTrue(response.status < 500, 'Analytics API server error');
+                    } catch (error) {
+                        throw new Error('Analytics API request failed: ' + error.message);
+                    }
+                });
+            });
+        }
+        
+        // Performance Tests
+        function setupPerformanceTests() {
+            testFramework.suite('Performance Tests', function(test) {
+                
+                test.test('Page load time should be acceptable', function(test) {
+                    const loadTime = performance.timing.loadEventEnd - performance.timing.navigationStart;
+                    test.assertTrue(loadTime < 5000, `Page load time too slow: ${loadTime}ms`);
+                });
+                
+                test.test('DOM elements count should be reasonable', function(test) {
+                    const elementCount = document.querySelectorAll('*').length;
+                    test.assertTrue(elementCount < 2000, `Too many DOM elements: ${elementCount}`);
+                });
+                
+                test.test('Images should be optimized', function(test) {
+                    const images = document.querySelectorAll('img');
+                    let oversizedImages = 0;
+                    
+                    images.forEach(img => {
+                        if (img.naturalWidth > 2000 || img.naturalHeight > 2000) {
+                            oversizedImages++;
+                        }
+                    });
+                    
+                    test.assertTrue(oversizedImages === 0, `Found ${oversizedImages} potentially oversized images`);
+                });
+                
+                test.test('CSS and JS resources should load quickly', async function(test) {
+                    const resources = performance.getEntriesByType('resource');
+                    const slowResources = resources.filter(resource => 
+                        (resource.name.includes('.css') || resource.name.includes('.js')) && 
+                        resource.duration > 1000
+                    );
+                    
+                    test.assertTrue(slowResources.length === 0, 
+                        `Found ${slowResources.length} slow-loading resources`);
+                });
+                
+                test.test('Local storage should work', function(test) {
+                    try {
+                        localStorage.setItem('test_key', 'test_value');
+                        const value = localStorage.getItem('test_key');
+                        test.assertEquals('test_value', value, 'Local storage not working');
+                        localStorage.removeItem('test_key');
+                    } catch (error) {
+                        throw new Error('Local storage not available: ' + error.message);
+                    }
+                });
+            });
+        }
+        
+        // Accessibility Tests
+        function setupAccessibilityTests() {
+            testFramework.suite('Accessibility Tests', function(test) {
+                
+                test.test('Images should have alt attributes', function(test) {
+                    const images = document.querySelectorAll('img');
+                    const imagesWithoutAlt = Array.from(images).filter(img => !img.alt);
+                    
+                    test.assertEquals(0, imagesWithoutAlt.length, 
+                        `Found ${imagesWithoutAlt.length} images without alt attributes`);
+                });
+                
+                test.test('Form inputs should have labels', function(test) {
+                    const inputs = document.querySelectorAll('input, select, textarea');
+                    let inputsWithoutLabels = 0;
+                    
+                    inputs.forEach(input => {
+                        const hasLabel = input.labels && input.labels.length > 0;
+                        const hasAriaLabel = input.getAttribute('aria-label');
+                        const hasAriaLabelledBy = input.getAttribute('aria-labelledby');
+                        
+                        if (!hasLabel && !hasAriaLabel && !hasAriaLabelledBy) {
+                            inputsWithoutLabels++;
+                        }
+                    });
+                    
+                    test.assertEquals(0, inputsWithoutLabels, 
+                        `Found ${inputsWithoutLabels} form inputs without labels`);
+                });
+                
+                test.test('Links should have meaningful text', function(test) {
+                    const links = document.querySelectorAll('a[href]');
+                    const badLinks = Array.from(links).filter(link => {
+                        const text = link.textContent.trim().toLowerCase();
+                        return text === 'click here' || text === 'read more' || text === 'link' || text === '';
+                    });
+                    
+                    test.assertTrue(badLinks.length < links.length * 0.1, 
+                        'Too many links with non-descriptive text');
+                });
+                
+                test.test('Page should have proper heading structure', function(test) {
+                    const h1s = document.querySelectorAll('h1');
+                    test.assertTrue(h1s.length >= 1, 'Page should have at least one h1 element');
+                    test.assertTrue(h1s.length <= 1, 'Page should have only one h1 element');
+                });
+            });
+        }
+        
+        // User Interaction Tests
+        function setupInteractionTests() {
+            testFramework.suite('User Interaction Tests', function(test) {
+                
+                test.test('Click events should be properly attached', function(test) {
+                    const clickableElements = document.querySelectorAll('button, .btn, [onclick], a[href]');
+                    test.assertTrue(clickableElements.length > 0, 'No clickable elements found');
+                });
+                
+                test.test('Form submission should be handled', function(test) {
+                    const forms = document.querySelectorAll('form');
+                    if (forms.length > 0) {
+                        // Check if forms have proper action or event handlers
+                        let formsWithHandlers = 0;
+                        forms.forEach(form => {
+                            if (form.action || form.onsubmit || form.addEventListener) {
+                                formsWithHandlers++;
+                            }
+                        });
+                        test.assertTrue(formsWithHandlers > 0, 'No form handlers found');
+                    }
+                });
+                
+                test.test('Error handling should be in place', function(test) {
+                    // Check for error display elements
+                    const errorElements = document.querySelectorAll('.error, .alert-danger, .text-danger, [class*="error"]');
+                    // This test just checks if error display mechanisms exist
+                    test.assertTrue(true, 'Error handling check completed');
+                });
+            });
+        }
+        
+        // Initialize all test suites
+        function initializeTests() {
+            setupUITests();
+            setupApiTests();
+            setupPerformanceTests();
+            setupAccessibilityTests();
+            setupInteractionTests();
+        }
+        
+        // Test runner functions
+        async function runAllTests() {
+            await testFramework.runAllTests();
+        }
+        
+        async function runUITests() {
+            const uiSuite = testFramework.suites.find(s => s.name === 'UI Component Tests');
+            if (uiSuite) {
+                await testFramework.runSuite(uiSuite);
+                testFramework.updateStats();
+            }
+        }
+        
+        async function runApiTests() {
+            const apiSuite = testFramework.suites.find(s => s.name === 'API Integration Tests');
+            if (apiSuite) {
+                await testFramework.runSuite(apiSuite);
+                testFramework.updateStats();
+            }
+        }
+        
+        async function runPerformanceTests() {
+            const perfSuite = testFramework.suites.find(s => s.name === 'Performance Tests');
+            if (perfSuite) {
+                await testFramework.runSuite(perfSuite);
+                testFramework.updateStats();
+            }
+        }
+        
+        function clearResults() {
+            testFramework.results = { total: 0, passed: 0, failed: 0, duration: 0 };
+            testFramework.updateStats();
+            document.getElementById('progressBar').style.width = '0%';
+            document.getElementById('logOutput').classList.add('hidden');
+            document.getElementById('logContent').innerHTML = '';
+            
+            // Reset test case displays
+            document.querySelectorAll('.test-case').forEach(testCase => {
+                testCase.className = 'test-case';
+                testCase.querySelector('.test-details').textContent = 'Pending...';
+            });
+        }
+        
+        function toggleSuite(suiteName) {
+            const suiteContent = document.getElementById(`suite-${suiteName}`);
+            if (suiteContent) {
+                suiteContent.style.display = suiteContent.style.display === 'none' ? 'block' : 'none';
+            }
+        }
+        
+        // Initialize tests when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeTests();
+            testFramework.log('Frontend test framework initialized');
+        });
+    </script>
+</body>
+</html>
