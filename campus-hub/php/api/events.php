@@ -4,13 +4,14 @@
  * Campus Hub Portal - Enhanced Version
  */
 
-require_once 'config.php';
+require_once '../../config/database.php';
 
 class EventsAPI {
     private $db;
     
     public function __construct() {
-        $this->db = Database::getInstance();
+        $database = new Database();
+        $this->db = $database->getConnection();
     }
     
     public function handleRequest() {

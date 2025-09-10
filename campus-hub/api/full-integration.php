@@ -16,13 +16,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 }
 
 // Include database configuration
-require_once 'config/database.php';
+require_once '../config/database.php';
 
 class FullIntegrationAPI {
     private $db;
     
     public function __construct() {
-        $this->db = Database::getInstance()->getConnection();
+        $database = new Database();
+        $this->db = $database->getConnection();
     }
     
     public function handleRequest() {

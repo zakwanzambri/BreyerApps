@@ -34,18 +34,33 @@ class FullIntegrationManager {
     
     async loadUserDashboard() {
         const userId = this.getCurrentUserId();
-        if (!userId) return;
+        if (!userId) {
+            this.showErrorMessage('Please log in to view your dashboard');
+            return;
+        }
         
         try {
+            this.showLoadingState('dashboard-stats');
             const response = await fetch(`${this.apiBase}?action=user-dashboard&user_id=${userId}`);
+            
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            
             const data = await response.json();
             
             if (data.success) {
                 this.updateDashboardStats(data.data.stats);
                 this.updateUserProfile(data.data.user);
+                this.hideLoadingState('dashboard-stats');
+            } else {
+                throw new Error(data.message || 'Failed to load dashboard data');
             }
         } catch (error) {
-            console.error('Error loading dashboard:', error);
+            console.error('❌ Dashboard loading failed:', error);
+            this.hideLoadingState('dashboard-stats');
+            this.showErrorMessage('Unable to load dashboard. Using cached data if available.');
+            this.loadCachedData('dashboard');
         }
     }
     
@@ -487,15 +502,215 @@ class FullIntegrationManager {
     showError(message) {
         // Show error notification
         console.error(message);
-        // You can implement a toast notification system here
+        this.showErrorMessage(message);
     }
     
     showSuccess(message) {
         // Show success notification
         console.log(message);
-        // You can implement a toast notification system here
+        this.showSuccessMessage(message);
+    }
+    
+    // ===== ENHANCED ERROR HANDLING & PERFORMANCE =====
+    
+    showErrorMessage(message) {
+        this.showNotification(message, 'error');
+    }
+    
+    showSuccessMessage(message) {
+        this.showNotification(message, 'success');
+    }
+    
+    showLoadingState(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.classList.add('loading');
+            element.innerHTML = `
+                <div class="loading-placeholder">
+                    <div class="loading-shimmer"></div>
+                    <p>Loading...</p>
+                </div>
+            `;
+        }
+    }
+    
+    hideLoadingState(elementId) {
+        const element = document.getElementById(elementId);
+        if (element) {
+            element.classList.remove('loading');
+        }
+    }
+    
+    showNotification(message, type = 'info') {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.className = `notification notification-${type}`;
+        notification.innerHTML = `
+            <div class="notification-content">
+                <i class="fas fa-${type === 'error' ? 'exclamation-circle' : type === 'success' ? 'check-circle' : 'info-circle'}"></i>
+                <span>${message}</span>
+                <button class="notification-close" onclick="this.parentElement.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+        `;
+        
+        // Add to page
+        let container = document.getElementById('notification-container');
+        if (!container) {
+            container = document.createElement('div');
+            container.id = 'notification-container';
+            container.className = 'notification-container';
+            document.body.appendChild(container);
+        }
+        
+        container.appendChild(notification);
+        
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+            if (notification.parentElement) {
+                notification.remove();
+            }
+        }, 5000);
+    }
+    
+    // Cache management for offline functionality
+    async loadCachedData(dataType) {
+        try {
+            const cacheKey = `campus-hub-${dataType}-${this.getCurrentUserId()}`;
+            const cached = localStorage.getItem(cacheKey);
+            
+            if (cached) {
+                const data = JSON.parse(cached);
+                const isExpired = Date.now() - data.timestamp > (30 * 60 * 1000); // 30 minutes
+                
+                if (!isExpired) {
+                    console.log(`📱 Using cached ${dataType} data`);
+                    this.processCachedData(dataType, data.content);
+                    return true;
+                }
+            }
+        } catch (error) {
+            console.error('❌ Cache loading failed:', error);
+        }
+        return false;
+    }
+    
+    cacheData(dataType, data) {
+        try {
+            const cacheKey = `campus-hub-${dataType}-${this.getCurrentUserId()}`;
+            const cacheData = {
+                timestamp: Date.now(),
+                content: data
+            };
+            localStorage.setItem(cacheKey, JSON.stringify(cacheData));
+            console.log(`💾 Cached ${dataType} data`);
+        } catch (error) {
+            console.error('❌ Cache saving failed:', error);
+        }
+    }
+    
+    processCachedData(dataType, data) {
+        switch (dataType) {
+            case 'dashboard':
+                if (data.stats) this.updateDashboardStats(data.stats);
+                if (data.user) this.updateUserProfile(data.user);
+                break;
+            case 'courses':
+                this.renderCourses(data);
+                break;
+            case 'notifications':
+                this.renderNotifications(data);
+                break;
+        }
+    }
+    
+    // Performance monitoring
+    measurePerformance(label, fn) {
+        const start = performance.now();
+        const result = fn();
+        const end = performance.now();
+        console.log(`⚡ ${label}: ${(end - start).toFixed(2)}ms`);
+        return result;
+    }
+    
+    // Lazy loading for images and content
+    initializeLazyLoading() {
+        if ('IntersectionObserver' in window) {
+            const imageObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const img = entry.target;
+                        img.src = img.dataset.src;
+                        img.classList.remove('lazy');
+                        observer.unobserve(img);
+                    }
+                });
+            });
+            
+            document.querySelectorAll('img[data-src]').forEach(img => {
+                imageObserver.observe(img);
+            });
+        }
+    }
+    
+    // Network status monitoring
+    initializeNetworkMonitoring() {
+        window.addEventListener('online', () => {
+            this.showSuccessMessage('Connection restored! Syncing data...');
+            this.loadInitialData();
+        });
+        
+        window.addEventListener('offline', () => {
+            this.showErrorMessage('Connection lost. Using offline mode.');
+        });
+        
+        // Check connection quality
+        if ('connection' in navigator) {
+            const connection = navigator.connection;
+            console.log(`📶 Network: ${connection.effectiveType}, ${connection.downlink}Mbps`);
+            
+            if (connection.effectiveType === 'slow-2g' || connection.effectiveType === '2g') {
+                this.showNotification('Slow connection detected. Limited features may be available.', 'warning');
+            }
+        }
+    }
+    
+    // Performance optimization
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+    
+    throttle(func, limit) {
+        let inThrottle;
+        return function executedFunction(...args) {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        };
     }
 }
+
+// Initialize on page load with performance monitoring
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('🚀 Campus Hub: Full Integration System Loading...');
+    const startTime = performance.now();
+    
+    window.fullIntegrationManager = new FullIntegrationManager();
+    
+    const loadTime = performance.now() - startTime;
+    console.log(`✅ Campus Hub: Loaded in ${loadTime.toFixed(2)}ms`);
+});
 
 // Initialize when DOM is loaded
 document.addEventListener('DOMContentLoaded', function() {

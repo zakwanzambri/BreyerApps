@@ -10,6 +10,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" type="image/x-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzM5N0FGQiIvPgo8cGF0aCBkPSJNMTYgOEw5IDE0VjI0SDE0VjE5SDE4VjI0SDIzVjE0TDE2IDhaIiBmaWxsPSJ3aGl0ZSIvPgo8L3N2Zz4K">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#1a237e">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Campus Hub"">
 </head>
 <body>
     <!-- Header -->
@@ -441,5 +448,26 @@
         });
     </script>
     <script src="js/auth-manager.js"></script>
+    
+    <!-- Service Worker Registration -->
+    <script>
+        // Register service worker for PWA functionality
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/campus-hub/sw.js')
+                    .then((registration) => {
+                        console.log('🎉 Campus Hub SW registered successfully:', registration.scope);
+                        
+                        // Check for updates
+                        registration.addEventListener('updatefound', () => {
+                            console.log('🔄 Campus Hub: New version available');
+                        });
+                    })
+                    .catch((error) => {
+                        console.log('❌ Campus Hub SW registration failed:', error);
+                    });
+            });
+        }
+    </script>
 </body>
 </html>

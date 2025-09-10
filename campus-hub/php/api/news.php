@@ -54,7 +54,12 @@ class NewsAPI {
             case 'recent':
                 $this->getRecentNews();
                 break;
-    
+            default:
+                $this->sendError('Invalid action', 400);
+                break;
+        }
+    }
+
     private function getFeaturedNews() {
         $limit = min(10, max(1, (int)($_GET['limit'] ?? 5)));
         
