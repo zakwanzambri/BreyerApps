@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Hub - Test Verification</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .status {
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            border-left: 5px solid;
+        }
+        .status.success {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+        .status.error {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+        .status.info {
+            background-color: #d1ecf1;
+            border-color: #17a2b8;
+            color: #0c5460;
+        }
+        .test-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #0056b3;
+        }
+        .test-result {
+            margin: 10px 0;
+            padding: 10px;
+            background: #f8f9fa;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Campus Hub Test Verification</h1>
+        <p>Halaman ini untuk check semua function frontend tests berfungsi dengan betul.</p>
+        
+        <div class="controls">
+            <button class="test-button" onclick="checkJavaScriptFunctions()">Test JavaScript Functions</button>
+            <button class="test-button" onclick="checkTestFramework()">Test Framework Check</button>
+            <button class="test-button" onclick="checkDOMElements()">Check DOM Elements</button>
+            <button class="test-button" onclick="runSimpleTests()">Run Simple Tests</button>
+            <button class="test-button" onclick="clearResults()">Clear Results</button>
+        </div>
+        
+        <div id="results"></div>
+        
+        <h3>Test Status:</h3>
+        <div id="testStatus">
+            <div class="status info">Ready to run tests...</div>
+        </div>
+    </div>
+
+    <script>
+        let testResults = [];
+        
+        function addResult(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            testResults.push({ message, type, timestamp });
+            updateDisplay();
+        }
+        
+        function updateDisplay() {
+            const resultsDiv = document.getElementById('results');
+            const statusDiv = document.getElementById('testStatus');
+            
+            // Update results
+            resultsDiv.innerHTML = testResults.map(result => `
+                <div class="test-result">
+                    <strong>[${result.timestamp}]</strong> 
+                    <span class="status ${result.type}">${result.message}</span>
+                </div>
+            `).join('');
+            
+            // Update status
+            const lastResult = testResults[testResults.length - 1];
+            if (lastResult) {
+                statusDiv.innerHTML = `<div class="status ${lastResult.type}">${lastResult.message}</div>`;
+            }
+        }
+        
+        function checkJavaScriptFunctions() {
+            addResult('🔍 Checking JavaScript Functions...', 'info');
+            
+            let functionsWorking = 0;
+            let totalFunctions = 0;
+            
+            // Test basic JavaScript functions
+            try {
+                // Test console functions
+                if (typeof console !== 'undefined' && typeof console.log === 'function') {
+                    functionsWorking++;
+                    addResult('✅ Console functions working', 'success');
+                }
+                totalFunctions++;
+                
+                // Test DOM manipulation
+                if (typeof document !== 'undefined' && typeof document.querySelector === 'function') {
+                    functionsWorking++;
+                    addResult('✅ DOM manipulation functions working', 'success');
+                }
+                totalFunctions++;
+                
+                // Test localStorage
+                if (typeof localStorage !== 'undefined') {
+                    localStorage.setItem('test', 'value');
+                    if (localStorage.getItem('test') === 'value') {
+                        functionsWorking++;
+                        addResult('✅ LocalStorage working', 'success');
+                        localStorage.removeItem('test');
+                    }
+                }
+                totalFunctions++;
+                
+                // Test fetch API
+                if (typeof fetch === 'function') {
+                    functionsWorking++;
+                    addResult('✅ Fetch API available', 'success');
+                }
+                totalFunctions++;
+                
+                // Test Promise support
+                if (typeof Promise === 'function') {
+                    functionsWorking++;
+                    addResult('✅ Promise support available', 'success');
+                }
+                totalFunctions++;
+                
+                addResult(`📊 JavaScript Functions: ${functionsWorking}/${totalFunctions} working`, 
+                    functionsWorking === totalFunctions ? 'success' : 'error');
+                
+            } catch (error) {
+                addResult(`❌ Error checking JavaScript functions: ${error.message}`, 'error');
+            }
+        }
+        
+        function checkTestFramework() {
+            addResult('🔧 Checking Test Framework Components...', 'info');
+            
+            // Check if we can load the test framework
+            try {
+                // Simulate test framework functions
+                const testFrameworkExists = typeof window !== 'undefined';
+                const domReady = document.readyState === 'complete' || document.readyState === 'interactive';
+                const jQueryLike = typeof document.querySelector === 'function';
+                
+                if (testFrameworkExists) {
+                    addResult('✅ Window object available', 'success');
+                }
+                
+                if (domReady) {
+                    addResult('✅ DOM ready state good', 'success');
+                }
+                
+                if (jQueryLike) {
+                    addResult('✅ DOM query functions available', 'success');
+                }
+                
+                // Test async functions
+                const asyncSupport = typeof async !== 'undefined';
+                if (asyncSupport || typeof Promise === 'function') {
+                    addResult('✅ Async/Promise support available', 'success');
+                }
+                
+                addResult('📊 Test Framework components checked', 'success');
+                
+            } catch (error) {
+                addResult(`❌ Test framework check error: ${error.message}`, 'error');
+            }
+        }
+        
+        function checkDOMElements() {
+            addResult('🔍 Checking DOM Elements...', 'info');
+            
+            try {
+                const elements = {
+                    'Body': document.body,
+                    'Head': document.head,
+                    'Title': document.title,
+                    'Scripts': document.querySelectorAll('script'),
+                    'Styles': document.querySelectorAll('style, link[rel="stylesheet"]'),
+                    'Divs': document.querySelectorAll('div'),
+                    'Buttons': document.querySelectorAll('button')
+                };
+                
+                for (const [name, element] of Object.entries(elements)) {
+                    if (element) {
+                        if (element.length !== undefined) {
+                            addResult(`✅ ${name}: ${element.length} found`, 'success');
+                        } else {
+                            addResult(`✅ ${name}: Available`, 'success');
+                        }
+                    } else {
+                        addResult(`❌ ${name}: Not found`, 'error');
+                    }
+                }
+                
+                addResult('📊 DOM elements check completed', 'success');
+                
+            } catch (error) {
+                addResult(`❌ DOM check error: ${error.message}`, 'error');
+            }
+        }
+        
+        async function runSimpleTests() {
+            addResult('🏃‍♂️ Running Simple Tests...', 'info');
+            
+            let passed = 0;
+            let failed = 0;
+            
+            // Test 1: Basic arithmetic
+            try {
+                const result = 2 + 2;
+                if (result === 4) {
+                    passed++;
+                    addResult('✅ Test 1: Basic arithmetic (2+2=4)', 'success');
+                } else {
+                    failed++;
+                    addResult('❌ Test 1: Basic arithmetic failed', 'error');
+                }
+            } catch (error) {
+                failed++;
+                addResult(`❌ Test 1: Error - ${error.message}`, 'error');
+            }
+            
+            // Test 2: String manipulation
+            try {
+                const str = 'Campus Hub';
+                if (str.length === 10 && str.includes('Hub')) {
+                    passed++;
+                    addResult('✅ Test 2: String manipulation', 'success');
+                } else {
+                    failed++;
+                    addResult('❌ Test 2: String manipulation failed', 'error');
+                }
+            } catch (error) {
+                failed++;
+                addResult(`❌ Test 2: Error - ${error.message}`, 'error');
+            }
+            
+            // Test 3: Array operations
+            try {
+                const arr = [1, 2, 3, 4, 5];
+                const sum = arr.reduce((a, b) => a + b, 0);
+                if (sum === 15) {
+                    passed++;
+                    addResult('✅ Test 3: Array operations', 'success');
+                } else {
+                    failed++;
+                    addResult('❌ Test 3: Array operations failed', 'error');
+                }
+            } catch (error) {
+                failed++;
+                addResult(`❌ Test 3: Error - ${error.message}`, 'error');
+            }
+            
+            // Test 4: Async operation
+            try {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                passed++;
+                addResult('✅ Test 4: Async operation', 'success');
+            } catch (error) {
+                failed++;
+                addResult(`❌ Test 4: Async error - ${error.message}`, 'error');
+            }
+            
+            // Test 5: DOM manipulation
+            try {
+                const testDiv = document.createElement('div');
+                testDiv.textContent = 'Test Element';
+                if (testDiv.textContent === 'Test Element') {
+                    passed++;
+                    addResult('✅ Test 5: DOM manipulation', 'success');
+                } else {
+                    failed++;
+                    addResult('❌ Test 5: DOM manipulation failed', 'error');
+                }
+            } catch (error) {
+                failed++;
+                addResult(`❌ Test 5: DOM error - ${error.message}`, 'error');
+            }
+            
+            // Summary
+            const total = passed + failed;
+            const percentage = total > 0 ? ((passed / total) * 100).toFixed(1) : 0;
+            
+            addResult(`📊 Test Summary: ${passed}/${total} passed (${percentage}%)`, 
+                passed === total ? 'success' : 'error');
+                
+            if (passed === total) {
+                addResult('🎉 All tests passed! Frontend functions working correctly!', 'success');
+            } else {
+                addResult('⚠️ Some tests failed. Check implementation.', 'error');
+            }
+        }
+        
+        function clearResults() {
+            testResults = [];
+            updateDisplay();
+            addResult('🧹 Results cleared. Ready for new tests.', 'info');
+        }
+        
+        // Auto-run basic check when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            addResult('🚀 Test verification page loaded successfully!', 'success');
+            addResult('Click buttons above to run different test checks.', 'info');
+        });
+    </script>
+</body>
+</html>

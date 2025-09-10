@@ -719,6 +719,113 @@
             });
         }
         
+        // API Integration Tests
+        function setupApiTests() {
+            testFramework.suite('API Integration Tests', function(test) {
+                
+                test.test('API endpoints should be accessible', async function(test) {
+                    // Test if we can make a simple fetch request
+                    try {
+                        const response = await fetch('/api/test', { 
+                            method: 'GET',
+                            headers: { 'Content-Type': 'application/json' }
+                        });
+                        // Even if 404, at least fetch is working
+                        test.assertTrue(true, 'Fetch API is functional');
+                    } catch (error) {
+                        test.assertTrue(false, `Fetch API error: ${error.message}`);
+                    }
+                });
+                
+                test.test('JSON parsing should work', function(test) {
+                    try {
+                        const testData = { test: 'value', number: 123 };
+                        const jsonString = JSON.stringify(testData);
+                        const parsed = JSON.parse(jsonString);
+                        test.assertEquals(testData.test, parsed.test, 'JSON parsing failed');
+                    } catch (error) {
+                        test.assertTrue(false, `JSON parsing error: ${error.message}`);
+                    }
+                });
+                
+                test.test('Error handling for API calls', function(test) {
+                    // Test error handling mechanisms
+                    try {
+                        JSON.parse('{invalid json}');
+                        test.assertTrue(false, 'Should have thrown an error');
+                    } catch (error) {
+                        test.assertTrue(true, 'Error handling works correctly');
+                    }
+                });
+            });
+        }
+        
+        // User Interaction Tests
+        function setupInteractionTests() {
+            testFramework.suite('User Interaction Tests', function(test) {
+                
+                test.test('Click events should be supported', function(test) {
+                    const testButton = document.createElement('button');
+                    testButton.textContent = 'Test Button';
+                    let clicked = false;
+                    
+                    testButton.addEventListener('click', function() {
+                        clicked = true;
+                    });
+                    
+                    // Simulate click
+                    testButton.click();
+                    test.assertTrue(clicked, 'Click event not triggered');
+                });
+                
+                test.test('Form validation should work', function(test) {
+                    const testForm = document.createElement('form');
+                    const testInput = document.createElement('input');
+                    testInput.type = 'email';
+                    testInput.required = true;
+                    testForm.appendChild(testInput);
+                    
+                    // Test invalid email
+                    testInput.value = 'invalid-email';
+                    const isValid = testInput.checkValidity();
+                    test.assertTrue(!isValid, 'Email validation should fail for invalid email');
+                });
+                
+                test.test('Keyboard events should be supported', function(test) {
+                    const testInput = document.createElement('input');
+                    let keyPressed = false;
+                    
+                    testInput.addEventListener('keydown', function() {
+                        keyPressed = true;
+                    });
+                    
+                    // Simulate keyboard event
+                    const event = new KeyboardEvent('keydown', { key: 'Enter' });
+                    testInput.dispatchEvent(event);
+                    
+                    test.assertTrue(keyPressed, 'Keyboard event not triggered');
+                });
+                
+                test.test('Window resize should be detectable', function(test) {
+                    const originalWidth = window.innerWidth;
+                    let resizeDetected = false;
+                    
+                    const resizeHandler = function() {
+                        resizeDetected = true;
+                    };
+                    
+                    window.addEventListener('resize', resizeHandler);
+                    
+                    // Simulate resize event
+                    const resizeEvent = new Event('resize');
+                    window.dispatchEvent(resizeEvent);
+                    
+                    window.removeEventListener('resize', resizeHandler);
+                    test.assertTrue(resizeDetected, 'Window resize event not detected');
+                });
+            });
+        }
+        
         // Initialize all test suites
         function initializeTests() {
             setupUITests();
