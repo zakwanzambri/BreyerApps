@@ -3,16 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News & Announcements - Campus Hub Portal</title>
+    <title>Campus News - Enhanced UI/UX - Campus Hub</title>
+    <link rel="stylesheet" href="css/enhanced-dashboard.css">
+    <link rel="stylesheet" href="css/enhanced-notifications.css">
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        :root {
+            /* Enhanced Color Management System */
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --tertiary-color: #4facfe;
+            
+            /* Category Colors - Systematic Approach */
+            --category-academic: #667eea;
+            --category-events: #f093fb;
+            --category-campus: #764ba2;
+            --category-student: #4facfe;
+            --category-urgent: #ff6b6b;
+            --category-info: #4ecdc4;
+            --category-success: #95e1d3;
+            --category-warning: #feca57;
+            
+            /* Glassmorphism System */
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-hover: rgba(255, 255, 255, 0.15);
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            
+            /* Surface & Background */
+            --surface-primary: rgba(255, 255, 255, 0.05);
+            --surface-secondary: rgba(255, 255, 255, 0.1);
+            --surface-elevated: rgba(255, 255, 255, 0.15);
+            
+            /* Typography */
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-muted: rgba(255, 255, 255, 0.6);
+        }
+
+        .news-main {
+            padding: 20px;
+            background: var(--gradient-bg);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .news-main::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(255,255,255,0.1)"/><circle cx="75" cy="75" r="1.5" fill="rgba(255,255,255,0.05)"/><circle cx="50" cy="10" r="0.5" fill="rgba(255,255,255,0.15)"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grain)"/></svg>');
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .news-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .news-header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: var(--text-primary);
+        }
+
+        .news-header h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, var(--accent-color), var(--tertiary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        }
+
+        .news-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-filter-container {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface-primary) !important;
+            padding: 25px;
+            border-radius: 20px !important;
+            -webkit-backdrop-filter: blur(20px) !important;
+            backdrop-filter: blur(20px) !important;
+            border: 1px solid var(--glass-border) !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+        }
+
+        .search-container {
+            position: relative;
+            flex: 1;
+            min-width: 300px;
+            max-width: 500px;
+        }
+
+        .search-box {
+            width: 100%;
+            background: var(--glass-bg) !important;
+            border: 2px solid var(--glass-border) !important;
+            border-radius: 25px !important;
+            padding: 15px 50px 15px 20px;
+            color: var(--text-primary) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus {
+            outline: none !important;
+            border-color: var(--primary-color) !important;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        .search-box::placeholder {
+            color: var(--text-muted) !important;
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+            font-size: 1.2rem;
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .filter-btn {
+            background: var(--glass-bg) !important;
+            border: 2px solid var(--glass-border) !important;
+            border-radius: 25px !important;
+            padding: 10px 20px;
+            color: var(--text-primary) !important;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            -webkit-backdrop-filter: blur(10px) !important;
+            backdrop-filter: blur(10px) !important;
+            font-weight: 500;
+            font-size: 0.9rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .filter-btn:hover::before {
+            left: 100%;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary-color);
+            border-color: var(--primary-color);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .news-stats {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-card {
+            background: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            padding: 25px !important;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            color: var(--text-primary) !important;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        /* Override any conflicting styles from other CSS files */
+        .news-grid .news-card,
+        .news-article-full,
+        .news-article {
+            background: var(--glass-bg) !important;
+            background-color: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .news-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .news-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .news-card:hover {
+            transform: translateY(-8px) !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4) !important;
+            background: var(--glass-hover) !important;
+            background-color: var(--glass-hover) !important;
+            border-color: rgba(255, 255, 255, 0.3) !important;
+        }
+
+        /* Ensure all card variations use glassmorphism */
+        .news-grid .news-card:hover,
+        .news-article-full:hover,
+        .news-article:hover {
+            background: var(--glass-hover) !important;
+            background-color: var(--glass-hover) !important;
+            transform: translateY(-8px) !important;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4) !important;
+        }
+
+        .news-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .news-category {
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .category-academic { background: var(--category-academic); }
+        .category-events { background: var(--category-events); }
+        .category-campus { background: var(--category-campus); }
+        .category-student { background: var(--category-student); }
+        .category-urgent { 
+            background: var(--category-urgent); 
+            animation: pulse 2s infinite;
+        }
+        .category-info { background: var(--category-info); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        .news-date {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .news-title {
+            font-size: 1.3em !important;
+            font-weight: 700 !important;
+            margin-bottom: 12px !important;
+            color: var(--text-primary) !important;
+            line-height: 1.4;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .news-excerpt {
+            margin-bottom: 20px !important;
+            color: var(--text-secondary) !important;
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Ensure all text in cards is properly colored */
+        .news-card h2,
+        .news-card h3,
+        .news-card h4,
+        .news-card .news-title,
+        .news-article h3,
+        .news-article-full h3 {
+            color: var(--text-primary) !important;
+        }
+
+        .news-card p,
+        .news-card .news-excerpt,
+        .news-article p,
+        .news-article-full p {
+            color: var(--text-secondary) !important;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .news-meta {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .read-more {
+            color: var(--accent-color);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .read-more:hover {
+            color: var(--tertiary-color);
+            transform: translateX(5px);
+        }
+
+        .no-results {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 1.2rem;
+            margin: 50px 0;
+            background: var(--surface-primary);
+            padding: 40px;
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Enhanced Responsive Design */
+        @media (max-width: 768px) {
+            .news-main {
+                padding: 15px;
+            }
+            
+            .news-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .search-filter-container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            
+            .search-container {
+                min-width: 280px;
+            }
+            
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            
+            .news-card {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .filter-buttons {
+                justify-content: center;
+            }
+            
+            .filter-btn {
+                padding: 8px 16px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
-    <!-- Header -->
-    <header class="header">
+    <!-- Enhanced Navigation -->
+    <header class="enhanced-header">
         <div class="header-container">
             <div class="logo">
                 <i class="fas fa-university"></i>
@@ -21,24 +457,51 @@
             
             <nav class="nav-menu">
                 <ul>
-                    <li><a href="student-dashboard.html" class="nav-link">Dashboard</a></li>
-                    <li><a href="academics.html" class="nav-link">Academics</a></li>
-                    <li><a href="services.html" class="nav-link">Services</a></li>
-                    <li><a href="news.html" class="nav-link active">News</a></li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link dropdown-toggle">
+                            <i class="fas fa-th-large"></i> Dashboards
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="dropdown-section">
+                                <h4>Available Dashboards</h4>
+                                <a href="student-dashboard.html" class="dropdown-link">
+                                    <i class="fas fa-chart-line"></i>
+                                    <div>
+                                        <strong>Classic Dashboard</strong>
+                                        <span>Traditional layout with essential features</span>
+                                    </div>
+                                </a>
+                                <a href="enhanced-student-dashboard.html" class="dropdown-link">
+                                    <i class="fas fa-rocket"></i>
+                                    <div>
+                                        <strong>Enhanced Dashboard</strong>
+                                        <span>Modern UI with advanced features</span>
+                                    </div>
+                                </a>
+                                <a href="student-dashboard-unified.html" class="dropdown-link">
+                                    <i class="fas fa-star"></i>
+                                    <div>
+                                        <strong>Unified Dashboard</strong>
+                                        <span>Complete all-in-one experience</span>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </li>
+                    <li><a href="academics.html" class="nav-link"><i class="fas fa-graduation-cap"></i> Academics</a></li>
+                    <li><a href="services.html" class="nav-link"><i class="fas fa-concierge-bell"></i> Services</a></li>
+                    <li><a href="news.html" class="nav-link active"><i class="fas fa-bullhorn"></i> News</a></li>
                 </ul>
             </nav>
             
             <div class="header-actions">
-                <div class="search-container">
-                    <i class="fas fa-search search-icon"></i>
-                    <input type="text" placeholder="Search news..." class="search-input" id="globalSearch">
-                </div>
                 <button class="notifications-btn" title="Notifications">
                     <i class="fas fa-bell"></i>
                     <span class="notification-badge">3</span>
                 </button>
                 <div class="profile-menu">
-                    <img src="https://via.placeholder.com/40x40/397AFB/FFFFFF?text=AS" alt="Profile" class="profile-img">
+                    <img src="https://via.placeholder.com/40x40/667eea/FFFFFF?text=AS" alt="Profile" class="profile-img">
                     <span class="profile-name">Ahmad Syafiq</span>
                     <i class="fas fa-chevron-down"></i>
                 </div>
@@ -50,206 +513,566 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <section class="page-header">
-            <div class="page-title">
-                <h1><i class="fas fa-bullhorn"></i> News & Announcements</h1>
-                <p>Stay updated with the latest campus news and important announcements</p>
+    <!-- Enhanced News Main Content -->
+    <main class="news-main">
+        <div class="news-content">
+            <!-- Enhanced Header -->
+            <div class="news-header">
+                <h1><i class="fas fa-newspaper"></i> Campus News & Announcements</h1>
+                <p>Stay informed with the latest updates, events, and important information from your campus community</p>
             </div>
-        </section>
 
-        <!-- Featured News -->
-        <section class="featured-news">
-            <h2>Featured News</h2>
-            <div class="featured-article">
-                <div class="featured-image">
-                    <i class="fas fa-graduation-cap"></i>
-                </div>
-                <div class="featured-content">
-                    <div class="news-category">Academic</div>
-                    <h3>Semester 2 Registration Now Open</h3>
-                    <p>Registration for Semester 2 begins Monday, September 16th at 8:00 AM. All diploma programs are included. Early registration is recommended to secure your preferred class schedule and course sections.</p>
-                    <div class="news-meta">
-                        <span class="news-date"><i class="fas fa-calendar"></i> September 10, 2024</span>
-                        <span class="news-author"><i class="fas fa-user"></i> Academic Office</span>
-                    </div>
-                    <a href="#" class="read-more-btn">Read Full Article</a>
-                </div>
-            </div>
-        </section>
-
-        <!-- News Categories -->
-        <section class="news-categories">
-            <div class="category-filter">
-                <button class="filter-btn active" data-category="all">All News</button>
-                <button class="filter-btn" data-category="academic">Academic</button>
-                <button class="filter-btn" data-category="events">Events</button>
-                <button class="filter-btn" data-category="campus">Campus</button>
-                <button class="filter-btn" data-category="student">Student Life</button>
-            </div>
-        </section>
-
-        <!-- News Articles Grid -->
-        <section class="news-grid">
-            <article class="news-article" data-category="events">
-                <div class="article-header">
-                    <div class="article-category events">Events</div>
-                    <div class="article-date">September 9, 2024</div>
-                </div>
-                <h3>Industry Career Fair This Friday</h3>
-                <p>Meet employers from hospitality, IT, and electrical industries in the Main Hall from 10 AM to 4 PM. Bring your resume and dress professionally for this networking opportunity.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-map-marker-alt"></i> Main Hall</span>
-                    <span><i class="fas fa-clock"></i> 10:00 AM - 4:00 PM</span>
-                </div>
-                <a href="#" class="article-link">Learn More</a>
-            </article>
-
-            <article class="news-article" data-category="campus">
-                <div class="article-header">
-                    <div class="article-category campus">Campus</div>
-                    <div class="article-date">September 7, 2024</div>
-                </div>
-                <h3>New Culinary Kitchen Equipment Installed</h3>
-                <p>State-of-the-art cooking equipment has been installed in Kitchen Laboratory A and B, featuring professional-grade ovens, refrigeration units, and specialized culinary tools.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-tools"></i> Kitchen Lab A & B</span>
-                    <span><i class="fas fa-utensils"></i> Culinary Arts</span>
-                </div>
-                <a href="#" class="article-link">View Details</a>
-            </article>
-
-            <article class="news-article" data-category="academic">
-                <div class="article-header">
-                    <div class="article-category academic">Academic</div>
-                    <div class="article-date">September 5, 2024</div>
-                </div>
-                <h3>Mid-Semester Exam Schedule Released</h3>
-                <p>The mid-semester examination timetable for all diploma programs has been published. Students can view their exam dates and locations through the student portal.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-calendar-check"></i> October 14-25, 2024</span>
-                    <span><i class="fas fa-file-alt"></i> All Programs</span>
-                </div>
-                <a href="#" class="article-link">View Schedule</a>
-            </article>
-
-            <article class="news-article" data-category="student">
-                <div class="article-header">
-                    <div class="article-category student">Student Life</div>
-                    <div class="article-date">September 3, 2024</div>
-                </div>
-                <h3>Student Council Elections 2024</h3>
-                <p>Nominations are now open for Student Council positions. Apply by September 20th to represent your fellow students and contribute to campus improvements.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-vote-yea"></i> Nominations Open</span>
-                    <span><i class="fas fa-users"></i> All Students</span>
-                </div>
-                <a href="#" class="article-link">Apply Now</a>
-            </article>
-
-            <article class="news-article" data-category="campus">
-                <div class="article-header">
-                    <div class="article-category campus">Campus</div>
-                    <div class="article-date">September 1, 2024</div>
-                </div>
-                <h3>Library Extended Hours for Exam Period</h3>
-                <p>The campus library will extend operating hours during the upcoming examination period. 24/7 study areas will be available with enhanced security and support services.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-clock"></i> 24/7 Access</span>
-                    <span><i class="fas fa-book"></i> Study Areas</span>
-                </div>
-                <a href="#" class="article-link">More Info</a>
-            </article>
-
-            <article class="news-article" data-category="events">
-                <div class="article-header">
-                    <div class="article-category events">Events</div>
-                    <div class="article-date">August 30, 2024</div>
-                </div>
-                <h3>Technical Skills Workshop Series</h3>
-                <p>Join our monthly technical workshops covering programming, electrical systems, and culinary techniques. Open to all students with hands-on learning experiences.</p>
-                <div class="article-meta">
-                    <span><i class="fas fa-wrench"></i> Technical Labs</span>
-                    <span><i class="fas fa-users"></i> All Students</span>
-                </div>
-                <a href="#" class="article-link">Register</a>
-            </article>
-        </section>
-
-        <!-- Important Announcements -->
-        <section class="announcements">
-            <h2>Important Announcements</h2>
-            <div class="announcement-list">
-                <div class="announcement-item urgent">
-                    <div class="announcement-icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="announcement-content">
-                        <h4>Campus Safety Protocol Update</h4>
-                        <p>New safety protocols effective immediately. All students and staff must follow updated guidelines.</p>
-                        <span class="announcement-date">September 8, 2024</span>
-                    </div>
+            <!-- Enhanced Search & Filter System -->
+            <div class="search-filter-container">
+                <div class="search-container">
+                    <input type="text" class="search-box" placeholder="Search news, announcements, events..." id="newsSearch">
+                    <i class="fas fa-search search-icon"></i>
                 </div>
                 
-                <div class="announcement-item info">
-                    <div class="announcement-icon">
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="announcement-content">
-                        <h4>System Maintenance Scheduled</h4>
-                        <p>Student portal will be offline for maintenance on September 15th from 2:00 AM to 6:00 AM.</p>
-                        <span class="announcement-date">September 6, 2024</span>
-                    </div>
-                </div>
-                
-                <div class="announcement-item success">
-                    <div class="announcement-icon">
-                        <i class="fas fa-check-circle"></i>
-                    </div>
-                    <div class="announcement-content">
-                        <h4>WiFi Network Upgrade Complete</h4>
-                        <p>Campus-wide WiFi network has been upgraded for faster and more reliable connectivity.</p>
-                        <span class="announcement-date">September 4, 2024</span>
-                    </div>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-category="all">
+                        <i class="fas fa-globe"></i> All News
+                    </button>
+                    <button class="filter-btn" data-category="academic">
+                        <i class="fas fa-graduation-cap"></i> Academic
+                    </button>
+                    <button class="filter-btn" data-category="events">
+                        <i class="fas fa-calendar-alt"></i> Events
+                    </button>
+                    <button class="filter-btn" data-category="campus">
+                        <i class="fas fa-building"></i> Campus
+                    </button>
+                    <button class="filter-btn" data-category="student">
+                        <i class="fas fa-users"></i> Student Life
+                    </button>
+                    <button class="filter-btn" data-category="urgent">
+                        <i class="fas fa-exclamation-triangle"></i> Urgent
+                    </button>
                 </div>
             </div>
-        </section>
+
+            <!-- News Statistics -->
+            <div class="news-stats">
+                <span id="newsCount">Loading news articles...</span>
+            </div>
+
+            <!-- Enhanced News Grid -->
+            <div class="news-grid" id="newsGrid">
+                <!-- Academic News -->
+                <article class="news-card" data-category="academic">
+                    <div class="news-card-header">
+                        <span class="news-category category-academic">
+                            <i class="fas fa-graduation-cap"></i> Academic
+                        </span>
+                        <span class="news-date">September 10, 2024</span>
+                    </div>
+                    <h2 class="news-title">Semester 2 Registration Now Open</h2>
+                    <p class="news-excerpt">Registration for Semester 2 begins Monday, September 16th at 8:00 AM. All diploma programs are included. Early registration is recommended to secure your preferred class schedule and course sections.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-user"></i> Academic Office
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-eye"></i> 245 views
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            Read More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Events News -->
+                <article class="news-card" data-category="events">
+                    <div class="news-card-header">
+                        <span class="news-category category-events">
+                            <i class="fas fa-calendar-alt"></i> Events
+                        </span>
+                        <span class="news-date">September 9, 2024</span>
+                    </div>
+                    <h2 class="news-title">Industry Career Fair This Friday</h2>
+                    <p class="news-excerpt">Meet employers from hospitality, IT, and electrical industries in the Main Hall from 10 AM to 4 PM. Bring your resume and dress professionally for this networking opportunity.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i> Main Hall
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-clock"></i> 10:00 AM - 4:00 PM
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Urgent News -->
+                <article class="news-card" data-category="urgent">
+                    <div class="news-card-header">
+                        <span class="news-category category-urgent">
+                            <i class="fas fa-exclamation-triangle"></i> Urgent
+                        </span>
+                        <span class="news-date">September 8, 2024</span>
+                    </div>
+                    <h2 class="news-title">Campus Safety Protocol Update</h2>
+                    <p class="news-excerpt">New safety protocols effective immediately. All students and staff must follow updated guidelines for campus security and health measures.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-shield-alt"></i> Security Office
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-eye"></i> 892 views
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Campus News -->
+                <article class="news-card" data-category="campus">
+                    <div class="news-card-header">
+                        <span class="news-category category-campus">
+                            <i class="fas fa-building"></i> Campus
+                        </span>
+                        <span class="news-date">September 7, 2024</span>
+                    </div>
+                    <h2 class="news-title">New Culinary Kitchen Equipment Installed</h2>
+                    <p class="news-excerpt">State-of-the-art cooking equipment has been installed in Kitchen Laboratory A and B, featuring professional-grade ovens, refrigeration units, and specialized culinary tools.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-tools"></i> Kitchen Lab A & B
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-utensils"></i> Culinary Arts
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            View Details <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Academic News -->
+                <article class="news-card" data-category="academic">
+                    <div class="news-card-header">
+                        <span class="news-category category-academic">
+                            <i class="fas fa-graduation-cap"></i> Academic
+                        </span>
+                        <span class="news-date">September 5, 2024</span>
+                    </div>
+                    <h2 class="news-title">Mid-Semester Exam Schedule Released</h2>
+                    <p class="news-excerpt">The mid-semester examination timetable for all diploma programs has been published. Students can view their exam dates and locations through the student portal.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-calendar-check"></i> October 14-25, 2024
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-file-alt"></i> All Programs
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            View Schedule <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Student Life News -->
+                <article class="news-card" data-category="student">
+                    <div class="news-card-header">
+                        <span class="news-category category-student">
+                            <i class="fas fa-users"></i> Student Life
+                        </span>
+                        <span class="news-date">September 3, 2024</span>
+                    </div>
+                    <h2 class="news-title">Student Council Elections 2024</h2>
+                    <p class="news-excerpt">Nominations are now open for Student Council positions. Apply by September 20th to represent your fellow students and contribute to campus improvements.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-vote-yea"></i> Nominations Open
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-users"></i> All Students
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            Apply Now <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Campus News -->
+                <article class="news-card" data-category="campus">
+                    <div class="news-card-header">
+                        <span class="news-category category-campus">
+                            <i class="fas fa-building"></i> Campus
+                        </span>
+                        <span class="news-date">September 1, 2024</span>
+                    </div>
+                    <h2 class="news-title">Library Extended Hours for Exam Period</h2>
+                    <p class="news-excerpt">The campus library will extend operating hours during the upcoming examination period. 24/7 study areas will be available with enhanced security and support services.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-clock"></i> 24/7 Access
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-book"></i> Study Areas
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            More Info <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Events News -->
+                <article class="news-card" data-category="events">
+                    <div class="news-card-header">
+                        <span class="news-category category-events">
+                            <i class="fas fa-calendar-alt"></i> Events
+                        </span>
+                        <span class="news-date">August 30, 2024</span>
+                    </div>
+                    <h2 class="news-title">Technical Skills Workshop Series</h2>
+                    <p class="news-excerpt">Join our monthly technical workshops covering programming, electrical systems, and culinary techniques. Open to all students with hands-on learning experiences.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-wrench"></i> Technical Labs
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-users"></i> All Students
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            Register <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+
+                <!-- Info News -->
+                <article class="news-card" data-category="campus">
+                    <div class="news-card-header">
+                        <span class="news-category category-info">
+                            <i class="fas fa-info-circle"></i> Information
+                        </span>
+                        <span class="news-date">August 28, 2024</span>
+                    </div>
+                    <h2 class="news-title">System Maintenance Scheduled</h2>
+                    <p class="news-excerpt">Student portal will be offline for maintenance on September 15th from 2:00 AM to 6:00 AM. Please plan accordingly for any urgent tasks.</p>
+                    <div class="news-footer">
+                        <div class="news-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-tools"></i> IT Department
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-clock"></i> 2:00 AM - 6:00 AM
+                            </span>
+                        </div>
+                        <a href="#" class="read-more">
+                            Learn More <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <!-- No Results Message -->
+            <div class="no-results" id="noResults" style="display: none;">
+                <i class="fas fa-search"></i>
+                <h3>No news articles found</h3>
+                <p>Try adjusting your search terms or filter selection</p>
+            </div>
+        </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="footer">
+    <!-- Enhanced Footer -->
+    <footer class="enhanced-footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>Campus Hub</h4>
-                <p>Your centralized portal for campus life</p>
+                <h4><i class="fas fa-university"></i> Campus Hub</h4>
+                <p>Your comprehensive portal for campus life, designed with modern UI/UX principles</p>
+                <div class="footer-social">
+                    <a href="#" title="Facebook"><i class="fab fa-facebook"></i></a>
+                    <a href="#" title="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                </div>
             </div>
             <div class="footer-section">
-                <h4>Quick Links</h4>
+                <h4><i class="fas fa-link"></i> Quick Links</h4>
                 <ul>
-                    <li><a href="#">Academic Calendar</a></li>
-                    <li><a href="#">Course Catalog</a></li>
-                    <li><a href="#">Campus Map</a></li>
-                    <li><a href="#">Directory</a></li>
+                    <li><a href="student-dashboard.html"><i class="fas fa-chart-line"></i> Classic Dashboard</a></li>
+                    <li><a href="enhanced-student-dashboard.html"><i class="fas fa-rocket"></i> Enhanced Dashboard</a></li>
+                    <li><a href="student-dashboard-unified.html"><i class="fas fa-star"></i> Unified Dashboard</a></li>
+                    <li><a href="academics.html"><i class="fas fa-graduation-cap"></i> Academics</a></li>
                 </ul>
             </div>
             <div class="footer-section">
-                <h4>Support</h4>
+                <h4><i class="fas fa-headset"></i> Support</h4>
                 <ul>
-                    <li><a href="#">Help Desk</a></li>
-                    <li><a href="#">Technical Support</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Feedback</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> Help Center</a></li>
+                    <li><a href="#"><i class="fas fa-tools"></i> Technical Support</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> Contact Us</a></li>
+                    <li><a href="#"><i class="fas fa-comment-dots"></i> Feedback</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4><i class="fas fa-info-circle"></i> System Info</h4>
+                <ul>
+                    <li><span class="info-item"><i class="fas fa-palette"></i> Enhanced UI/UX Design</span></li>
+                    <li><span class="info-item"><i class="fas fa-sync-alt"></i> Real-time Integration</span></li>
+                    <li><span class="info-item"><i class="fas fa-shield-alt"></i> Secure & Accessible</span></li>
+                    <li><span class="info-item"><i class="fas fa-mobile-alt"></i> Responsive Design</span></li>
                 </ul>
             </div>
         </div>
         <div class="footer-bottom">
-            <p>&copy; 2024 Campus Hub. All rights reserved.</p>
+            <p>&copy; 2024 Campus Hub - Enhanced News System. Powered by modern web technologies.</p>
         </div>
     </footer>
 
+    <!-- Enhanced JavaScript -->
+    <script>
+        // Enhanced News Filtering & Search System
+        class EnhancedNewsSystem {
+            constructor() {
+                this.newsCards = document.querySelectorAll('.news-card');
+                this.filterButtons = document.querySelectorAll('.filter-btn');
+                this.searchBox = document.getElementById('newsSearch');
+                this.newsCount = document.getElementById('newsCount');
+                this.noResults = document.getElementById('noResults');
+                this.currentFilter = 'all';
+                this.currentSearch = '';
+                
+                this.init();
+            }
+            
+            init() {
+                this.updateNewsCount();
+                this.setupEventListeners();
+                this.setupAnimations();
+            }
+            
+            setupEventListeners() {
+                // Filter buttons
+                this.filterButtons.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.handleFilterClick(e.target.closest('.filter-btn'));
+                    });
+                });
+                
+                // Search functionality
+                this.searchBox.addEventListener('input', (e) => {
+                    this.currentSearch = e.target.value.toLowerCase();
+                    this.filterNews();
+                });
+                
+                // News card interactions
+                this.newsCards.forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        if (!e.target.closest('.read-more')) {
+                            this.handleCardClick(card);
+                        }
+                    });
+                });
+            }
+            
+            handleFilterClick(btn) {
+                // Update active state
+                this.filterButtons.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                
+                // Update current filter
+                this.currentFilter = btn.dataset.category;
+                
+                // Apply filter
+                this.filterNews();
+                
+                // Add interaction feedback
+                btn.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    btn.style.transform = '';
+                }, 150);
+            }
+            
+            filterNews() {
+                let visibleCount = 0;
+                
+                this.newsCards.forEach(card => {
+                    const category = card.dataset.category;
+                    const title = card.querySelector('.news-title').textContent.toLowerCase();
+                    const excerpt = card.querySelector('.news-excerpt').textContent.toLowerCase();
+                    
+                    const matchesFilter = this.currentFilter === 'all' || category === this.currentFilter;
+                    const matchesSearch = this.currentSearch === '' || 
+                        title.includes(this.currentSearch) || 
+                        excerpt.includes(this.currentSearch);
+                    
+                    if (matchesFilter && matchesSearch) {
+                        card.style.display = 'block';
+                        card.style.animation = 'slideInUp 0.3s ease forwards';
+                        visibleCount++;
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // Update count and show/hide no results
+                this.updateNewsCount(visibleCount);
+                this.noResults.style.display = visibleCount === 0 ? 'block' : 'none';
+            }
+            
+            updateNewsCount(count = null) {
+                const total = count !== null ? count : this.newsCards.length;
+                const filterText = this.currentFilter === 'all' ? 'all categories' : this.currentFilter;
+                const searchText = this.currentSearch ? ` matching "${this.currentSearch}"` : '';
+                
+                this.newsCount.textContent = `Showing ${total} news article${total !== 1 ? 's' : ''} from ${filterText}${searchText}`;
+            }
+            
+            handleCardClick(card) {
+                // Add click animation
+                card.style.transform = 'scale(0.98)';
+                setTimeout(() => {
+                    card.style.transform = '';
+                }, 150);
+                
+                // Could expand card or navigate to full article
+                console.log('Card clicked:', card.querySelector('.news-title').textContent);
+            }
+            
+            setupAnimations() {
+                // Intersection Observer for scroll animations
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animationDelay = Math.random() * 0.3 + 's';
+                            entry.target.classList.add('animate-in');
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                this.newsCards.forEach(card => observer.observe(card));
+            }
+        }
+        
+        // Enhanced Header Functionality
+        class EnhancedHeader {
+            constructor() {
+                this.dropdown = document.querySelector('.dropdown');
+                this.dropdownToggle = document.querySelector('.dropdown-toggle');
+                this.dropdownMenu = document.querySelector('.dropdown-menu');
+                this.mobileToggle = document.getElementById('mobileMenuToggle');
+                
+                this.init();
+            }
+            
+            init() {
+                this.setupDropdown();
+                this.setupMobileMenu();
+                this.setupScrollEffect();
+            }
+            
+            setupDropdown() {
+                if (this.dropdownToggle && this.dropdownMenu) {
+                    this.dropdownToggle.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        this.dropdownMenu.classList.toggle('show');
+                    });
+                    
+                    // Close dropdown when clicking outside
+                    document.addEventListener('click', (e) => {
+                        if (!e.target.closest('.dropdown')) {
+                            this.dropdownMenu.classList.remove('show');
+                        }
+                    });
+                }
+            }
+            
+            setupMobileMenu() {
+                // Mobile menu functionality would go here
+                if (this.mobileToggle) {
+                    this.mobileToggle.addEventListener('click', () => {
+                        console.log('Mobile menu toggle clicked');
+                    });
+                }
+            }
+            
+            setupScrollEffect() {
+                let lastScroll = 0;
+                window.addEventListener('scroll', () => {
+                    const currentScroll = window.pageYOffset;
+                    const header = document.querySelector('.enhanced-header');
+                    
+                    if (currentScroll > lastScroll && currentScroll > 100) {
+                        header.style.transform = 'translateY(-100%)';
+                    } else {
+                        header.style.transform = 'translateY(0)';
+                    }
+                    
+                    lastScroll = currentScroll;
+                });
+            }
+        }
+        
+        // Initialize systems when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            const newsSystem = new EnhancedNewsSystem();
+            const headerSystem = new EnhancedHeader();
+            
+            // Add CSS animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideInUp {
+                    from {
+                        opacity: 0;
+                        transform: translateY(20px);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateY(0);
+                    }
+                }
+                
+                .animate-in {
+                    animation: slideInUp 0.6s ease forwards;
+                }
+                
+                .enhanced-header {
+                    transition: transform 0.3s ease;
+                }
+                
+                .dropdown-menu {
+                    opacity: 0;
+                    visibility: hidden;
+                    transform: translateY(-10px);
+                    transition: all 0.3s ease;
+                }
+                
+                .dropdown-menu.show {
+                    opacity: 1;
+                    visibility: visible;
+                    transform: translateY(0);
+                }
+            `;
+            document.head.appendChild(style);
+            
+            console.log('✅ Enhanced News System Initialized');
+            console.log('🎨 Color Management System Active');
+            console.log('🚀 Modern UI/UX Enhancements Loaded');
+        });
+    </script>
+
+    <!-- Additional Scripts -->
     <script src="js/main.js"></script>
-    <script src="js/header-functions.js"></script>
     <script src="js/auth-manager.js"></script>
 </body>
 </html>

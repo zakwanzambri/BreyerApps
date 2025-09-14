@@ -1,0 +1,920 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>News & Announcements - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/enhanced-dashboard.css">
+    <link rel="stylesheet" href="css/enhanced-notifications.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Enhanced News Color System */
+            --news-primary: #667eea;
+            --news-secondary: #764ba2;
+            --news-accent: #f093fb;
+            
+            /* Category Colors - Consistent Brand Palette */
+            --category-academic: #667eea;
+            --category-events: #f093fb;
+            --category-campus: #764ba2;
+            --category-student: #4facfe;
+            --category-urgent: #ff6b6b;
+            --category-info: #4ecdc4;
+            --category-success: #95e1d3;
+            
+            /* Semantic Colors */
+            --urgent-bg: rgba(255, 107, 107, 0.1);
+            --urgent-border: rgba(255, 107, 107, 0.3);
+            --info-bg: rgba(78, 205, 196, 0.1);
+            --info-border: rgba(78, 205, 196, 0.3);
+            --success-bg: rgba(149, 225, 211, 0.1);
+            --success-border: rgba(149, 225, 211, 0.3);
+        }
+
+        /* Enhanced News Layout */
+        .news-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: var(--space-xl);
+            background: var(--gradient-bg);
+            min-height: 100vh;
+        }
+
+        .news-hero {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xxl);
+            margin-bottom: var(--space-xl);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--primary-gradient);
+            opacity: 0.1;
+            border-radius: var(--radius-xl);
+        }
+
+        .news-hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .news-hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--space-md);
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .news-hero p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--space-lg);
+        }
+
+        .news-search {
+            max-width: 500px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .news-search input {
+            width: 100%;
+            padding: var(--space-md) var(--space-lg) var(--space-md) var(--space-xxl);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all var(--transition-medium);
+        }
+
+        .news-search input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.3);
+        }
+
+        .news-search i {
+            position: absolute;
+            left: var(--space-lg);
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Enhanced Category Filter */
+        .category-filter {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-xl);
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: var(--space-md) var(--space-xl);
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .filter-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .filter-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+            border-color: transparent;
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* Featured News Enhanced */
+        .featured-section {
+            margin-bottom: var(--space-xl);
+        }
+
+        .featured-article {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            transition: all var(--transition-medium);
+            position: relative;
+        }
+
+        .featured-article:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .featured-content {
+            padding: var(--space-xxl);
+        }
+
+        .featured-category {
+            display: inline-block;
+            padding: var(--space-xs) var(--space-md);
+            background: var(--category-academic);
+            color: white;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: var(--space-md);
+        }
+
+        .featured-article h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--space-md);
+            line-height: 1.2;
+        }
+
+        .featured-article p {
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .featured-meta {
+            display: flex;
+            gap: var(--space-lg);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .featured-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .featured-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            padding: var(--space-md) var(--space-xl);
+            background: var(--primary-gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            transition: all var(--transition-medium);
+        }
+
+        .featured-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        /* News Grid Enhanced */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: var(--space-xl);
+            margin-bottom: var(--space-xl);
+        }
+
+        .news-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xl);
+            transition: all var(--transition-medium);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-large);
+        }
+
+        .news-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: var(--space-lg);
+        }
+
+        .news-category {
+            padding: var(--space-xs) var(--space-md);
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: white;
+        }
+
+        .news-category.academic { background: var(--category-academic); }
+        .news-category.events { background: var(--category-events); }
+        .news-category.campus { background: var(--category-campus); }
+        .news-category.student { background: var(--category-student); }
+
+        .news-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .news-card h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: var(--space-md);
+            line-height: 1.3;
+        }
+
+        .news-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: var(--space-lg);
+        }
+
+        .news-meta {
+            display: flex;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+
+        .news-meta span {
+            display: flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        .news-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-xs);
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all var(--transition-fast);
+        }
+
+        .news-cta:hover {
+            color: white;
+        }
+
+        /* Announcements Enhanced */
+        .announcements-section {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: var(--space-xxl);
+        }
+
+        .announcements-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: var(--space-xl);
+            text-align: center;
+        }
+
+        .announcement-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            padding: var(--space-xl);
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--radius-lg);
+            margin-bottom: var(--space-lg);
+            transition: all var(--transition-medium);
+            border-left: 4px solid transparent;
+        }
+
+        .announcement-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(10px);
+        }
+
+        .announcement-card.urgent {
+            border-left-color: var(--category-urgent);
+            background: var(--urgent-bg);
+        }
+
+        .announcement-card.info {
+            border-left-color: var(--category-info);
+            background: var(--info-bg);
+        }
+
+        .announcement-card.success {
+            border-left-color: var(--category-success);
+            background: var(--success-bg);
+        }
+
+        .announcement-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .announcement-card.urgent .announcement-icon {
+            background: var(--category-urgent);
+            color: white;
+        }
+
+        .announcement-card.info .announcement-icon {
+            background: var(--category-info);
+            color: white;
+        }
+
+        .announcement-card.success .announcement-icon {
+            background: var(--category-success);
+            color: white;
+        }
+
+        .announcement-content h4 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: var(--space-xs);
+        }
+
+        .announcement-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: var(--space-xs);
+        }
+
+        .announcement-date {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.8rem;
+        }
+
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .news-card,
+        .announcement-card {
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .news-container {
+                padding: var(--space-lg);
+            }
+
+            .news-hero h1 {
+                font-size: 2rem;
+            }
+
+            .news-hero p {
+                font-size: 1rem;
+            }
+
+            .category-filter {
+                gap: var(--space-sm);
+            }
+
+            .filter-btn {
+                padding: var(--space-sm) var(--space-md);
+                font-size: 0.9rem;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+                gap: var(--space-lg);
+            }
+
+            .featured-article h2 {
+                font-size: 1.8rem;
+            }
+
+            .news-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .announcement-card {
+                flex-direction: column;
+                text-align: center;
+                gap: var(--space-md);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <div class="logo">
+                <i class="fas fa-university"></i>
+                <span class="logo-text">Campus Hub</span>
+            </div>
+            
+            <nav class="nav-menu">
+                <ul>
+                    <li class="nav-dropdown">
+                        <a href="#" class="nav-link">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                            <i class="fas fa-chevron-down"></i>
+                        </a>
+                        <div class="dropdown-menu">
+                            <a href="student-dashboard-unified.html" class="dropdown-item">
+                                <i class="fas fa-rocket"></i>
+                                <div>
+                                    <strong>Enhanced Dashboard</strong>
+                                    <small>Modern UI with data visualization</small>
+                                </div>
+                            </a>
+                            <a href="student-dashboard.html" class="dropdown-item">
+                                <i class="fas fa-chart-bar"></i>
+                                <div>
+                                    <strong>Classic Dashboard</strong>
+                                    <small>Standard functional interface</small>
+                                </div>
+                            </a>
+                            <a href="ui-ux-showcase.html" class="dropdown-item">
+                                <i class="fas fa-palette"></i>
+                                <div>
+                                    <strong>UI/UX Showcase</strong>
+                                    <small>Advanced features demo</small>
+                                </div>
+                            </a>
+                        </div>
+                    </li>
+                    <li><a href="academics.html" class="nav-link">Academics</a></li>
+                    <li><a href="services.html" class="nav-link">Services</a></li>
+                    <li><a href="news.html" class="nav-link active">News</a></li>
+                </ul>
+            </nav>
+            
+            <div class="header-actions">
+                <div class="search-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" placeholder="Search..." class="search-input" id="globalSearch">
+                </div>
+                <button class="notifications-btn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge">3</span>
+                </button>
+                <div class="profile-menu">
+                    <img src="https://via.placeholder.com/40x40/667eea/FFFFFF?text=AS" alt="Profile" class="profile-img">
+                    <span class="profile-name">Ahmad Syafiq</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" title="Toggle Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Enhanced News Content -->
+    <main class="news-container">
+        <!-- Hero Section -->
+        <section class="news-hero">
+            <div class="news-hero-content">
+                <h1><i class="fas fa-bullhorn"></i> News & Announcements</h1>
+                <p>Stay connected with the latest campus updates, academic news, and important announcements</p>
+                <div class="news-search">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search news and announcements..." id="newsSearch">
+                </div>
+            </div>
+        </section>
+
+        <!-- Enhanced Category Filter -->
+        <div class="category-filter">
+            <button class="filter-btn active" data-category="all">
+                <i class="fas fa-list"></i> All News
+            </button>
+            <button class="filter-btn" data-category="academic">
+                <i class="fas fa-graduation-cap"></i> Academic
+            </button>
+            <button class="filter-btn" data-category="events">
+                <i class="fas fa-calendar-alt"></i> Events
+            </button>
+            <button class="filter-btn" data-category="campus">
+                <i class="fas fa-university"></i> Campus
+            </button>
+            <button class="filter-btn" data-category="student">
+                <i class="fas fa-users"></i> Student Life
+            </button>
+        </div>
+
+        <!-- Featured News -->
+        <section class="featured-section">
+            <div class="featured-article">
+                <div class="featured-content">
+                    <div class="featured-category">Academic</div>
+                    <h2>Semester 2 Registration Now Open</h2>
+                    <p>Registration for Semester 2 begins Monday, September 16th at 8:00 AM. All diploma programs are included. Early registration is recommended to secure your preferred class schedule and course sections. Don't miss out on your preferred courses!</p>
+                    <div class="featured-meta">
+                        <span><i class="fas fa-calendar"></i> September 15, 2025</span>
+                        <span><i class="fas fa-user"></i> Academic Office</span>
+                        <span><i class="fas fa-clock"></i> 5 min read</span>
+                    </div>
+                    <a href="#" class="featured-cta">
+                        Read Full Article <i class="fas fa-arrow-right"></i>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- News Grid -->
+        <section class="news-grid" id="newsGrid">
+            <article class="news-card" data-category="events">
+                <div class="news-card-header">
+                    <div class="news-category events">Events</div>
+                    <div class="news-date">September 14, 2025</div>
+                </div>
+                <h3>Industry Career Fair This Friday</h3>
+                <p>Meet employers from hospitality, IT, and electrical industries in the Main Hall from 10 AM to 4 PM. Bring your resume and dress professionally for this networking opportunity.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-map-marker-alt"></i> Main Hall</span>
+                    <span><i class="fas fa-clock"></i> 10:00 AM - 4:00 PM</span>
+                    <span><i class="fas fa-users"></i> All Students</span>
+                </div>
+                <a href="#" class="news-cta">Learn More <i class="fas fa-external-link-alt"></i></a>
+            </article>
+
+            <article class="news-card" data-category="campus">
+                <div class="news-card-header">
+                    <div class="news-category campus">Campus</div>
+                    <div class="news-date">September 12, 2025</div>
+                </div>
+                <h3>New Culinary Kitchen Equipment Installed</h3>
+                <p>State-of-the-art cooking equipment has been installed in Kitchen Laboratory A and B, featuring professional-grade ovens, refrigeration units, and specialized culinary tools.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-tools"></i> Kitchen Lab A & B</span>
+                    <span><i class="fas fa-utensils"></i> Culinary Arts</span>
+                    <span><i class="fas fa-star"></i> New Equipment</span>
+                </div>
+                <a href="#" class="news-cta">View Details <i class="fas fa-external-link-alt"></i></a>
+            </article>
+
+            <article class="news-card" data-category="academic">
+                <div class="news-card-header">
+                    <div class="news-category academic">Academic</div>
+                    <div class="news-date">September 10, 2025</div>
+                </div>
+                <h3>Mid-Semester Exam Schedule Released</h3>
+                <p>The mid-semester examination timetable for all diploma programs has been published. Students can view their exam dates and locations through the student portal.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-calendar-check"></i> October 14-25, 2025</span>
+                    <span><i class="fas fa-file-alt"></i> All Programs</span>
+                    <span><i class="fas fa-download"></i> Available Now</span>
+                </div>
+                <a href="#" class="news-cta">View Schedule <i class="fas fa-external-link-alt"></i></a>
+            </article>
+
+            <article class="news-card" data-category="student">
+                <div class="news-card-header">
+                    <div class="news-category student">Student Life</div>
+                    <div class="news-date">September 8, 2025</div>
+                </div>
+                <h3>Student Council Elections 2025</h3>
+                <p>Nominations are now open for Student Council positions. Apply by September 20th to represent your fellow students and contribute to campus improvements.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-vote-yea"></i> Nominations Open</span>
+                    <span><i class="fas fa-users"></i> All Students</span>
+                    <span><i class="fas fa-calendar"></i> Deadline: Sept 20</span>
+                </div>
+                <a href="#" class="news-cta">Apply Now <i class="fas fa-external-link-alt"></i></a>
+            </article>
+
+            <article class="news-card" data-category="campus">
+                <div class="news-card-header">
+                    <div class="news-category campus">Campus</div>
+                    <div class="news-date">September 6, 2025</div>
+                </div>
+                <h3>Library Extended Hours for Exam Period</h3>
+                <p>The campus library will extend operating hours during the upcoming examination period. 24/7 study areas will be available with enhanced security and support services.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-clock"></i> 24/7 Access</span>
+                    <span><i class="fas fa-book"></i> Study Areas</span>
+                    <span><i class="fas fa-shield-alt"></i> Enhanced Security</span>
+                </div>
+                <a href="#" class="news-cta">More Info <i class="fas fa-external-link-alt"></i></a>
+            </article>
+
+            <article class="news-card" data-category="events">
+                <div class="news-card-header">
+                    <div class="news-category events">Events</div>
+                    <div class="news-date">September 4, 2025</div>
+                </div>
+                <h3>Technical Skills Workshop Series</h3>
+                <p>Join our monthly technical workshops covering programming, electrical systems, and culinary techniques. Open to all students with hands-on learning experiences.</p>
+                <div class="news-meta">
+                    <span><i class="fas fa-wrench"></i> Technical Labs</span>
+                    <span><i class="fas fa-users"></i> All Students</span>
+                    <span><i class="fas fa-hands-helping"></i> Hands-on</span>
+                </div>
+                <a href="#" class="news-cta">Register <i class="fas fa-external-link-alt"></i></a>
+            </article>
+        </section>
+
+        <!-- Important Announcements -->
+        <section class="announcements-section">
+            <h2><i class="fas fa-megaphone"></i> Important Announcements</h2>
+            
+            <div class="announcement-card urgent">
+                <div class="announcement-icon">
+                    <i class="fas fa-exclamation-triangle"></i>
+                </div>
+                <div class="announcement-content">
+                    <h4>Campus Safety Protocol Update</h4>
+                    <p>New safety protocols effective immediately. All students and staff must follow updated guidelines for a safer campus environment.</p>
+                    <div class="announcement-date">September 13, 2025</div>
+                </div>
+            </div>
+            
+            <div class="announcement-card info">
+                <div class="announcement-icon">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="announcement-content">
+                    <h4>System Maintenance Scheduled</h4>
+                    <p>Student portal will be offline for maintenance on September 16th from 2:00 AM to 6:00 AM. Plan accordingly.</p>
+                    <div class="announcement-date">September 11, 2025</div>
+                </div>
+            </div>
+            
+            <div class="announcement-card success">
+                <div class="announcement-icon">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <div class="announcement-content">
+                    <h4>WiFi Network Upgrade Complete</h4>
+                    <p>Campus-wide WiFi network has been upgraded for faster and more reliable connectivity across all buildings.</p>
+                    <div class="announcement-date">September 9, 2025</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Enhanced JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/header-functions.js"></script>
+    <script src="js/auth-manager.js"></script>
+    <script>
+        class EnhancedNewsManager {
+            constructor() {
+                this.currentFilter = 'all';
+                this.searchTerm = '';
+                this.articles = [];
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.loadArticles();
+                this.initializeAnimations();
+            }
+
+            setupEventListeners() {
+                // Category filter buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setActiveFilter(e.target.dataset.category);
+                        this.filterArticles();
+                    });
+                });
+
+                // Search functionality
+                const searchInput = document.getElementById('newsSearch');
+                if (searchInput) {
+                    searchInput.addEventListener('input', (e) => {
+                        this.searchTerm = e.target.value.toLowerCase();
+                        this.filterArticles();
+                    });
+                }
+
+                // Add hover effects to cards
+                document.querySelectorAll('.news-card, .announcement-card').forEach(card => {
+                    card.addEventListener('mouseenter', this.addHoverEffect);
+                    card.addEventListener('mouseleave', this.removeHoverEffect);
+                });
+            }
+
+            setActiveFilter(category) {
+                // Update button states
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.querySelector(`[data-category="${category}"]`).classList.add('active');
+                
+                this.currentFilter = category;
+            }
+
+            filterArticles() {
+                const articles = document.querySelectorAll('.news-card');
+                
+                articles.forEach(article => {
+                    const category = article.dataset.category;
+                    const title = article.querySelector('h3').textContent.toLowerCase();
+                    const content = article.querySelector('p').textContent.toLowerCase();
+                    
+                    const matchesFilter = this.currentFilter === 'all' || category === this.currentFilter;
+                    const matchesSearch = this.searchTerm === '' || 
+                                        title.includes(this.searchTerm) || 
+                                        content.includes(this.searchTerm);
+                    
+                    if (matchesFilter && matchesSearch) {
+                        article.style.display = 'block';
+                        article.style.animation = 'slideInUp 0.6s ease-out';
+                    } else {
+                        article.style.display = 'none';
+                    }
+                });
+
+                this.updateResultsCount();
+            }
+
+            updateResultsCount() {
+                const visibleArticles = document.querySelectorAll('.news-card[style*="block"]').length;
+                
+                // Show notification for search results
+                if (this.searchTerm) {
+                    this.showSearchResults(visibleArticles);
+                }
+            }
+
+            showSearchResults(count) {
+                const notification = document.createElement('div');
+                notification.className = 'enhanced-notification info show';
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-search"></i>
+                        <span>Found ${count} article${count !== 1 ? 's' : ''} matching "${this.searchTerm}"</span>
+                        <button onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Remove existing search notifications
+                document.querySelectorAll('.enhanced-notification').forEach(n => n.remove());
+                
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 3000);
+            }
+
+            addHoverEffect(e) {
+                e.target.style.transform = 'translateY(-5px) scale(1.02)';
+                e.target.style.boxShadow = '0 20px 40px rgba(0,0,0,0.3)';
+            }
+
+            removeHoverEffect(e) {
+                e.target.style.transform = 'translateY(0) scale(1)';
+                e.target.style.boxShadow = 'var(--shadow-medium)';
+            }
+
+            initializeAnimations() {
+                // Stagger animations for cards
+                const cards = document.querySelectorAll('.news-card, .announcement-card');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+
+                // Add scroll animations
+                this.setupScrollAnimations();
+            }
+
+            setupScrollAnimations() {
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animation = 'slideInUp 0.6s ease-out';
+                        }
+                    });
+                }, { threshold: 0.1 });
+
+                document.querySelectorAll('.news-card, .announcement-card').forEach(card => {
+                    observer.observe(card);
+                });
+            }
+
+            loadArticles() {
+                // Simulate loading articles from API
+                this.articles = Array.from(document.querySelectorAll('.news-card')).map(card => ({
+                    title: card.querySelector('h3').textContent,
+                    category: card.dataset.category,
+                    date: card.querySelector('.news-date').textContent,
+                    content: card.querySelector('p').textContent
+                }));
+
+                console.log(`✅ Loaded ${this.articles.length} news articles`);
+            }
+        }
+
+        // Initialize enhanced news manager
+        document.addEventListener('DOMContentLoaded', () => {
+            window.newsManager = new EnhancedNewsManager();
+            
+            // Show welcome message
+            setTimeout(() => {
+                const notification = document.createElement('div');
+                notification.className = 'enhanced-notification success show';
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-newspaper"></i>
+                        <span>📰 Enhanced News Portal loaded successfully!</span>
+                        <button onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                setTimeout(() => notification.remove(), 4000);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
