@@ -13,6 +13,204 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enhanced Dashboard Styling with Better Contrast */
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #f093fb;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.9);
+            --text-muted: rgba(255, 255, 255, 0.7);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body {
+            background: var(--gradient-bg) !important;
+            color: var(--text-primary) !important;
+            font-family: 'Inter', sans-serif !important;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        .dashboard-container {
+            background: var(--gradient-bg) !important;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Quick Access Section Styling */
+        .content-section {
+            background: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 20px !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            padding: 30px !important;
+            margin: 20px 0 !important;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .section-title {
+            color: var(--text-primary) !important;
+            font-size: 1.5rem !important;
+            font-weight: 700 !important;
+            margin-bottom: 20px !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .quick-access-grid {
+            display: grid !important;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)) !important;
+            gap: 20px !important;
+        }
+
+        .quick-access-item {
+            background: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 15px !important;
+            padding: 25px !important;
+            text-decoration: none !important;
+            color: var(--text-primary) !important;
+            text-align: center !important;
+            transition: all 0.3s ease !important;
+            backdrop-filter: blur(10px) !important;
+            -webkit-backdrop-filter: blur(10px) !important;
+            display: block !important;
+        }
+
+        .quick-access-item:hover {
+            transform: translateY(-5px) !important;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4) !important;
+            background: rgba(255, 255, 255, 0.15) !important;
+            color: var(--text-primary) !important;
+        }
+
+        .quick-access-icon {
+            width: 60px !important;
+            height: 60px !important;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color)) !important;
+            border-radius: 50% !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            margin: 0 auto 15px !important;
+            font-size: 1.5rem !important;
+            color: white !important;
+        }
+
+        .quick-access-item h4 {
+            color: var(--text-primary) !important;
+            font-size: 1.2rem !important;
+            font-weight: 600 !important;
+            margin: 15px 0 10px !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+        }
+
+        .quick-access-item p {
+            color: var(--text-secondary) !important;
+            font-size: 0.9rem !important;
+            margin: 0 !important;
+            opacity: 0.9 !important;
+        }
+
+        /* Dashboard Footer Styling */
+        .dashboard-footer {
+            background: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 15px !important;
+            backdrop-filter: blur(15px) !important;
+            -webkit-backdrop-filter: blur(15px) !important;
+            padding: 20px !important;
+            margin-top: 30px !important;
+            display: flex !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            flex-wrap: wrap !important;
+            gap: 15px !important;
+        }
+
+        .dashboard-footer p {
+            color: var(--text-secondary) !important;
+            margin: 0 !important;
+            font-size: 0.9rem !important;
+        }
+
+        .footer-actions {
+            display: flex !important;
+            gap: 15px !important;
+            align-items: center !important;
+        }
+
+        .footer-actions a,
+        .footer-actions button {
+            color: var(--text-primary) !important;
+            text-decoration: none !important;
+            background: var(--glass-bg) !important;
+            border: 1px solid var(--glass-border) !important;
+            border-radius: 8px !important;
+            padding: 8px 16px !important;
+            font-size: 0.85rem !important;
+            transition: all 0.3s ease !important;
+            cursor: pointer !important;
+            font-family: inherit !important;
+        }
+
+        .footer-actions a:hover,
+        .footer-actions button:hover {
+            background: var(--primary-color) !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3) !important;
+        }
+
+        /* Section Header Styling */
+        .section-header {
+            display: flex !important;
+            align-items: center !important;
+            gap: 15px !important;
+            margin-bottom: 25px !important;
+        }
+
+        .section-icon {
+            width: 50px !important;
+            height: 50px !important;
+            background: linear-gradient(45deg, var(--primary-color), var(--accent-color)) !important;
+            border-radius: 12px !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            font-size: 1.3rem !important;
+            color: white !important;
+        }
+
+        /* Enhanced Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .dashboard-container {
+                padding: 15px !important;
+            }
+            
+            .content-section {
+                padding: 20px !important;
+            }
+            
+            .quick-access-grid {
+                grid-template-columns: 1fr !important;
+                gap: 15px !important;
+            }
+            
+            .dashboard-footer {
+                flex-direction: column !important;
+                text-align: center !important;
+            }
+            
+            .footer-actions {
+                justify-content: center !important;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- Single Unified Enhanced Dashboard -->
