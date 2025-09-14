@@ -1,0 +1,913 @@
+/* Enhanced Data Visualization Components */
+
+/* GPA Progress Chart */
+.gpa-chart-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto var(--space-md);
+}
+
+.gpa-circle {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: conic-gradient(
+        from 0deg,
+        #667eea 0deg,
+        #764ba2 calc(var(--gpa-percentage) * 3.6deg),
+        rgba(255, 255, 255, 0.2) calc(var(--gpa-percentage) * 3.6deg)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    animation: rotateGPA 2s ease-out;
+}
+
+.gpa-circle::before {
+    content: '';
+    width: 90px;
+    height: 90px;
+    background: var(--glass-bg);
+    border-radius: 50%;
+    position: absolute;
+}
+
+.gpa-value-center {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+}
+
+.gpa-value-center .value {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 2px;
+}
+
+.gpa-value-center .label {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Assignment Progress Bars */
+.assignment-progress {
+    margin-bottom: var(--space-md);
+}
+
+.assignment-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-sm);
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+}
+
+.assignment-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.assignment-info {
+    flex: 1;
+}
+
+.assignment-name {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.assignment-course {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+.assignment-progress-bar {
+    width: 100px;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-left: var(--space-md);
+}
+
+.assignment-progress-fill {
+    height: 100%;
+    background: var(--success-gradient);
+    border-radius: 3px;
+    transition: width 1s ease-out;
+    animation: progressFill 2s ease-out;
+}
+
+/* Course Grade Chart */
+.course-grades {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.course-grade-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+}
+
+.course-grade-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: scale(1.02);
+}
+
+.course-name {
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.course-grade {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.grade-badge {
+    padding: 4px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: white;
+}
+
+.grade-A { background: linear-gradient(135deg, #28a745, #20c997); }
+.grade-B { background: linear-gradient(135deg, #007bff, #6610f2); }
+.grade-C { background: linear-gradient(135deg, #ffc107, #fd7e14); }
+.grade-D { background: linear-gradient(135deg, #dc3545, #e83e8c); }
+
+/* Attendance Chart */
+.attendance-chart {
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+    margin-bottom: var(--space-md);
+}
+
+.attendance-bar {
+    width: 20px;
+    background: var(--primary-gradient);
+    border-radius: 4px 4px 0 0;
+    position: relative;
+    transition: all var(--transition-medium);
+    animation: growUp 1.5s ease-out;
+}
+
+.attendance-bar:hover {
+    transform: scaleY(1.1);
+    background: var(--success-gradient);
+}
+
+.attendance-bar::after {
+    content: attr(data-percentage);
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 600;
+}
+
+/* Study Time Chart */
+.study-time-chart {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: var(--space-md);
+}
+
+.study-day {
+    text-align: center;
+    padding: var(--space-sm);
+}
+
+.study-day-label {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-bottom: var(--space-xs);
+    text-transform: uppercase;
+}
+
+.study-hours {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--warning-gradient);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin: 0 auto var(--space-xs);
+    transition: all var(--transition-medium);
+    animation: bounce 0.6s ease-out;
+}
+
+.study-hours:hover {
+    transform: scale(1.2);
+    box-shadow: var(--shadow-glow);
+}
+
+/* Notification Timeline */
+.notification-timeline {
+    position: relative;
+    padding-left: var(--space-lg);
+}
+
+.notification-timeline::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--primary-gradient);
+}
+
+.timeline-item {
+    position: relative;
+    margin-bottom: var(--space-md);
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-medium);
+}
+
+.timeline-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+}
+
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: -21px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background: var(--primary-gradient);
+    border-radius: 50%;
+    border: 2px solid var(--glass-bg);
+}
+
+.timeline-content {
+    color: white;
+}
+
+.timeline-title {
+    font-weight: 600;
+    margin-bottom: 4px;
+    font-size: 0.9rem;
+}
+
+.timeline-time {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+/* Interactive Calendar Heatmap */
+.calendar-heatmap {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 4px;
+    margin-bottom: var(--space-md);
+}
+
+.calendar-day {
+    aspect-ratio: 1;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    color: white;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    position: relative;
+}
+
+.calendar-day.low { background: rgba(102, 126, 234, 0.3); }
+.calendar-day.medium { background: rgba(102, 126, 234, 0.6); }
+.calendar-day.high { background: rgba(102, 126, 234, 0.9); }
+.calendar-day.today { 
+    background: var(--warning-gradient);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+}
+
+.calendar-day:hover {
+    transform: scale(1.2);
+    z-index: 2;
+}
+
+/* Skill Progress Radar */
+.skill-progress {
+    display: grid;
+    gap: var(--space-sm);
+}
+
+.skill-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+}
+
+.skill-name {
+    color: white;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.skill-level {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.skill-dots {
+    display: flex;
+    gap: 4px;
+}
+
+.skill-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    transition: all var(--transition-fast);
+}
+
+.skill-dot.filled {
+    background: var(--success-gradient);
+    animation: fillDot 0.3s ease-out;
+}
+
+/* Animations */
+@keyframes rotateGPA {
+    from { transform: rotate(-90deg); }
+    to { transform: rotate(0deg); }
+}
+
+@keyframes progressFill {
+    from { width: 0%; }
+    to { width: var(--progress-width); }
+}
+
+@keyframes growUp {
+    from { height: 0; }
+    to { height: var(--bar-height); }
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+    40% { transform: translateY(-10px); }
+    60% { transform: translateY(-5px); }
+}
+
+@keyframes fillDot {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .attendance-chart {
+        height: 150px;
+    }
+    
+    .study-time-chart {
+        flex-wrap: wrap;
+        gap: var(--space-sm);
+    }
+    
+    .calendar-heatmap {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    
+    .gpa-chart-container {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .gpa-circle {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .gpa-circle::before {
+        width: 75px;
+        height: 75px;
+    }
+    
+    /* Advanced Charts Mobile */
+    .attendance-donut-chart,
+    .radar-chart-container {
+        flex-direction: column;
+        gap: var(--space-md);
+    }
+    
+    .grade-bars {
+        height: 150px;
+    }
+    
+    .burndown-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .learning-heatmap {
+        flex-direction: column;
+    }
+    
+    .heatmap-grid {
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(4, 1fr);
+    }
+    
+    .deadlines-timeline {
+        height: 200px;
+    }
+    
+    .deadline-info {
+        position: static;
+        transform: none;
+        margin-top: var(--space-sm);
+    }
+}
+
+/* Advanced Data Visualization Components */
+
+/* GPA Trend Chart */
+.gpa-trend-chart {
+    position: relative;
+}
+
+.chart-legend {
+    display: flex;
+    gap: var(--space-lg);
+    margin-top: var(--space-md);
+    justify-content: center;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.legend-color {
+    width: 16px;
+    height: 3px;
+    border-radius: 2px;
+}
+
+/* Attendance Donut Chart */
+.attendance-donut-chart {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.donut-chart-container {
+    position: relative;
+    flex-shrink: 0;
+}
+
+.donut-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.donut-percentage {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+}
+
+.donut-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.attendance-stats {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.attendance-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.stat-color {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.stat-color.present { background: #28a745; }
+.stat-color.late { background: #ffc107; }
+.stat-color.absent { background: #dc3545; }
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.8);
+    flex: 1;
+}
+
+.stat-value {
+    color: white;
+    font-weight: 600;
+}
+
+/* Grade Distribution Chart */
+.grade-distribution-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.grade-bars {
+    display: flex;
+    align-items: end;
+    justify-content: space-around;
+    height: 200px;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: var(--radius-md);
+}
+
+.grade-bar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 40px;
+}
+
+.grade-fill {
+    width: 100%;
+    background: linear-gradient(180deg, #667eea, #764ba2);
+    border-radius: 4px 4px 0 0;
+    transition: height 1s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.grade-fill::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    animation: shimmer 2s infinite;
+}
+
+.grade-label {
+    color: white;
+    font-weight: 600;
+    margin-top: var(--space-xs);
+}
+
+.grade-count {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+    margin-top: 2px;
+}
+
+.grade-insights {
+    display: flex;
+    gap: var(--space-lg);
+    justify-content: center;
+}
+
+.insight-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+/* Study Hours Chart */
+.study-hours-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.study-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: var(--space-md);
+}
+
+.study-stat {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.stat-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-gradient);
+    border-radius: var(--radius-sm);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.stat-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Radar Chart */
+.radar-chart-container {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xl);
+}
+
+.radar-legend {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.radar-course {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.course-color {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.course-score {
+    margin-left: auto;
+    font-weight: 600;
+    color: white;
+}
+
+/* Burndown Chart */
+.burndown-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-lg);
+}
+
+.burndown-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-md);
+}
+
+.burndown-metric {
+    text-align: center;
+    padding: var(--space-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: var(--space-xs);
+}
+
+.metric-label {
+    font-size: 0.8rem;
+    color: rgba(255, 255, 255, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Learning Progress Heatmap */
+.learning-heatmap {
+    display: flex;
+    gap: var(--space-lg);
+}
+
+.heatmap-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 4px;
+    flex: 1;
+}
+
+.heatmap-cell {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    opacity: 0;
+    animation: fadeInScale 0.6s ease-out forwards;
+}
+
+.heatmap-cell.low {
+    background: rgba(102, 126, 234, 0.2);
+}
+
+.heatmap-cell.medium {
+    background: rgba(102, 126, 234, 0.5);
+}
+
+.heatmap-cell.high {
+    background: rgba(102, 126, 234, 0.8);
+}
+
+.heatmap-labels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.skill-labels,
+.time-labels {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.skill-label,
+.time-label {
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.8rem;
+}
+
+/* Deadlines Timeline */
+.deadlines-timeline {
+    position: relative;
+    height: 120px;
+}
+
+.timeline-track {
+    position: relative;
+    height: 80px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 40px;
+    margin-bottom: var(--space-md);
+}
+
+.deadline-item {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    opacity: 0;
+}
+
+.deadline-marker {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 0 auto var(--space-xs);
+    position: relative;
+    z-index: 2;
+}
+
+.deadline-item.urgent .deadline-marker {
+    background: #dc3545;
+    box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+    animation: pulse 1.5s infinite;
+}
+
+.deadline-item.warning .deadline-marker {
+    background: #ffc107;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+}
+
+.deadline-item.normal .deadline-marker {
+    background: #28a745;
+}
+
+.deadline-info {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    white-space: nowrap;
+    background: rgba(0, 0, 0, 0.8);
+    padding: var(--space-sm);
+    border-radius: var(--radius-sm);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.deadline-title {
+    color: white;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.deadline-date {
+    color: #ffc107;
+    font-size: 0.8rem;
+    margin-bottom: 2px;
+}
+
+.deadline-course {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.7rem;
+}
+
+.timeline-scale {
+    display: flex;
+    justify-content: space-between;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.8rem;
+}
+
+/* Animations */
+@keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes fadeInScale {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(220, 53, 69, 0.5);
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(220, 53, 69, 0.8);
+    }
+}

@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Student Dashboard - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/full-integration.css">
+    <link rel="stylesheet" href="css/enhanced-dashboard.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Enhanced Welcome Section -->
+        <div class="welcome-section">
+            <div class="user-avatar" id="user-avatar">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <div class="welcome-content">
+                <h1 id="welcome-message">Welcome, Ahmad Ibrahim!</h1>
+                <p id="user-details">ahmad.ibrahim@student.campus.edu</p>
+                <div class="user-info">
+                    <span id="student-id">STU2025001</span> | <span id="program-name">Diploma in Information Technology</span>
+                </div>
+                <div class="action-buttons">
+                    <a href="index.html" class="btn-modern btn-primary">
+                        <i class="fas fa-home"></i> Back to Campus Hub
+                    </a>
+                    <button class="btn-modern btn-secondary" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Stats Grid -->
+        <div class="stats-grid" id="dashboard-stats">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-value" id="current-gpa">3.75</div>
+                <div class="stat-label">Current GPA</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-value" id="total-courses">5</div>
+                <div class="stat-label">Enrolled Courses</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-value" id="pending-assignments">8</div>
+                <div class="stat-label">Pending Assignments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-bell"></i>
+                </div>
+                <div class="stat-value" id="unread-notifications">4</div>
+                <div class="stat-label">New Notifications</div>
+            </div>
+        </div>
+
+        <!-- Enhanced Content Grid -->
+        <div class="content-grid">
+            <!-- My Courses -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="section-title">My Courses</h3>
+                </div>
+                <div class="section-content" id="courses-container">
+                    <div class="loading-modern">
+                        <div class="loading-spinner"></div>
+                        <p>Loading courses...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Upcoming Deadlines -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="section-title">Upcoming Deadlines</h3>
+                </div>
+                <div class="section-content" id="deadlines-container">
+                    <div class="loading-modern">
+                        <div class="loading-spinner"></div>
+                        <p>Loading deadlines...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- More Content Sections -->
+        <div class="content-grid">
+            <!-- Personalized Campus News -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-newspaper"></i>
+                    </div>
+                    <h3 class="section-title">Campus News</h3>
+                </div>
+                <div class="section-content" id="personalized-news-container">
+                    <div class="loading-modern">
+                        <div class="loading-spinner"></div>
+                        <p>Loading personalized news...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3 class="section-title">Notifications</h3>
+                </div>
+                <div class="section-content" id="notifications-container">
+                    <div class="loading-modern">
+                        <div class="loading-spinner"></div>
+                        <p>Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Calendar -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="section-title">Academic Calendar</h3>
+            </div>
+            <div class="section-content" id="calendar-container">
+                <div class="loading-modern">
+                    <div class="loading-spinner"></div>
+                    <p>Loading academic calendar...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Panel -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="section-title">Quick Access</h3>
+            </div>
+            <div class="section-content">
+                <div class="quick-access-modern">
+                    <a href="academics.html" class="quick-access-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="quick-content">
+                            <h4>Academic Programs</h4>
+                            <p>Browse courses and programs</p>
+                        </div>
+                    </a>
+                    <a href="news.html" class="quick-access-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <div class="quick-content">
+                            <h4>Latest News</h4>
+                            <p>Stay updated with campus news</p>
+                        </div>
+                    </a>
+                    <a href="services.html" class="quick-access-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-concierge-bell"></i>
+                        </div>
+                        <div class="quick-content">
+                            <h4>Campus Services</h4>
+                            <p>Explore available services</p>
+                        </div>
+                    </a>
+                    <a href="user-profile.html" class="quick-access-card">
+                        <div class="quick-icon">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="quick-content">
+                            <h4>Profile Settings</h4>
+                            <p>Manage your account</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced JavaScript -->
+    <script src="js/auth-manager.js"></script>
+    <script src="js/full-integration.js"></script>
+    <script>
+        // Enhanced Animation Controller
+        class EnhancedDashboard {
+            constructor() {
+                this.initializeAnimations();
+                this.initializeInteractions();
+                this.loadDashboardData();
+            }
+
+            initializeAnimations() {
+                // Stagger animations for stat cards
+                const statCards = document.querySelectorAll('.stat-card');
+                statCards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                });
+
+                // Observe elements for scroll animations
+                if ('IntersectionObserver' in window) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('animate-in');
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.content-section').forEach(section => {
+                        observer.observe(section);
+                    });
+                }
+            }
+
+            initializeInteractions() {
+                // Enhanced hover effects for stat cards
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-8px) scale(1.02)';
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0) scale(1)';
+                    });
+                });
+
+                // Quick access card interactions
+                document.querySelectorAll('.quick-access-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        const icon = card.querySelector('.quick-icon');
+                        icon.style.transform = 'scale(1.1) rotate(5deg)';
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        const icon = card.querySelector('.quick-icon');
+                        icon.style.transform = 'scale(1) rotate(0deg)';
+                    });
+                });
+            }
+
+            loadDashboardData() {
+                // Load data with the existing full integration manager
+                if (window.fullIntegrationManager) {
+                    window.fullIntegrationManager.loadInitialData();
+                } else {
+                    // Fallback loading simulation
+                    setTimeout(() => {
+                        this.simulateDataLoading();
+                    }, 1000);
+                }
+            }
+
+            simulateDataLoading() {
+                // Simulate loading for demo purposes
+                const containers = [
+                    'courses-container',
+                    'deadlines-container', 
+                    'personalized-news-container',
+                    'notifications-container',
+                    'calendar-container'
+                ];
+
+                containers.forEach((id, index) => {
+                    setTimeout(() => {
+                        const container = document.getElementById(id);
+                        if (container) {
+                            container.innerHTML = `
+                                <div class="demo-content">
+                                    <p><i class="fas fa-check-circle" style="color: #28a745;"></i> Content loaded successfully!</p>
+                                    <p class="demo-text">Enhanced UI/UX dashboard is working perfectly.</p>
+                                </div>
+                            `;
+                        }
+                    }, (index + 1) * 500);
+                });
+            }
+
+            // Enhanced notification system
+            showNotification(message, type = 'success') {
+                const notification = document.createElement('div');
+                notification.className = `enhanced-notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.classList.add('show');
+                }, 100);
+
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+        }
+
+        // Enhanced logout function
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                enhancedDashboard.showNotification('Logging out...', 'info');
+                
+                setTimeout(() => {
+                    if (window.AuthManager) {
+                        AuthManager.logout();
+                    } else {
+                        localStorage.clear();
+                        window.location.href = 'user-login.html';
+                    }
+                }, 1000);
+            }
+        }
+
+        // Initialize enhanced dashboard
+        let enhancedDashboard;
+        document.addEventListener('DOMContentLoaded', () => {
+            enhancedDashboard = new EnhancedDashboard();
+            enhancedDashboard.showNotification('Welcome to your enhanced dashboard!', 'success');
+        });
+    </script>
+
+    <!-- Additional Enhanced Styles -->
+    <style>
+        /* Quick Access Modern Cards */
+        .quick-access-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .quick-access-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: var(--radius-lg);
+            padding: var(--space-lg);
+            text-decoration: none;
+            color: white;
+            transition: all var(--transition-medium);
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+        }
+
+        .quick-access-card:hover {
+            transform: translateY(-4px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .quick-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--success-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            transition: all var(--transition-medium);
+        }
+
+        .quick-content h4 {
+            margin: 0 0 var(--space-xs) 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .quick-content p {
+            margin: 0;
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Demo Content Styling */
+        .demo-content {
+            text-align: center;
+            padding: var(--space-lg);
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .demo-text {
+            margin-top: var(--space-sm);
+            font-style: italic;
+            opacity: 0.7;
+        }
+
+        /* Enhanced Notifications */
+        .enhanced-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md);
+            padding: var(--space-md);
+            color: white;
+            z-index: 10000;
+            transform: translateX(100%);
+            transition: transform var(--transition-medium);
+        }
+
+        .enhanced-notification.show {
+            transform: translateX(0);
+        }
+
+        .enhanced-notification.success {
+            border-left: 4px solid #28a745;
+        }
+
+        .enhanced-notification.info {
+            border-left: 4px solid #007acc;
+        }
+
+        /* Animate-in class for scroll animations */
+        .content-section {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease-out;
+        }
+
+        .content-section.animate-in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            .quick-access-modern {
+                grid-template-columns: 1fr;
+            }
+            
+            .quick-access-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

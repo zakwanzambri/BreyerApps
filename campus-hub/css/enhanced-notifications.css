@@ -1,0 +1,265 @@
+/* Enhanced Notification System */
+.enhanced-notification {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 10000;
+    min-width: 320px;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    transform: translateX(120%);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    opacity: 0;
+    animation: slideInRight 0.4s ease-out forwards;
+}
+
+.enhanced-notification.show {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.enhanced-notification.success {
+    border-left: 4px solid #28a745;
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(255, 255, 255, 0.1));
+}
+
+.enhanced-notification.info {
+    border-left: 4px solid #007bff;
+    background: linear-gradient(135deg, rgba(0, 123, 255, 0.15), rgba(255, 255, 255, 0.1));
+}
+
+.enhanced-notification.warning {
+    border-left: 4px solid #ffc107;
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 255, 255, 0.1));
+}
+
+.enhanced-notification.error {
+    border-left: 4px solid #dc3545;
+    background: linear-gradient(135deg, rgba(220, 53, 69, 0.15), rgba(255, 255, 255, 0.1));
+}
+
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-lg);
+    color: white;
+}
+
+.notification-content i {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.enhanced-notification.success .notification-content i {
+    color: #28a745;
+}
+
+.enhanced-notification.info .notification-content i {
+    color: #007bff;
+}
+
+.enhanced-notification.warning .notification-content i {
+    color: #ffc107;
+}
+
+.enhanced-notification.error .notification-content i {
+    color: #dc3545;
+}
+
+.notification-content span {
+    flex-grow: 1;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    font-weight: 500;
+}
+
+.notification-content button {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    padding: var(--space-xs);
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+}
+
+.notification-content button:hover {
+    color: white;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Animations */
+@keyframes slideInRight {
+    from {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideOutRight {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(120%);
+        opacity: 0;
+    }
+}
+
+/* Progress bar for auto-dismiss */
+.notification-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+    animation: progressCountdown 4s linear;
+}
+
+@keyframes progressCountdown {
+    from {
+        width: 100%;
+    }
+    to {
+        width: 0%;
+    }
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .enhanced-notification {
+        right: 10px;
+        left: 10px;
+        min-width: auto;
+        max-width: none;
+        top: 10px;
+    }
+    
+    .notification-content {
+        padding: var(--space-md);
+    }
+    
+    .notification-content span {
+        font-size: 0.85rem;
+    }
+}
+
+/* Stacking multiple notifications */
+.enhanced-notification:nth-child(2) {
+    top: 100px;
+}
+
+.enhanced-notification:nth-child(3) {
+    top: 180px;
+}
+
+.enhanced-notification:nth-child(4) {
+    top: 260px;
+}
+
+/* Hover effects */
+.enhanced-notification:hover {
+    transform: translateX(-5px) scale(1.02);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4);
+}
+
+.enhanced-notification:hover .notification-progress {
+    animation-play-state: paused;
+}
+
+/* Loading notification variant */
+.enhanced-notification.loading {
+    border-left: 4px solid var(--primary-color);
+}
+
+.enhanced-notification.loading .notification-content::before {
+    content: '';
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid var(--primary-color);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: var(--space-sm);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Success checkmark animation */
+.enhanced-notification.success .notification-content i {
+    animation: checkmarkBounce 0.6s ease-out;
+}
+
+@keyframes checkmarkBounce {
+    0%, 20% {
+        transform: scale(0);
+    }
+    40% {
+        transform: scale(1.2);
+    }
+    60% {
+        transform: scale(0.9);
+    }
+    80% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Interactive notification buttons */
+.notification-actions {
+    display: flex;
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+.notification-btn {
+    padding: var(--space-xs) var(--space-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: var(--radius-sm);
+    color: white;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.notification-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.notification-btn.primary {
+    background: var(--primary-gradient);
+    border: none;
+}
+
+/* Pulse effect for important notifications */
+.enhanced-notification.pulse {
+    animation: pulseNotification 2s infinite;
+}
+
+@keyframes pulseNotification {
+    0%, 100% {
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+    50% {
+        box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+    }
+}

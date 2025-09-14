@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎨 Enhanced UI/UX Dashboard Showcase - Campus Hub</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/full-integration.css">
+    <link rel="stylesheet" href="css/enhanced-dashboard.css">
+    <link rel="stylesheet" href="css/data-visualization.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Enhanced Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Enhanced Welcome Section -->
+        <div class="welcome-section">
+            <div class="user-avatar" id="user-avatar">
+                AI
+            </div>
+            <div class="welcome-content">
+                <h1 id="welcome-message">Welcome, Ahmad Ibrahim!</h1>
+                <p id="user-details">ahmad.ibrahim@student.campus.edu</p>
+                <div class="user-info">
+                    <span id="student-id">STU2025001</span> | <span id="program-name">Diploma in Information Technology</span>
+                </div>
+                <div class="action-buttons">
+                    <a href="index.html" class="btn-modern btn-primary">
+                        <i class="fas fa-home"></i> Back to Campus Hub
+                    </a>
+                    <a href="student-dashboard.html" class="btn-modern btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Original Dashboard
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Stats Grid with Data Visualization -->
+        <div class="stats-grid" id="dashboard-stats">
+            <div class="stat-card">
+                <div class="gpa-chart-container">
+                    <div class="gpa-circle" style="--gpa-percentage: 75">
+                        <div class="gpa-value-center">
+                            <div class="value">3.75</div>
+                            <div class="label">GPA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-label">Current GPA</div>
+                <small style="color: rgba(255,255,255,0.7); margin-top: 8px; display: block;">
+                    <i class="fas fa-arrow-up" style="color: #28a745;"></i> +0.15 from last semester
+                </small>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-value" id="total-courses">5</div>
+                <div class="stat-label">Enrolled Courses</div>
+                <div class="course-grades" style="margin-top: 12px;">
+                    <div class="course-grade-item">
+                        <span class="course-name">Web Dev</span>
+                        <div class="grade-badge grade-A">A</div>
+                    </div>
+                    <div class="course-grade-item">
+                        <span class="course-name">Database</span>
+                        <div class="grade-badge grade-B">B+</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-value" id="pending-assignments">8</div>
+                <div class="stat-label">Pending Assignments</div>
+                <div class="assignment-progress" style="margin-top: 12px;">
+                    <div class="assignment-item">
+                        <div class="assignment-info">
+                            <div class="assignment-name">React Project</div>
+                            <div class="assignment-course">Web Development</div>
+                        </div>
+                        <div class="assignment-progress-bar">
+                            <div class="assignment-progress-fill" style="--progress-width: 75%; width: 75%;"></div>
+                        </div>
+                    </div>
+                    <div class="assignment-item">
+                        <div class="assignment-info">
+                            <div class="assignment-name">SQL Exercise</div>
+                            <div class="assignment-course">Database Design</div>
+                        </div>
+                        <div class="assignment-progress-bar">
+                            <div class="assignment-progress-fill" style="--progress-width: 45%; width: 45%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="stat-value">92%</div>
+                <div class="stat-label">Attendance Rate</div>
+                <div class="attendance-chart" style="margin-top: 12px;">
+                    <div class="attendance-bar" style="--bar-height: 80px; height: 80px;" data-percentage="85%"></div>
+                    <div class="attendance-bar" style="--bar-height: 95px; height: 95px;" data-percentage="95%"></div>
+                    <div class="attendance-bar" style="--bar-height: 88px; height: 88px;" data-percentage="88%"></div>
+                    <div class="attendance-bar" style="--bar-height: 92px; height: 92px;" data-percentage="92%"></div>
+                    <div class="attendance-bar" style="--bar-height: 90px; height: 90px;" data-percentage="90%"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Content Grid -->
+        <div class="content-grid">
+            <!-- Study Analytics -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3 class="section-title">Study Analytics</h3>
+                </div>
+                <div class="section-content">
+                    <div class="study-time-chart">
+                        <div class="study-day">
+                            <div class="study-day-label">Mon</div>
+                            <div class="study-hours">3.5</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Tue</div>
+                            <div class="study-hours">4.2</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Wed</div>
+                            <div class="study-hours">2.8</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Thu</div>
+                            <div class="study-hours">5.1</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Fri</div>
+                            <div class="study-hours">3.9</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Sat</div>
+                            <div class="study-hours">6.2</div>
+                        </div>
+                        <div class="study-day">
+                            <div class="study-day-label">Sun</div>
+                            <div class="study-hours">4.5</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-progress">
+                        <div class="skill-item">
+                            <span class="skill-name">JavaScript</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot"></div>
+                                </div>
+                                <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">80%</span>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">React</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot"></div>
+                                    <div class="skill-dot"></div>
+                                </div>
+                                <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">60%</span>
+                            </div>
+                        </div>
+                        <div class="skill-item">
+                            <span class="skill-name">SQL</span>
+                            <div class="skill-level">
+                                <div class="skill-dots">
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                    <div class="skill-dot filled"></div>
+                                </div>
+                                <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">95%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Activity Timeline -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-history"></i>
+                    </div>
+                    <h3 class="section-title">Recent Activity</h3>
+                </div>
+                <div class="section-content">
+                    <div class="notification-timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-title">Submitted React Assignment</div>
+                                <div class="timeline-time">2 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-title">Attended Database Lecture</div>
+                                <div class="timeline-time">4 hours ago</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-title">Completed SQL Exercise</div>
+                                <div class="timeline-time">1 day ago</div>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <div class="timeline-title">Joined Study Group</div>
+                                <div class="timeline-time">2 days ago</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Academic Calendar Heatmap -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 class="section-title">Study Activity Calendar</h3>
+            </div>
+            <div class="section-content">
+                <div class="calendar-heatmap" id="calendar-heatmap">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; margin-top: 16px;">
+                    <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">Less</span>
+                    <div style="display: flex; gap: 4px;">
+                        <div class="calendar-day low" style="width: 12px; height: 12px;"></div>
+                        <div class="calendar-day medium" style="width: 12px; height: 12px;"></div>
+                        <div class="calendar-day high" style="width: 12px; height: 12px;"></div>
+                    </div>
+                    <span style="color: rgba(255,255,255,0.7); font-size: 0.8rem;">More</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Feature Showcase -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-magic"></i>
+                </div>
+                <h3 class="section-title">✨ Enhanced UI/UX Features</h3>
+            </div>
+            <div class="section-content">
+                <div class="feature-showcase">
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Glassmorphism Design</h4>
+                            <p>Modern glass-like effects with backdrop blur and transparency</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Interactive Data Visualization</h4>
+                            <p>Real-time charts, progress bars, and animated statistics</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Responsive & Mobile-First</h4>
+                            <p>Optimized for all devices with touch-friendly interactions</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <div class="feature-content">
+                            <h4>Smooth Animations</h4>
+                            <p>Micro-interactions and transitions for better user experience</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Enhanced JavaScript -->
+    <script src="js/auth-manager.js"></script>
+    <script src="js/full-integration.js"></script>
+    <script src="js/data-visualization.js"></script>
+    <script>
+        // Enhanced UI/UX Controller
+        class EnhancedUIController {
+            constructor() {
+                this.initializeAnimations();
+                this.initializeInteractions();
+                this.createCalendarHeatmap();
+                this.startAnimationCycles();
+                this.showWelcomeMessage();
+            }
+
+            initializeAnimations() {
+                // Stagger animations for all elements
+                const animatedElements = document.querySelectorAll('.stat-card, .content-section, .feature-item');
+                animatedElements.forEach((element, index) => {
+                    element.style.animationDelay = `${index * 0.1}s`;
+                    element.style.opacity = '0';
+                    element.style.transform = 'translateY(20px)';
+                    
+                    setTimeout(() => {
+                        element.style.transition = 'all 0.6s ease-out';
+                        element.style.opacity = '1';
+                        element.style.transform = 'translateY(0)';
+                    }, index * 100);
+                });
+
+                // Animate progress bars
+                setTimeout(() => {
+                    document.querySelectorAll('.assignment-progress-fill').forEach(bar => {
+                        bar.style.width = bar.style.getPropertyValue('--progress-width') || '0%';
+                    });
+                }, 1000);
+
+                // Animate skill dots
+                setTimeout(() => {
+                    document.querySelectorAll('.skill-dot.filled').forEach((dot, index) => {
+                        setTimeout(() => {
+                            dot.style.animation = 'fillDot 0.3s ease-out';
+                        }, index * 100);
+                    });
+                }, 1500);
+            }
+
+            initializeInteractions() {
+                // Enhanced hover effects for stat cards
+                document.querySelectorAll('.stat-card').forEach(card => {
+                    card.addEventListener('mouseenter', () => {
+                        card.style.transform = 'translateY(-8px) scale(1.02)';
+                        this.addGlowEffect(card);
+                    });
+
+                    card.addEventListener('mouseleave', () => {
+                        card.style.transform = 'translateY(0) scale(1)';
+                        this.removeGlowEffect(card);
+                    });
+                });
+
+                // Interactive calendar days
+                document.querySelectorAll('.calendar-day').forEach(day => {
+                    day.addEventListener('click', () => {
+                        this.showDayDetails(day);
+                    });
+                });
+
+                // Skill progress interactions
+                document.querySelectorAll('.skill-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        this.showSkillDetails(item);
+                    });
+                });
+            }
+
+            createCalendarHeatmap() {
+                const calendar = document.getElementById('calendar-heatmap');
+                const today = new Date();
+                const daysInMonth = 30;
+                
+                for (let i = 0; i < daysInMonth; i++) {
+                    const day = document.createElement('div');
+                    day.className = 'calendar-day';
+                    day.textContent = i + 1;
+                    
+                    // Random activity levels for demo
+                    const activity = Math.random();
+                    if (activity > 0.7) day.classList.add('high');
+                    else if (activity > 0.4) day.classList.add('medium');
+                    else day.classList.add('low');
+                    
+                    // Mark today
+                    if (i + 1 === today.getDate()) {
+                        day.classList.add('today');
+                    }
+                    
+                    calendar.appendChild(day);
+                }
+            }
+
+            startAnimationCycles() {
+                // Cycle through different GPA values
+                setInterval(() => {
+                    const gpaCircle = document.querySelector('.gpa-circle');
+                    const gpaValue = document.querySelector('.gpa-value-center .value');
+                    const newGpa = (3.5 + Math.random() * 0.5).toFixed(2);
+                    const percentage = (newGpa / 4.0) * 100;
+                    
+                    gpaCircle.style.setProperty('--gpa-percentage', percentage);
+                    gpaValue.textContent = newGpa;
+                }, 5000);
+
+                // Animate attendance bars
+                setInterval(() => {
+                    document.querySelectorAll('.attendance-bar').forEach(bar => {
+                        const newHeight = Math.floor(Math.random() * 50) + 50;
+                        bar.style.height = `${newHeight}px`;
+                        bar.setAttribute('data-percentage', `${newHeight + 30}%`);
+                    });
+                }, 3000);
+            }
+
+            addGlowEffect(element) {
+                element.style.boxShadow = '0 8px 40px rgba(102, 126, 234, 0.3)';
+            }
+
+            removeGlowEffect(element) {
+                element.style.boxShadow = 'var(--glass-shadow)';
+            }
+
+            showDayDetails(day) {
+                this.showNotification(`Study activity for day ${day.textContent}: ${this.getActivityLevel(day)}`, 'info');
+            }
+
+            getActivityLevel(day) {
+                if (day.classList.contains('high')) return 'High intensity study session';
+                if (day.classList.contains('medium')) return 'Moderate study activity';
+                return 'Light study day';
+            }
+
+            showSkillDetails(skillItem) {
+                const skillName = skillItem.querySelector('.skill-name').textContent;
+                const percentage = skillItem.querySelector('.skill-level span').textContent;
+                this.showNotification(`${skillName} proficiency: ${percentage}`, 'success');
+            }
+
+            showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `enhanced-notification ${type}`;
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-${type === 'success' ? 'check' : 'info'}-circle"></i>
+                        <span>${message}</span>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: white; margin-left: auto; cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+
+                document.body.appendChild(notification);
+                setTimeout(() => notification.classList.add('show'), 100);
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 4000);
+            }
+
+            showWelcomeMessage() {
+                setTimeout(() => {
+                    this.showNotification('🎨 Enhanced UI/UX Dashboard loaded successfully!', 'success');
+                }, 1000);
+            }
+        }
+
+        // Initialize enhanced dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            window.enhancedUI = new EnhancedUIController();
+        });
+    </script>
+
+    <!-- Feature Showcase Styles -->
+    <style>
+        .feature-showcase {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: var(--space-lg);
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: var(--space-md);
+            padding: var(--space-lg);
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-medium);
+            cursor: pointer;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-medium);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .feature-content h4 {
+            color: white;
+            margin: 0 0 var(--space-xs) 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .feature-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        @media (max-width: 768px) {
+            .feature-showcase {
+                grid-template-columns: 1fr;
+            }
+            
+            .feature-item {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>

@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard - Campus Hub Portal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/full-integration.css">
+    <link rel="stylesheet" href="css/enhanced-dashboard.css">
+    <link rel="stylesheet" href="css/data-visualization.css">
+    <link rel="stylesheet" href="css/enhanced-notifications.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Single Unified Enhanced Dashboard -->
+    <div class="dashboard-container">
+        <!-- Enhanced Welcome Section -->
+        <div class="welcome-section">
+            <div class="user-avatar" id="user-avatar">AI</div>
+            <div class="welcome-content">
+                <h1 id="welcome-message">Welcome Back, Student!</h1>
+                <p id="user-details">Loading student information...</p>
+                <div class="user-info">
+                    <span id="student-id">Loading...</span> | <span id="program-name">Loading program...</span>
+                </div>
+                <div class="action-buttons">
+                    <a href="index.html" class="btn-modern btn-primary">
+                        <i class="fas fa-home"></i> Campus Hub Home
+                    </a>
+                    <button id="refresh-data" class="btn-modern btn-secondary">
+                        <i class="fas fa-sync-alt"></i> Refresh Data
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Stats Grid with Real-time Data -->
+        <div class="stats-grid" id="dashboard-stats">
+            <div class="stat-card">
+                <div class="gpa-chart-container">
+                    <div class="gpa-circle" style="--gpa-percentage: 75">
+                        <div class="gpa-value-center">
+                            <div class="value" id="current-gpa">3.75</div>
+                            <div class="label">GPA</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="stat-label">Current GPA</div>
+                <small class="stat-trend">
+                    <i class="fas fa-arrow-up trend-up"></i> +0.15 from last semester
+                </small>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-book-open"></i>
+                </div>
+                <div class="stat-value" id="total-courses">Loading...</div>
+                <div class="stat-label">Enrolled Courses</div>
+                <div class="course-grades-preview">
+                    <div id="course-list">Loading courses...</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="stat-value" id="pending-assignments">Loading...</div>
+                <div class="stat-label">Pending Assignments</div>
+                <div class="assignment-progress-preview">
+                    <div id="assignment-list">Loading assignments...</div>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <div class="stat-value" id="attendance-rate">Loading...</div>
+                <div class="stat-label">Attendance Rate</div>
+                <div class="attendance-chart-preview">
+                    <div id="attendance-bars">Loading attendance...</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Content Grid -->
+        <div class="content-grid">
+            <!-- Courses Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3 class="section-title">My Courses</h3>
+                    <button class="btn-icon" onclick="refreshCourses()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="section-content">
+                    <div id="courses-container" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading your courses...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Assignments Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <h3 class="section-title">Assignments & Tasks</h3>
+                    <button class="btn-icon" onclick="refreshAssignments()">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+                <div class="section-content">
+                    <div id="assignments-container" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading your assignments...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Academic Calendar -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-calendar-alt"></i>
+                    </div>
+                    <h3 class="section-title">Academic Calendar</h3>
+                </div>
+                <div class="section-content">
+                    <div id="calendar-container" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading calendar events...</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity & Notifications -->
+            <div class="content-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <h3 class="section-title">Recent Activity</h3>
+                    <span class="notification-badge" id="notification-count">0</span>
+                </div>
+                <div class="section-content">
+                    <div id="notifications-container" class="loading-state">
+                        <div class="loading-spinner"></div>
+                        <p>Loading notifications...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Access Section -->
+        <div class="content-section">
+            <div class="section-header">
+                <div class="section-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <h3 class="section-title">Quick Access - Campus Hub</h3>
+            </div>
+            <div class="section-content">
+                <div class="quick-access-grid">
+                    <a href="academics.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>Academic Programs</h4>
+                        <p>Browse courses and programs</p>
+                    </a>
+                    
+                    <a href="services.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-cogs"></i>
+                        </div>
+                        <h4>Campus Services</h4>
+                        <p>Dining, library, health center</p>
+                    </a>
+                    
+                    <a href="news.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-newspaper"></i>
+                        </div>
+                        <h4>Campus News</h4>
+                        <p>Latest announcements & events</p>
+                    </a>
+                    
+                    <a href="ui-ux-showcase.html" class="quick-access-item">
+                        <div class="quick-access-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h4>Advanced Analytics</h4>
+                        <p>View detailed charts & insights</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="dashboard-footer">
+            <p>&copy; 2025 Campus Hub Portal. All rights reserved.</p>
+            <div class="footer-actions">
+                <a href="help.html">Help & Support</a>
+                <a href="user-settings.html">Settings</a>
+                <button onclick="logout()">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth-manager.js"></script>
+    <script src="js/full-integration.js"></script>
+    <script src="js/data-visualization.js"></script>
+    <script>
+        // Unified Dashboard Controller
+        class UnifiedStudentDashboard {
+            constructor() {
+                this.authManager = new AuthManager();
+                this.integrationManager = new FullIntegrationManager();
+                this.init();
+            }
+
+            async init() {
+                try {
+                    // Check authentication
+                    if (!this.authManager.isAuthenticated()) {
+                        window.location.href = 'user-login.html';
+                        return;
+                    }
+
+                    // Load user profile
+                    await this.loadUserProfile();
+                    
+                    // Load dashboard data
+                    await this.loadDashboardData();
+                    
+                    // Initialize real-time updates
+                    this.startRealTimeUpdates();
+                    
+                    // Initialize animations
+                    this.initializeAnimations();
+                    
+                    console.log('✅ Unified Student Dashboard initialized successfully');
+                } catch (error) {
+                    console.error('❌ Dashboard initialization failed:', error);
+                    this.showErrorMessage('Failed to load dashboard. Please refresh the page.');
+                }
+            }
+
+            async loadUserProfile() {
+                try {
+                    const userProfile = this.authManager.getCurrentUser();
+                    if (userProfile) {
+                        document.getElementById('welcome-message').textContent = `Welcome back, ${userProfile.name || 'Student'}!`;
+                        document.getElementById('user-details').textContent = userProfile.email || 'student@campus.edu';
+                        document.getElementById('student-id').textContent = userProfile.student_id || 'STU001';
+                        document.getElementById('program-name').textContent = userProfile.program || 'Information Technology';
+                        
+                        // Set user avatar
+                        const avatar = document.getElementById('user-avatar');
+                        if (userProfile.name) {
+                            avatar.textContent = userProfile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        }
+                    }
+                } catch (error) {
+                    console.error('Error loading user profile:', error);
+                }
+            }
+
+            async loadDashboardData() {
+                // Load all dashboard sections in parallel
+                await Promise.allSettled([
+                    this.loadCourses(),
+                    this.loadAssignments(),
+                    this.loadCalendarEvents(),
+                    this.loadNotifications(),
+                    this.loadStats()
+                ]);
+            }
+
+            async loadCourses() {
+                try {
+                    const response = await fetch('api/get_courses.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.renderCourses(data.courses);
+                        document.getElementById('total-courses').textContent = data.courses.length;
+                    }
+                } catch (error) {
+                    console.error('Error loading courses:', error);
+                    document.getElementById('courses-container').innerHTML = '<p class="error-message">Failed to load courses</p>';
+                }
+            }
+
+            async loadAssignments() {
+                try {
+                    const response = await fetch('api/get_assignments.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.renderAssignments(data.assignments);
+                        const pending = data.assignments.filter(a => a.status === 'pending').length;
+                        document.getElementById('pending-assignments').textContent = pending;
+                    }
+                } catch (error) {
+                    console.error('Error loading assignments:', error);
+                    document.getElementById('assignments-container').innerHTML = '<p class="error-message">Failed to load assignments</p>';
+                }
+            }
+
+            async loadCalendarEvents() {
+                try {
+                    const response = await fetch('api/get_events.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.renderCalendarEvents(data.events);
+                    }
+                } catch (error) {
+                    console.error('Error loading calendar events:', error);
+                    document.getElementById('calendar-container').innerHTML = '<p class="error-message">Failed to load calendar</p>';
+                }
+            }
+
+            async loadNotifications() {
+                try {
+                    const response = await fetch('api/get_notifications.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.renderNotifications(data.notifications);
+                        document.getElementById('notification-count').textContent = data.notifications.filter(n => !n.read).length;
+                    }
+                } catch (error) {
+                    console.error('Error loading notifications:', error);
+                    document.getElementById('notifications-container').innerHTML = '<p class="error-message">Failed to load notifications</p>';
+                }
+            }
+
+            async loadStats() {
+                try {
+                    const response = await fetch('api/get_student_stats.php');
+                    const data = await response.json();
+                    
+                    if (data.success) {
+                        this.updateStats(data.stats);
+                    }
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+
+            renderCourses(courses) {
+                const container = document.getElementById('courses-container');
+                if (!courses || courses.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No courses enrolled</p>';
+                    return;
+                }
+
+                const coursesHTML = courses.map(course => `
+                    <div class="course-card">
+                        <div class="course-header">
+                            <h4>${course.course_name}</h4>
+                            <span class="course-code">${course.course_code}</span>
+                        </div>
+                        <div class="course-details">
+                            <p><i class="fas fa-user"></i> ${course.instructor || 'TBA'}</p>
+                            <p><i class="fas fa-clock"></i> ${course.schedule || 'Schedule TBA'}</p>
+                            <p><i class="fas fa-map-marker"></i> ${course.room || 'Room TBA'}</p>
+                        </div>
+                        <div class="course-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: ${course.progress || 0}%"></div>
+                            </div>
+                            <span class="progress-text">${course.progress || 0}% Complete</span>
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = coursesHTML;
+            }
+
+            renderAssignments(assignments) {
+                const container = document.getElementById('assignments-container');
+                if (!assignments || assignments.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No assignments available</p>';
+                    return;
+                }
+
+                const assignmentsHTML = assignments.map(assignment => `
+                    <div class="assignment-card ${assignment.status}">
+                        <div class="assignment-header">
+                            <h4>${assignment.title}</h4>
+                            <span class="assignment-status ${assignment.status}">${assignment.status}</span>
+                        </div>
+                        <div class="assignment-details">
+                            <p><i class="fas fa-book"></i> ${assignment.course_name}</p>
+                            <p><i class="fas fa-calendar"></i> Due: ${new Date(assignment.due_date).toLocaleDateString()}</p>
+                            <p><i class="fas fa-weight"></i> Weight: ${assignment.weight}%</p>
+                        </div>
+                        ${assignment.status === 'pending' ? `
+                            <div class="assignment-actions">
+                                <button class="btn-small btn-primary" onclick="viewAssignment(${assignment.id})">
+                                    <i class="fas fa-eye"></i> View Details
+                                </button>
+                                <button class="btn-small btn-secondary" onclick="startAssignment(${assignment.id})">
+                                    <i class="fas fa-play"></i> Start Working
+                                </button>
+                            </div>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+                container.innerHTML = assignmentsHTML;
+            }
+
+            renderCalendarEvents(events) {
+                const container = document.getElementById('calendar-container');
+                if (!events || events.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No upcoming events</p>';
+                    return;
+                }
+
+                const eventsHTML = events.slice(0, 5).map(event => `
+                    <div class="calendar-event">
+                        <div class="event-date">
+                            <span class="event-day">${new Date(event.date).getDate()}</span>
+                            <span class="event-month">${new Date(event.date).toLocaleDateString('en', {month: 'short'})}</span>
+                        </div>
+                        <div class="event-details">
+                            <h4>${event.title}</h4>
+                            <p><i class="fas fa-clock"></i> ${event.time}</p>
+                            <p><i class="fas fa-map-marker"></i> ${event.location}</p>
+                        </div>
+                        <div class="event-type ${event.type}">
+                            ${event.type}
+                        </div>
+                    </div>
+                `).join('');
+
+                container.innerHTML = eventsHTML;
+            }
+
+            renderNotifications(notifications) {
+                const container = document.getElementById('notifications-container');
+                if (!notifications || notifications.length === 0) {
+                    container.innerHTML = '<p class="empty-state">No notifications</p>';
+                    return;
+                }
+
+                const notificationsHTML = notifications.slice(0, 10).map(notification => `
+                    <div class="notification-item ${notification.read ? 'read' : 'unread'}">
+                        <div class="notification-icon ${notification.type}">
+                            <i class="fas fa-${this.getNotificationIcon(notification.type)}"></i>
+                        </div>
+                        <div class="notification-content">
+                            <h4>${notification.title}</h4>
+                            <p>${notification.message}</p>
+                            <span class="notification-time">${this.formatTimeAgo(notification.created_at)}</span>
+                        </div>
+                        ${!notification.read ? `
+                            <button class="btn-icon" onclick="markAsRead(${notification.id})">
+                                <i class="fas fa-check"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `).join('');
+
+                container.innerHTML = notificationsHTML;
+            }
+
+            updateStats(stats) {
+                if (stats.gpa) {
+                    document.getElementById('current-gpa').textContent = stats.gpa;
+                    const gpaPercentage = (stats.gpa / 4.0) * 100;
+                    document.querySelector('.gpa-circle').style.setProperty('--gpa-percentage', gpaPercentage);
+                }
+                
+                if (stats.attendance_rate) {
+                    document.getElementById('attendance-rate').textContent = `${stats.attendance_rate}%`;
+                }
+            }
+
+            getNotificationIcon(type) {
+                const icons = {
+                    'assignment': 'tasks',
+                    'exam': 'graduation-cap',
+                    'announcement': 'bullhorn',
+                    'grade': 'star',
+                    'event': 'calendar'
+                };
+                return icons[type] || 'bell';
+            }
+
+            formatTimeAgo(dateString) {
+                const date = new Date(dateString);
+                const now = new Date();
+                const diffInSeconds = Math.floor((now - date) / 1000);
+                
+                if (diffInSeconds < 60) return 'Just now';
+                if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+                if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+                return `${Math.floor(diffInSeconds / 86400)}d ago`;
+            }
+
+            startRealTimeUpdates() {
+                // Update every 30 seconds
+                setInterval(() => {
+                    this.loadNotifications();
+                    this.loadStats();
+                }, 30000);
+
+                // Update every 5 minutes
+                setInterval(() => {
+                    this.loadAssignments();
+                    this.loadCalendarEvents();
+                }, 300000);
+            }
+
+            initializeAnimations() {
+                // Stagger animations for cards
+                const cards = document.querySelectorAll('.stat-card, .content-section');
+                cards.forEach((card, index) => {
+                    card.style.animationDelay = `${index * 0.1}s`;
+                    card.classList.add('animate-in');
+                });
+            }
+
+            showErrorMessage(message) {
+                const notification = document.createElement('div');
+                notification.className = 'enhanced-notification error show';
+                notification.innerHTML = `
+                    <div class="notification-content">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <span>${message}</span>
+                        <button onclick="this.parentElement.parentElement.remove()">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+        }
+
+        // Global functions
+        function refreshCourses() {
+            window.dashboard.loadCourses();
+        }
+
+        function refreshAssignments() {
+            window.dashboard.loadAssignments();
+        }
+
+        function viewAssignment(id) {
+            window.location.href = `assignment-details.html?id=${id}`;
+        }
+
+        function startAssignment(id) {
+            window.location.href = `assignment-work.html?id=${id}`;
+        }
+
+        function markAsRead(id) {
+            fetch('api/mark_notification_read.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ notification_id: id })
+            }).then(() => {
+                window.dashboard.loadNotifications();
+            });
+        }
+
+        function logout() {
+            if (confirm('Are you sure you want to logout?')) {
+                window.dashboard.authManager.logout();
+                window.location.href = 'user-login.html';
+            }
+        }
+
+        // Initialize dashboard when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            window.dashboard = new UnifiedStudentDashboard();
+        });
+    </script>
+</body>
+</html>
